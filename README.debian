@@ -1,0 +1,8 @@
+The debian/ directory will allow you to create a .deb pacakge for mg3a
+in your Debian based distribution. You can then install it using dpkg.
+
+I usually create the .deb package the lazy way with
+
+fakeroot debian/rules clean binary
+
+Purists can always improve this ;-)
