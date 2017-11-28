@@ -1,6 +1,6 @@
 --- a/Makefile
 +++ b/Makefile
-@@ -1,11 +1,18 @@
+@@ -1,11 +1,17 @@
  # Makefile for Mg 3a
  
 -CC=gcc -pipe
@@ -14,7 +14,6 @@
 +COPT=-O3
 +LIBS=-lcurses
 +# Try if -lncurses doesn't work
-+# LIBS=-lcurses
  
 -#LIBS		= -lncurses	# Try if -lcurses doesn't work
 -LIBS		= -lcurses
@@ -24,7 +23,7 @@
  
  
  # Current supported compile-time options:
-@@ -13,6 +20,7 @@
+@@ -13,6 +19,7 @@
  #	NO_TERMH	-- If you don't have <term.h> (or on Cygwin <ncurses/term.h>) you
  #			   can use this. You then don't get keypad keys defined.
  #	DIRED		-- enable "dired".
@@ -32,7 +31,7 @@
  #	PREFIXREGION	-- enable function "prefix-region"
  #	CHARSDEBUG	-- A debugging tool for input/output
  #	SLOW		-- Implement "slow-mode" command for emulating a slow terminal
-@@ -33,7 +41,11 @@
+@@ -33,7 +40,13 @@
  #CDEFS	= -DBSMAP=1 -DMAKEBACKUP=1
  
  # Everything GNU Emacs and mg2a-like by default
@@ -41,7 +40,9 @@
 +
 +# Advanced mg3a with python and clike mode,
 +# no c-mode, nor UCS_NAMES, nor simple search
-+CDEFS = -DDIRED -DPREFIXREGION -DSEARCHALL -DLANGMODE_PYTHON -DLANGMODE_CLIKE -DUSER_MODES -DUSER_MACROS
++CDEFS = -DDIRED -DPREFIXREGION -DSEARCHALL \
++    -DLANGMODE_PYTHON -DLANGMODE_CLIKE \
++    -DUSER_MODES -DUSER_MACROS
  
  # Everything.
  #CDEFS	= -DALL
