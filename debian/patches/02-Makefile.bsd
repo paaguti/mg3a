@@ -46,6 +46,15 @@
  
  # Everything.
  #CDEFS	= -DALL
+@@ -66,7 +79,7 @@
+ OINCS =	ttydef.h sysdef.h chrdef.h cpextern.h
+ INCS =	def.h
+ 
+-doit: mg
++all: mg
+ 
+ test: COPT += -Wall -Wextra -Wno-unused-parameter
+ 
 --- a/version.c
 +++ b/version.c
 @@ -5,7 +5,7 @@
@@ -57,3 +66,37 @@
  
  
  /*
+--- a/debian/control
++++ b/debian/control
+@@ -1,7 +1,7 @@
+ Source: mg3a
+-Section: unknown
++Section: editors
+ Priority: optional
+-Maintainer: Pedro A. Aranda <paag@unknown>
++Maintainer: Pedro A. Aranda <paaguti@gmail.com>
+ Build-Depends: debhelper (>= 8.0.0), libncursesw5 (>= 6.0)
+ Standards-Version: 3.9.4
+ Homepage: http://www.bengtl.net/files/mg3a
+@@ -16,9 +16,6 @@
+   and key-bindings similar to GNU Emacs.  It is a development of the
+   earlier public domain Mg2a editor, with the addition of functions to
+   deal with UTF-8, CRLF/LF line endings, and some other updates.
++
+   In addition, allows to pipe form stdin into a special buffer for further
+   editing.
+-  Compiled with following options:
+-    -DDIRED -DPREFIXREGION -DSEARCHALL
+-    -DLANGMODE_PYTHON -DLANGMODE_CLIKE
+-    -DUSER_MODES -DUSER_MACROS -DWITH_PIPEIN
+--- a/debian/rules
++++ b/debian/rules
+@@ -14,7 +14,7 @@
+ -DUSER_MODES -DUSER_MACROS" \
+ COPT="-O3 $(shell pkg-config --cflags ncursesw)" \
+ LIBS=$(shell pkg-config --libs ncursesw) \
+-clean mg
++clean strip
+ 
+ override_dh_auto_install:
+ 	make DESTDIR=$(shell pwd)/debian/mg3a PREFIX=/usr install

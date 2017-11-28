@@ -14,7 +14,7 @@ CDEFS="-DPIPEIN -DDIRED -DPREFIXREGION -DSEARCHALL \
 -DUSER_MODES -DUSER_MACROS" \
 COPT="-O3 $(shell pkg-config --cflags ncursesw)" \
 LIBS=$(shell pkg-config --libs ncursesw) \
-clean mg
+clean strip
 
 override_dh_auto_install:
 	make DESTDIR=$(shell pwd)/debian/mg3a PREFIX=/usr install
