@@ -1,0 +1,24 @@
+Source: mg3a
+Section: unknown
+Priority: optional
+Maintainer: Pedro A. Aranda <paag@unknown>
+Build-Depends: debhelper (>= 8.0.0), libncursesw5 (>= 6.0)
+Standards-Version: 3.9.4
+Homepage: http://www.bengtl.net/files/mg3a
+#Vcs-Git: git://git.debian.org/collab-maint/mg3a.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/mg3a.git;a=summary
+
+Package: mg3a
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: mg3a: MicroEmacs-based editor with UTF-8 support
+  This is Mg3a, a public domain MicroEMACS-based editor with commands
+  and key-bindings similar to GNU Emacs.  It is a development of the
+  earlier public domain Mg2a editor, with the addition of functions to
+  deal with UTF-8, CRLF/LF line endings, and some other updates.
+  In addition, allows to pipe form stdin into a special buffer for further
+  editing.
+  Compiled with following options:
+    -DDIRED -DPREFIXREGION -DSEARCHALL
+    -DLANGMODE_PYTHON -DLANGMODE_CLIKE
+    -DUSER_MODES -DUSER_MACROS -DWITH_PIPEIN

@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+%:
+	dh $@ --with quilt
+
+override_dh_auto_build:
+	$(MAKE) \
+CDEFS="-DPIPEIN -DDIRED -DPREFIXREGION -DSEARCHALL \
+-DLANGMODE_PYTHON -DLANGMODE_CLIKE \
+-DUSER_MODES -DUSER_MACROS" \
+COPT="-O3 $(shell pkg-config --cflags ncursesw)" \
+LIBS=$(shell pkg-config --libs ncursesw) \
+clean mg
+
+override_dh_auto_install:
+	make DESTDIR=$(shell pwd)/debian/mg3a PREFIX=/usr install
