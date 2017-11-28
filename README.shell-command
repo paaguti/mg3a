@@ -1,0 +1,42 @@
+"shell-command"
+---------------
+
+"shell-command" works like in Emacs, but with no support for
+asynchronous mode.
+
+"shell-command" asks for a shell command and executes it, capturing
+the output.
+
+With no argument, the output is put in a buffer "*Shell Command
+Output*".
+
+With an argument, the output is put in the current buffer, the cursor
+is set at the beginning of the inserted text and the inserted text is
+surrounded by the region. The inserted text ends with a newline if the
+output did.
+
+Should the command hang, it can be interrupted with ^G. The first ^G
+sends a SIGINT, the second a SIGKILL.
+
+
+Limit on memory:
+
+* A command can easily fill all of memory. Therefore, the editor
+  memory used by the output from "shell-command" is limited by the
+  variable "shell-command-limit". Default is 10000000 (ten million
+  bytes). Overhead per line is included.
+
+
+"yank-process"
+--------------
+
+"yank-process" in Mg3a is a variant of "shell-command". It always
+inserts in the current buffer, leaves the cursor after the text, and
+doesn't insert the final newline.
+
+
+"set-shell"
+-----------
+
+"set-shell" can override which shell is used for the above. Default is
+the value of SHELL, or "/bin/sh".

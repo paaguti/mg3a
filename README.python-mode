@@ -1,0 +1,37 @@
+A mode for python.
+
+
+Finding the indent for python:
+
+	Scan back for the previous non-blank line. Lines whose first
+	non-blank character is "#" are considered blank lines. Take
+	the indent of the line. If the line ends with ':', add a
+	tabstop.
+
+
+Assignments and functions:
+
+Key	Function
+
+RET	"python-newline-and-indent"
+
+	Insert a newline, find the indent, and indent.
+
+ESC TAB	"python-indent"
+
+	Re-indent the current line for python.
+
+	"python-mode"
+
+	python-mode toggle.
+
+
+Changing indent:
+
+	The indent is changed with soft tabs. The default is "local-
+	set-tabs 4 1 1", ie indent of 4 using only spaces, with "tabs"
+	of size 8 outside of leading whitespace.
+
+Compile:
+
+	Enabled with LANGMODE_PYTHON.

@@ -1,0 +1,40 @@
+What is included with USER_MACROS:
+
+"create-macro"			- Create a named macro for a list of commands. The macro
+				  can then be used as a command.
+
+				  Example:
+
+				    create-macro "com12" "command1; command2"
+
+				  A macro doesn't take any parameters, but it uses a
+				  prefix argument as a repeat count.
+
+"list-macros"			- List the user-defined macros. "list-macro" is now an
+				  alias for "list-kbd-macro".
+
+
+Macro names are case-sensitive and can include any character in your
+locale.
+
+
+Key assignment:
+
+A named macro can be assigned to a key, like a function. Example:
+
+  create-macro testmacro "message hello"
+  global-set-key "\^a" testmacro
+
+A macro can also be assigned directly to a key without naming it:
+
+  global-set-key "\^a" "message hello"
+
+Max 100 macros (named or unnamed) kan be assigned to keys. Named
+macros without key assignment have no limit. A macro assigned to a key
+must either be the name of a named macro, or a string containing at
+least one ' ' or ';'.
+
+
+Listing keys:
+
+"describe-bindings" with an argument lists only the keys with macros.

@@ -1,0 +1,12 @@
+;
+; For mintty
+;
+
+(global-set-key "\e[1;5H"	'beginning-of-buffer)	; Ctrl-Home
+(global-set-key "\e[1;5F"	'end-of-buffer)		; Ctrl-End
+
+(global-set-key "\e[1;5C"	'forward-word)		; Ctrl-right
+(global-set-key "\e[1;5D"	'backward-word)		; Ctrl-left
+
+(global-set-key "\e[1;5A"	'scroll-one-line-down)	; Ctrl-Up
+(global-set-key "\e[1;5B"	'scroll-one-line-up)	; Ctrl-Down

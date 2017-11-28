@@ -1,0 +1,35 @@
+This is Mg3a, a public domain MicroEMACS-based editor with commands
+and key-bindings similar to GNU Emacs.  It is a development of the
+earlier public domain Mg2a editor, with the addition of functions to
+deal with UTF-8, CRLF/LF line endings, and some other updates.
+
+The original README and documents for Mg2a are in orig/.
+
+If you are on Cygwin, Mg3a now defaults to LF line endings. You can
+set them to CRLF by putting this in a file .mg in your home directory:
+
+  (set-default-mode "crlf")
+
+If you have files in an old 8-bit character set, and if you are in a
+UTF-8 locale, you may want to add a command to set the default 8bit
+character set. Default is CP1252. For example:
+
+  (set-default-8bit-charset "cp1250")
+
+"list-charsets" lists the available charsets.
+
+
+Commands are documented in README.reference. README.programmer and
+README.misc include some extra info. README.bindings lists the default
+bindings.
+
+
+bl/   contains some examples of mg init files.
+sys/  contains some files useful for various systems.
+
+
+Compiling with "make" creates an "mg" in the current directory. There
+is an "install" entry in the Makefile for Linux/BSD/OSX.
+
+
+Report bugs to: mg3abugs(at)bengtl.net

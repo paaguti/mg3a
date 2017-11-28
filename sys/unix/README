@@ -1,0 +1,25 @@
+Some scripts I use. Should work with a modern /bin/sh. Works in any
+case with /bin/bash.
+
+
+mgfunc string [files]
+
+Search for the string as an identifier at the beginning of a line in
+files, and start the editor, going there. This can be a function name,
+if you format things that way. The files default to *.c.
+
+
+mgedit string [files]
+
+Start the editor with the files containing the string. The files
+default to *.c. The search string of the editor is set to the string.
+
+
+mgt string [files]
+
+Search for the string "Tag:string" in files, and start the editor,
+going there. The files default to *.h *.c.
+
+
+Changed 2015-01-01: "LC_ALL=C" in the scripts is so that grep won't think
+that something with a non-locale charset is a binary file.

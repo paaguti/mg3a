@@ -1,0 +1,53 @@
+How things work with UCSNAMES:
+
+New functions:
+
+"set-unicode-data"		- Set the file name of a Unicode database. It should be in
+				  the format of
+				  http://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt.
+				  Default is unset.
+
+"list-unicode"			- Ask for a string and list matching entries from the
+				  Unicode database in a help window.
+
+				  If the string is of the form "U+(hex)" then it matches
+				  the character with that codepoint. Otherwise it matches
+				  a substring of the two first fields in the database (hex
+				  codepoint ";" character name).
+
+				  The matching is done on the string and an uppercase
+				  version of it.
+
+				  If the command is given an argument, the string matches
+				  the whole database line, and the whole line is shown in
+				  the help window.
+
+"help-ret"			- Assigned to RET in a help buffer. In a listing by "list-
+				  unicode" or "what-cursor-position" it copies the
+				  character indicated in the current line to the
+				  killbuffer. If preceded with "append-next-kill", the
+				  character is appended.
+
+Changed functions:
+
+"ucs-insert"			- Allow input of Unicode character names like in GNU
+				  Emacs, with input-completion.
+
+"what-cursor-position"		- Arguments are interpreted differently when the database
+				  is set with "set-unicode-data":
+
+  ^U 				- Show information about the current character(s) in a
+				  help window: shown are width of character (width on
+				  screen in brackets), raw bytes of character in hex,
+				  Unicode codepoint, and Unicode name (if available).
+
+				  One line of information is shown per codepoint.
+
+  ^U^U:				- Same as ^U but numbers are shown in decimal.
+
+  ^U^U^U:			- Same as ^U but numbers are shown in octal.
+
+  ^U^U^U^U:			- List the raw database lines.
+
+				  Numeric arguments 1 .. 4 can be used instead of
+				  repeated ^U.

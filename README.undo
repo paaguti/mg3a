@@ -1,0 +1,51 @@
+The undo in Mg3a is similar to in GUI applications. It's a linear
+undo, with one undo list per buffer.
+
+
+Commands:
+
+"undo"				- An undo that initially goes backward in time. If you do
+				  something else that doesn't change the buffer, it
+				  switches direction from backward to forward or from
+				  forward to backward. Bound to "C-x u" and "C-_".
+
+				  Note that if you change the buffer while undone, "the
+				  future" is removed.
+
+"undo-only"			- An undo that goes only backward in time.
+
+"redo"				- An undo that goes only forward in time.
+
+"undo-boundary"			- Manually specify an undo boundary. Scripts are otherwise
+				  undone as one unit.
+
+
+Variables:
+
+"undo-limit"			- A limit on the number of bytes in the undo-list, per-
+				  buffer. This is a hard limit. Default is 1000000.
+
+"undo-enabled"			- Controls whether undo is enabled. Default is 1.
+
+
+Repeat counts:
+
+"undo", "undo-only" and "redo" accept repeat counts. A repeat count of
+0 counts as infinite.
+
+
+Notes:
+
+- Undo restores content, and the modified flag; not other buffer
+  flags.
+
+- Each step of undoing/redoing is done to the next undo boundary.
+
+  Interactively, there is an undo boundary before each command, except
+  if two sequential commands are the same and they are "self-insert-
+  command", "delete-char", "delete-backward-char" or "backward-delete-
+  char-untabify".
+
+- Overhead is counted toward "undo-limit".
+
+- #define LIST_UNDO to enable a "list-undo" command to show the undo list.

@@ -1,0 +1,258 @@
+Startup files:
+
+For compatibility, Mg reads two startup files if they exist, .mg-$TERM
+and .mg, in that order. Startup execution is below.
+
+
+Command line options:
+
+  -q		Don't run startup files.
+
+  -p pattern	Set the initial search pattern.
+
+  -L loadfile	Load a file after startup scripts.
+
+  -l loadfile	Load a file after startup.
+
+  -e commands	Execute a command list after startup and after -l.
+
+When Mg starts with two arguments (after options) and one starts with
+"+" as "mg +number file" or "mg file +number", the file is visited at
+that line number. A negative number counts backwards from the end of
+file. "+" without a number or "+0" goes to the end of file.
+
+
+Startup execution:
+
+  if (exist $HOME/.mg3)
+    load $HOME/.mg3-$TERM
+    load $HOME/.mg3
+  elseif (exist $HOME/.mg)
+    load $HOME/.mg-$TERM
+    load $HOME/.mg
+  else
+    load /etc/mg3
+  endif
+  load "-L" script
+  visit file(s)
+  goto "+" line
+  load "-l" script
+  execute "-e" commands.
+
+
+Arguments:
+
+A universal-argument (^U) to "revert-buffer" reverts a buffer without
+asking.
+
+A universal-argument (^U) to "kill-buffer-quickly" kills a buffer
+without asking even when it has an associated file and is modified.
+
+Any argument to "save-buffers-kill-emacs" saves all modified buffers
+without asking before exiting. There is a warning, that can be turned
+off, because the previous behavior was the opposite (to not save).
+
+Any argument to "save-some-buffers" saves all modified buffers without
+asking.
+
+Any argument to "list-charsets" shows a simplified list with only the
+charset names.
+
+Any argument to "list-buffers" or "buffer-menu" makes these commands
+show the number of lines in addition to the size, in wider fields and
+right-adjusted. If the argument is 0, the buffer name is not
+truncated.
+
+Any argument to "list-variables" lists local variables even if they are
+unset.
+
+Any argument to "redraw-display" shows the size of the display rather
+than redrawing.
+
+Arguments to "what-cursor-position" (^X =):
+
+  For 8-bit and UTF-8:
+
+    Any argument:	shows Unicode as U+xxxx, decimal and octal
+
+  For combined characters, numeric or repeated universal argument:
+
+        show raw values in hex (default)
+    1:	Unicode as U+xxxx (^U)
+    2:	raw values in decimal (^U^U)
+    3:	Unicode in decimal (^U^U^U)
+    4:	raw values in octal (^U^U^U^U)
+    5:	Unicode in octal (^U^U^U^U^U)
+
+An argument to "fill-paragraph" can set options. See README.reference.
+
+
+Cygwin auto-mode:
+
+On Cygwin, files visited with names ending with ".cmd" or ".bat"
+trigger an automode that sets the buffer to CRLF and no BOM.  CMD.EXE
+doesn't tolerate anything else. It sets the charset to that of the
+"set-alternate-charset" command (default is CP437).
+
+There is also a mode for the Powershell extensions ".ps1", ".psd1" and
+".psm1". An empty file with these will be set to CRLF, and a file
+without a BOM will be set to 8-bit.
+
+
+Indicators in *Buffer list*:
+
+     "." = current buffer
+  M: "*" = modified buffer
+  L: "l" = LF line endings, "c" = CRLF line endings
+  C: "u" = UTF-8 character set, "d" = dos charset (CP437),
+     "8" = default 8-bit charset, "l" = locally set charset.
+  B: "b" = BOM (Byte Order Mark), "n" = no BOM
+
+
+Indicators in "List of charsets":
+
+  "." = current buffer
+  "d" = default charset
+  "8" = default 8-bit charset.
+  "a" = alternate charset
+
+
+Charset names and comparisons:
+
+Charsets available: CP437 CP737 CP775 CP850 CP852 CP855 CP857 CP858
+CP866 CP874 CP1250 CP1251 CP1252 CP1253 CP1254 CP1257 CP1258
+ISO-8859-1 ISO-8859-2 ISO-8859-3 ISO-8859-4 ISO-8859-5 ISO-8859-7
+ISO-8859-9 ISO-8859-10 ISO-8859-11 ISO-8859-13 ISO-8859-14 ISO-8859-15
+ISO-8859-16 KOI8-R KOI8-U UTF-8.
+
+Charset names are compared ignoring upper/lower case, hyphens and
+underscores.
+
+
+Escape sequences:
+
+  "\t"		Tab
+
+  "\n"		Newline
+
+  "\r"		Carriage Return
+
+  "\e"		ESC
+
+  "\^c"		Control character ^C. c can be upper or lower case.
+
+  "\nnn"	8-bit byte, up to three octal digits.
+
+  "\fnn"	Function key nn, up to two decimal digits.
+
+  "\{cap}"	Named Terminfo string capability. For example
+		"\{khome}" for the Home key.
+
+  "\""		Quoting of the double quote.
+
+  "\\"		Quoting of the backslash.
+
+  "\xhh"	8-bit byte, up to two hex digits.
+
+  "\uxxxxxx"	Unicode codepoint, up to six hex digits.
+
+An unrecognized "\" sequence, an unrecognized "\{cap}" capability, or
+"\x", "\f" or "\u" without digits after it causes the current command
+to be silently ignored.
+
+"\nnn" and "\x" insert raw bytes, which are then interpreted in the
+locale's charset. "\u" translates the codepoint to the locale's
+charset. If that is not possible, the current command is silently
+ignored.
+
+The "\u" escape can optionally have its value within "{}", eg
+"\u{abc}3".
+
+
+Terminfo key name aliases:
+
+The names of some Terminfo string capabilities are obscure, like
+"kcuu1" for up-arrow key. There are therefore a number of aliases, for
+example "\{up}" for up-arrow key:
+
+"up", "down", "left", "right", "pageup", "pagedn", "home", "end",
+"insert", "delete".
+
+
+Echo-line input control characters:
+
+  Backspace	Erase previous character
+
+  ^W		Erase previous word
+
+  ^U		Erase to beginning of line
+
+  ^R		Redraw the line
+
+  Tab		Unix-style completion (ambiguous alternatives are not
+		listed)
+
+  Space		Word-completion, completes the next word and at most
+		one delimiter.
+
+  ESC-Space	Word-completion for files.
+
+  Return	Enter string
+
+  ^G		Abort without entering anything
+
+  ^Q		Quote next character
+
+  Synonyms:
+
+    Backspace (U+0008), Delete (U+00FF)
+    ^U, ^X, ESC-ESC
+    Return, ^J
+    ^Q,	^\
+
+
+  The echo-line doesn't support real line editing, but it does support
+  shifting sideways for input of long strings.
+
+  As a convention, entering nothing on the echo-line aborts the
+  current command quietly in Mg and doesn't do anything, except when
+  there is a default.
+
+  Completing an empty string inserts a default: the last full entry
+  completed for variables, commands or keymaps, the directory name
+  of the current buffer (for files), "*scratch*" (for buffers), or the
+  default charset (for charsets). Search and replacement strings can
+  be filled in with TAB if there previously was any.
+
+  Everything else can also be completed from an empty string.
+  Everything else shares a single line of recall.
+
+
+Pattern matching for "auto-execute":
+
+If the pattern contains a "/", it matches the whole pathname,
+otherwise only the filename.
+
+Patterns supported are "*", "?", "[abc]", "[a-c]", "[!abc]", "[^abc]",
+"[-abc]", "[abc-]", "[]abc]", "{pat1,pat2,...}"
+
+"\" quotes the next character everywhere in the pattern. Note that you
+must use two of them in a quoted argument. Ie "\\".
+
+The ordering within "[a-b]" ranges is Unicode codepoint order.
+
+Invalid UTF-8 characters match only themselves and "*", and cannot be
+quoted with "\".
+
+Unmapped 8-bit characters match only themselves, "*" and "?", and can
+be quoted with "\".
+
+Valid characters in the locale are fully supported.
+
+The matching is case-insensitive if the variable "compare-fold-file"
+is set.
+
+"~" at the start of a pattern refers to a home directory.
+
+"{pat1,pat2,...}" is a textual replacement of alternatives like in
+shells.

@@ -1,0 +1,263 @@
+Function keys that are assigned:
+
+<up>, <down>, <left>, <right>	: The ANSI keys are statically defined, but
+				  overlaid with terminfo keys in case they
+				  are different.
+
+ESC <left>, ESC <right>		: "backward-word", "forward-word".
+
+Ctrl-X <left>, Ctrl-X <right>	: "previous-buffer", "next-buffer".
+
+<home>, <end>			: "beginning-of-line", "end-of-line".
+
+ESC <home>, ESC <end>		: "beginning-of-buffer", "end-of-buffer"
+
+<PageUp>, <PageDn>		: "scroll-down", "scroll-up"
+
+ESC <PageUp>, ESC <PageDn>	: "scroll-other-window-down", "scroll-
+  				  other-window"
+
+<Del>				: "delete-char"
+
+ESC <Del>			: "kill-word"
+
+<F1>				: "help-help"
+
+
+The global bindings (in an xterm):
+
+Global bindings:
+
+C-@             set-mark-command
+C-a             beginning-of-line
+C-b             backward-char
+C-d             delete-char
+C-e             end-of-line
+C-f             forward-char
+C-g             keyboard-quit
+C-h             help
+TAB             insert-tab
+C-j             newline-and-indent
+C-k             kill-line
+C-l             recenter-top-bottom
+RET             newline
+C-n             next-line
+C-o             open-line
+C-p             previous-line
+C-q             quoted-insert
+C-r             isearch-backward
+C-s             isearch-forward
+C-t             transpose-chars
+C-u             universal-argument
+C-v             scroll-up
+C-w             kill-region
+C-x             c-x prefix
+C-y             yank
+C-z             suspend-emacs
+ESC             esc prefix
+C-_             undo
+SPC .. (        self-insert-command
+)               blink-and-insert
+* .. ~          self-insert-command
+DEL             delete-backward-char
+
+C-h C-g         keyboard-quit
+C-h C-h         help-help
+C-h a           apropos
+C-h b           describe-bindings
+C-h c           describe-key-briefly
+
+C-x C-b         list-buffers
+C-x C-c         save-buffers-kill-emacs
+C-x C-f         find-file
+C-x C-g         keyboard-quit
+C-x C-j         dired-jump
+C-x C-l         downcase-region
+C-x C-o         delete-blank-lines
+C-x C-q         toggle-read-only
+C-x C-r         find-file-read-only
+C-x C-s         save-buffer
+C-x C-u         upcase-region
+C-x C-w         write-file
+C-x C-x         exchange-point-and-mark
+C-x (           start-kbd-macro
+C-x )           end-kbd-macro
+C-x +           balance-windows
+C-x -           shrink-window-if-larger-than-buffer
+C-x 0           delete-window
+C-x 1           delete-other-windows
+C-x 2           split-window-vertically
+C-x 4           c-x 4 prefix
+C-x =           what-cursor-position
+C-x ^           enlarge-window
+C-x b           switch-to-buffer
+C-x d           dired
+C-x e           call-last-kbd-macro
+C-x f           set-fill-column
+C-x g           goto-line
+C-x h           mark-whole-buffer
+C-x i           insert-file
+C-x k           kill-buffer
+C-x n           other-window
+C-x o           other-window
+C-x p           previous-window
+C-x s           save-some-buffers
+C-x u           undo
+
+
+C-x ESC O C     next-buffer
+C-x ESC O D     previous-buffer
+
+C-x 4 C-f       find-file-other-window
+C-x 4 C-g       keyboard-quit
+C-x 4 C-j       dired-jump-other-window
+C-x 4 0         kill-buffer-and-window
+C-x 4 b         switch-to-buffer-other-window
+C-x 4 d         dired-other-window
+C-x 4 f         find-file-other-window
+C-x 4 r         find-file-read-only-other-window
+
+C-x 8 RET       ucs-insert
+
+ESC C-g         keyboard-quit
+ESC C-v         scroll-other-window
+ESC C-w         append-next-kill
+ESC SPC         just-one-space
+ESC !           shell-command
+ESC %           query-replace
+ESC -           negative-argument
+ESC 0           digit-argument
+ESC 1           digit-argument
+ESC 2           digit-argument
+ESC 3           digit-argument
+ESC 4           digit-argument
+ESC 5           digit-argument
+ESC 6           digit-argument
+ESC 7           digit-argument
+ESC 8           digit-argument
+ESC 9           digit-argument
+ESC :           eval-expression
+ESC <           beginning-of-buffer
+ESC >           end-of-buffer
+ESC \           delete-horizontal-space
+ESC ^           join-line
+ESC b           backward-word
+ESC c           capitalize-word
+ESC d           kill-word
+ESC f           forward-word
+ESC h           mark-paragraph
+ESC i           insert-tab-8
+ESC l           downcase-word
+ESC m           back-to-indentation
+ESC q           fill-paragraph
+ESC r           move-to-window-line-top-bottom
+ESC s           search-forward
+ESC t           transpose-words
+ESC u           upcase-word
+ESC v           scroll-down
+ESC w           copy-region-as-kill
+ESC x           execute-extended-command
+ESC {           backward-paragraph
+ESC }           forward-paragraph
+ESC ~           not-modified
+ESC DEL         backward-kill-word
+
+
+ESC ESC O C     forward-word
+ESC ESC O D     backward-word
+ESC ESC O F     end-of-buffer
+ESC ESC O H     beginning-of-buffer
+
+
+ESC ESC [ 3 ~   kill-word
+
+ESC ESC [ 5 ~   scroll-other-window-down
+
+ESC ESC [ 6 ~   scroll-other-window
+
+ESC O A         previous-line
+ESC O B         next-line
+ESC O C         forward-char
+ESC O D         backward-char
+ESC O F         end-of-line
+ESC O H         beginning-of-line
+ESC O P         help-help
+
+ESC [ A         previous-line
+ESC [ B         next-line
+ESC [ C         forward-char
+ESC [ D         backward-char
+
+ESC [ 3 ~       delete-char
+
+ESC [ 5 ~       scroll-down
+
+ESC [ 6 ~       scroll-up
+
+ESC g g         goto-line
+
+ESC g ESC g     goto-line
+
+
+Buffer menu: a small subset of GNU Emacs buffer menu.
+
+"buffer-menu"			- Show a buffer list in the same window.
+
+"buffer-menu-other-window"	- Show a buffer list in another window and switch
+				  to it.
+
+
+Bindings in *Buffer List* (these bindings are a subset of those in GNU
+Emacs):
+
+Local keybindings for mode bufmenu:
+
+RET             Buffer-menu-this-window
+C-o             Buffer-menu-switch-other-window
+1               Buffer-menu-1-window
+2               Buffer-menu-2-window
+?               describe-bindings
+e               Buffer-menu-this-window
+f               Buffer-menu-this-window
+h               describe-bindings
+o               Buffer-menu-other-window
+q               quit-window
+
+
+Bindings in Dired (also subset):
+
+Local keybindings for mode dired:
+
+C-d             dired-flag-file-deleted
+RET             dired-find-file
+SPC             next-line
++               dired-create-directory
+1               dired-find-file-one-window
+<               dired-prev-dirline
+>               dired-next-dirline
+?               describe-bindings
+^               dired-up-directory
+c               dired-copy-file
+d               dired-flag-file-deleted
+e               dired-find-file
+f               dired-find-file
+g               revert-buffer
+h               describe-bindings
+n               next-line
+o               dired-find-file-other-window
+p               previous-line
+q               quit-window
+r               dired-rename-file
+u               dired-unflag
+x               dired-do-deletions
+DEL             dired-unflag-backward
+
+
+Bindings in a help buffer:
+
+Local keybindings for mode helpbuf:
+
+?               describe-bindings
+h               describe-bindings
+q               quit-window
+

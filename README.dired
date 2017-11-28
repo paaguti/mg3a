@@ -1,0 +1,63 @@
+Dired is optional. There are a lot of options in GNU Emacs Dired.
+These are the ones that are implemented.
+
+Commands:
+
+"dired"				Ask for a directory, open a display of the directory in
+				the current window.
+
+"dired-other-window"		As dired, in another window.
+
+"dired-jump"			Do a dired of the directory of the file in the current
+				buffer, moving the cursor to the current file. Do a dired
+				in the current directory if no file.
+
+"dired-jump-other-window"	As dired-jump, in another window.
+
+
+Global key assignments:
+
+"Ctrl-X d"			dired
+
+"Ctrl-X 4 d"			dired-other-window
+
+"Ctrl-X Ctrl-J"			dired-jump
+
+"Ctrl-X 4 Ctrl-J"		dired-jump-other-window
+
+
+Assignments in a Dired window:
+
+"e", "f", RET			Open the file in the current window.
+
+"o"				Open the file in another window.
+
+"+"				Create a directory
+
+"1"				Open the file in one window.
+
+"d", Ctrl-D			Mark file for deletion.
+
+"u"				Unmark file for deletion.
+
+DEL				Unmark the file above for deletion, and backup.
+
+"x"				Delete the files marked for deletion.
+
+"c"				Copy file.
+
+"r"				Rename file.
+
+"^"				Open a display of the parent directory, moving
+				the cursor to this directory.
+
+">"				Move to the next subdirectory.
+
+"<"				Move to the previous subdirectory.
+
+"g"				Re-read the directory ("revert-buffer")
+
+"q"				Quit the window.
+
+
+Press "h" in a Dired window for a listing of local bindings.

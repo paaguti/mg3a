@@ -1,0 +1,59 @@
+Parsing:
+
+When reading a file, Mg keeps a count of CRLFs vs. LFs. Biggest one wins
+and becomes the buffer mode.
+
+Ditto when reading a file a count is kept of valid UTF-8 characters vs.
+other 8-bit characters. Biggest one wins and becomes the mode.
+
+When the counts are equal, a default is used.
+
+
+Rationale for what charsets are included:
+
+- The Windows OEM codepages from
+  http://msdn.microsoft.com/en-us/goglobal/bb964655
+
+- The single-byte Windows codepages from
+  http://msdn.microsoft.com/en-us/goglobal/bb964654
+
+- The ISO-8859-* series.
+
+- KOI8-R and KOI8-U.
+
+- UTF-8 - it is the future.
+
+- Arabic and Hebrew are excluded because there is no right-to-left
+  display.
+
+There are only ASCII-compatible 8-bit charsets and UTF-8. Other
+multi-byte charsets are more tricky to implement and it hasn't been
+done.
+
+
+Suspend and subshell:
+
+There is code for suspending Mg with ^Z where that is supported, but
+no code for starting a subshell.
+
+
+Terminal resizing:
+
+Mg catches SIGWINCH and acts appropriately.
+
+
+Mods from original Mg:
+
+The ANSI cursor-key sequences are always defined to next-line etc.
+
+Mg always adds a newline to the end of a file if there isn't one. Mg
+doesn't even pretend to be a binary editor. For one thing, it doesn't
+preserve newlines.
+
+
+Code guidelines:
+
+Mg3a maintains dot position and buffer size (in bytes). The essential
+thing is to not set "curwp->w_dotp" or "curwp->w_doto" directly. Use
+adjustpos(), which updates the byte position. Unless you hack
+lowlevel, you shouldn't have to update "curbp->b_size".

@@ -1,0 +1,80 @@
+On "auto-execute" and "auto-execute-list":
+
+You can add only commands by leaving the file pattern(s) empty, and
+add only patterns by leaving the command(s) empty. You can also add
+several "shebang" tests. Trailing empty parameters can be left out in
+a script.
+
+Example:
+
+  shebang "stringa"
+  shebang "stringb"
+  auto-execute "" "some-command"
+
+This test for two shebangs, and if any of them match, the command is
+executed.
+
+
+You can build arbitrary lists:
+
+  shebang "xyz"
+  auto-execute "*.abc"
+  auto-execute "*.def"
+  auto-execute "" "command1"
+  auto-execute "" "command2"
+
+is equivalent to:
+
+  shebang "xyz"
+  auto-execute-list "*.abc;*.def" "command1; command2"
+
+except that "auto-execute" doesn't treat ";" specially in a file
+pattern.
+
+
+If there are no commands, nothing will be executed.
+
+This alone will work, but do nothing.
+
+  auto-execute "*.allan"
+
+This alone will give an error.
+
+  auto-execute "" "message hej"
+
+
+There is an internal list where all the tests and commands are stored
+in the same list. Only the order in which things are entered into this
+list matters. The combination of different tests is always an "or".
+
+
+Matching only once:
+
+Normally the commands are executed only if the associated tests are
+the first ones to pass. This is to enable prioritization among several
+sets of tests that pass for a file. Example:
+
+  auto-execute "/some/dir/*.c" "local-set-mode gnuc"
+  auto-execute "*.c" "local-set-mode stdc"
+
+You can override this with a numeric parameter 1:
+
+  auto-execute 1 "pattern" "commands"
+
+This will set a flag in the associated commands so that they will
+always execute if the associated tests passed. The 1 must not be
+quoted.
+
+
+Performance:
+
+As an aside my 1.4 GHz Sandy Bridge matches 400000 patterns per
+second. So unless you have more than 10000 patterns you don't need to
+worry about performance.
+
+
+The null command:
+
+If you want to have an auto-execute statement that executes nothing, I
+suggest using " " for the commands. "" will be interpreted as not
+there at all and only a pattern will be entered.

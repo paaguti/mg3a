@@ -1,0 +1,38 @@
+"fill-paragraph" works differently from in Emacs, except for the most
+simple function. You can set options in the variable "fill-options"
+and you can also set (invert) them by giving an argument to
+"fill-paragraph". Useful modes to do interactively are:
+
+2	An argument of 2 to "fill-paragraph" turns on adaptive fill.
+	This fill is not as smart as the one in Emacs, but it does do
+	indented paragraphs, and paragraphs where you use delimiters
+	as bullets. The exact algorithm is:
+
+	1) Find the first non-blank line in the current paragraph.
+
+	2) Find the first non-blank character that is part of a
+	   sequence of non-blank characters which contains at least
+	   one of: 1) an alphanumeric character, 2) One of the quotes
+	   '"', "'", U+00AB, U+00BB, U+2039, U+203A or U+2018-U+201F.
+
+	3) Fill the paragraph forward with the left margin at the
+	   column found in 2).
+
+	The adaptive fill is very useful to set as default in "fill-
+	options". It isn't default to remain compatible with old Mg.
+
+
+4	An argument of 4 (or plain ^U) turns on manual fill. In this,
+	the current cursor is used to indicate where the first word of
+	the paragraph starts. Subsequent lines (until a blank line)
+	are aligned under the cursor, filling with tabs and blanks to
+	the left.
+
+8	An argument of 8 turns on replicated fill, or fill with prefix
+	if you prefer. It does the same as 4, but replicates the
+	content of the indent of the first line onto following lines,
+	ignoring the content of the indent there. The paragraph ends
+	where there are only blanks on or after the cursor column.
+
+64	Works like an argument of 2, except that it considers word
+	characters to be alphabetic, rather than alphanumeric.

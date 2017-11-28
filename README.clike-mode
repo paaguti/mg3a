@@ -1,0 +1,442 @@
+A mode for C-like languages like C, Java, Perl, C#...
+
+
+Default parsing for the indent in C-like:
+
+	Scan back to the previous non-blank line and take its indent.
+	Increase to the next tabstop if the last non-blank character
+	is '{', '(' or '['. Decrease one tabstop if the first non-
+	blank character in the current line is '}', ')' or ']'.
+
+	There is no attempt at balancing parentheses by default
+	because you need to know the syntax of comments and strings to
+	do that.
+
+
+Assignments and functions:
+
+Key	Function
+
+RET	"clike-newline-and-indent"
+
+	Insert a newline and indent.
+
+'}'	"clike-insert"
+
+	If entered on a blank line, insert and re-indent the line,
+	otherwise only insert. May also be bound to '#' and '{'
+	depending on mode.
+
+')'	"clike-blink-and-insert"
+
+	Act like "blink-and-insert" but know about comments and
+	strings. If on a blank line, also re-indent.
+
+(':')	"clike-insert-special"
+
+	Insert a colon, and re-indent the line if it matches a "case"
+	or "default" statement. Bound to ':' for C-compatible modes.
+
+ESC TAB	"clike-indent"
+
+	Re-indent the current line.
+
+ESC '='	"clike-align-after"
+
+	Set the indent of the current line to after the next instance
+	of a character (default '=' is hardwired) and following
+	whitespace in the previous non-blank line.
+
+	If given an argument, prompt for a character to match.
+
+	In a script, a numeric argument is the codepoint to match.
+
+ESC '('	"clike-align-after-paren"
+
+	Set the indent of the current line to after the next '(' or
+	'[' and following whitespace in the previous non-blank line.
+
+ESC ')'	"clike-align-back"
+
+	Scan backward for a line with less indent than the current
+	line. Set the indent of the current line to the same as that
+	line.
+
+ESC ^\	"clike-indent-region"
+
+	Re-indent the lines in the region.
+
+	"clike-indent-next"
+
+	Re-indent the current line, then step to the next line.
+
+	"clike-tab-or-indent"
+
+	If entered on a blank line, increase one tabstop, otherwise
+	re-indent the line. Modeled on "c-tab-or-indent" in c-mode.
+
+	"clike-mode"
+
+	Change "clike" mode in the normal way for a mode. There aren't
+	"-mode" commands for the other modes. Use "local-set-
+	mode"/"local-unset-mode"/"local-toggle-mode" to change them.
+
+
+Variables:
+
+	"clike-lang"
+
+	Bundles of options most of which can also be set as individual
+	bits via "clike-options".
+
+	Alternatives:
+
+	  1	C/C++
+	  2	Perl
+	  3	Java
+	  4	C#
+	  5	JavaScript
+	  6	Swift
+	  7	Go
+
+	"clike-options"
+
+	C-like control bits.
+
+	"clike-style"
+
+	C-like style options.
+
+
+Compile:
+
+	Enabled with LANGMODE_CLIKE.
+
+	The commands "local-set-mode", "local-unset-mode" and "local-
+	toggle-mode" get included to operate the modes that are not
+	"clike".
+
+
+Modes included:
+
+  "clike"		Basic mode for C-like languages.
+
+  "stdc"		C with K&R, Allman or 1TBS style. (Also Horstmann and Pico)
+
+  "whitesmithc"		C with Whitesmith or Ratliff style.
+
+  "gnuc"		C with GNU style.
+
+  "perl"		Perl, with traditional style.
+
+  "java"		Java. Indent is 4 with only spaces.
+
+  "c#"			C#. Indent is 4 with only spaces.
+
+  "javascript"		JavaScript.
+
+  "swift"		Apple Swift. Indent is 4 with only spaces.
+
+  "go"			Google's Go language.
+
+
+Variables in detail:
+
+	"clike-lang"
+
+	Set options according to language. Default is 0, which means use
+	the flags in "clike-options".
+
+	Alternatives:
+
+	  1	C/C++			(All C and C++ options)
+	  2	Perl			(same as basic clike mode)
+	  3	Java			(All C options minus preprocessor and C labels)
+	  4	C#			(All C options)
+	  5	JavaScript		("if" and "case" heuristics)
+	  6	Swift			(Nested C comments, strings, anchors, "case"
+	  				 heuristics, keywords without parentheses)
+	  7	Go			(C comments, strings, anchors, "case" heuristics,
+	  				 keywords without parentheses, raw strings, C labels)
+
+	Language notes:
+
+	    Perl, JavaScript:
+
+	    Parsing is limited because "'" and '"' can be part of a
+	    regular expression. You only get a little help with "if"
+	    and "case".
+
+
+	    C#:
+
+	    The keyword "foreach (", and (possibly multi-line) literal
+	    strings delimited by @"..." are recognized.
+
+
+	    Swift:
+
+	    The keywords "guard", "catch" and "} catch" are
+	    recognized.
+
+
+	"clike-options"
+
+	A set of binary flags for C-like mode. When "clike-lang" is
+	not 0, only the GNU and Whitesmith flags are used. Default is
+	0, for very basic parsing. Values to add together:
+
+	  1	Parse C-style comments ("/*", "*/" and "//").
+
+	  2	Parse C preprocessor statements.
+
+	  4	Parse C strings and count parentheses.
+
+	  8	Indent to either Whitesmith or Ratliff style.
+
+	 16	Indent to GNU style.
+
+	 32	Heuristics for C-style "if", "else", "while", "for".
+
+	 64	Heuristics for C-style "case", "default".
+
+	128	Parse "#" as end-of-line comment.
+
+	256	Parse "<!--" as end-of-line comment.
+
+	512	C brace matching and heuristics for multiline assignments.
+
+       1024	Recognize C++-style access specifiers "public:", "private:", "protected:".
+
+       2048	Make "/*".."*/" comments nested (use with option 1).
+
+       4096	Heuristics for keywords "if", "else if", "while", "for", "switch"
+       		without parentheses but with mandatory braces.
+
+       8192	Parse Google Go raw strings.
+
+      16384	Parse C-style labels.
+
+      32768	Simple labels.
+
+
+	"clike-style"
+
+	A set of binary flags for style options beyond GNU-style and
+	Whitesmith style. Default is 0, for indent of one tab, and no
+	indent for "case" statements. Values to add together:
+
+	  1	Indent multiline parenthesized statements and
+		multiline assignment after '=' by half a tab.
+
+	  2	Indent "case" statements by a tab.
+
+	  4	Indent multiline "if", "while", "for" and "switch"
+		expressions by two tabs.
+
+
+General parsing info:
+
+	Lines are scanned backward, starting with the current line.
+	Within lines the scan is forward, but we pretend through flags
+	it's backward.
+
+
+Option 1, C comments:
+
+	C comments are the usual with "/*", "*/" and "//".
+
+	C parsing is turned off in block comments.
+
+	Finding out whether the current point is in a block comment is
+	done by scanning from the beginning of the file. The result is
+	cached in the previous line.
+
+	If you are in a block comment the previous non-empty line sets
+	the indent. If it is the previous non-empty line that is the
+	unterminated "/*" and if there is no content before it, the
+	column is increased by one.
+
+
+Option 2, preprocessor statements.
+
+	1) Lines beginning with '#' are ignored when scanning for non-
+	   blank lines outside of comments.
+
+	2) Lines beginning with '#' are indented to column 0.
+
+
+Option 4, strings and parentheses:
+
+	C strings are delimited by '"' or "'". '\' is a quote
+	character inside a string.
+
+	Dealing with parentheses and brackets:
+
+	1) If the previous line, going backward, has a negative
+	   parenthesis or bracket level, increase one tabstop.
+
+	2) If the previous line, going backward, has a positive
+	   parenthesis level or positive bracket level, scan lines
+	   backward for a multi-line statement.
+
+	   If the last unbalanced parenthesis/bracket was ']' scan
+	   lines until the total bracket level <= 0, otherwise until
+	   the total parenthesis level <= 0, or until you are in the
+	   first column.
+
+	   Treat the sequence of lines as a multi-line statement.
+
+
+Option 32, heuristics for C "if", "else", "while", "for":
+
+	  1) Look for statements like
+
+	       1   if (foo)
+	       2        (here)
+
+  	     If line 2 does not start with '{', and statement 1 is
+	     "else" or "} else" or ends with ')' and begins with one
+	     of "if (", "else if (", "} else if (", "while (" or "for
+	     (", increase one tabstop.
+
+
+	  2) If case 1) doesn't match, look for statements like:
+
+	       1   something
+	       2        something;
+	       3   (here)
+
+	     If statements 1 and 2 match case 1) and statement 2 ends
+	     with a ';', align line 3 with statement 1.
+
+
+Option 64, heuristics for C "case", "default":
+
+	1) If the current line ends with ':', ';', '}' or '{', and
+	   begins with "case" or "default:", then
+
+	   1. If brace matching is on, try to find a prior case
+	      statement at the same brace level and align to that.
+
+	   2. If not 1., decrease one tabstop.
+
+       	2) If the previous statement ends with ':', ';', '}' or '{',
+	   and begins with "case" or "default:", increase one tabstop,
+	   adding to other increases. This may be an anchor statement.
+
+
+Option 128, '#' comments:
+
+	'#' starts a comment to the end of the line.
+
+
+Option 256, "<!--" comments:
+
+	Not sure how needed this is in JavaScript, but "<!--" starts a
+	comment to the end of the line.
+
+
+Option 512, brace matching and multiline assignment:
+
+	If string parsing is enabled, and the previous statement
+	doesn't have a negative parenthesis level, and either:
+
+	  1) The current line begins with '}'.
+
+	  2) The previous statement ends with '}'.
+
+	  3) The previous statement ends with ';' and the one before
+	     that doesn't end with ';', '}', '{' or ':', and none of
+	     the cases of Option 32 match.
+
+	then an anchor statement is found by searching backwards. It
+	is normally the statement of the '{' of the enclosing block.
+	It can also be a case statement in the current block, unless
+	the current line begins with '}'. The anchor is treated as the
+	previous statement to indent relative to.
+
+	  4) If none of the cases 1), 2), 3) match and the previous
+	     statement ends with '=', increase one tabstop.
+
+
+Option 1024, C++ "public:", "private:" or "protected:":
+
+	If C-style labels (Option 16384) are on, make the current line
+	re-indent immediately on ':' for the labels "public:",
+	"private:" and "protected:".
+
+
+Option 2048, nested "/*".."*/" comments:
+
+	In conjunction with option 1, make "/*".."*/" comments nest.
+
+	If the previous line ends at more than 3 levels of multi-line
+	nested comments, the result is not cached.
+
+
+Option 4096, heuristics for keywords without parentheses:
+
+	1) Recognize the second line of a multi-line expression
+	   without parentheses, starting with "if", "else", "} else",
+	   "for", "while" or "switch", and indent it with a tab.
+
+	2) Don't brace-match after '}', unless there is something
+	   before it. If brace-matching found the beginning of the
+	   enclosing block, scan for the keywords in 1) to find the
+	   true indent of the beginning of the block.
+
+	3) If the current line starts with '{' or the previous line
+	   ends with '{' scan for keywords to find the indent like 2).
+
+	The scan in 2) and 3) ends on rather complex criteria. See the
+	source code.
+
+
+Option 8192, Google Go raw strings:
+
+	Recognize (possibly multi-line) Go raw strings delimited by '`'.
+
+	A multi-line raw string is detected similarly, and cached
+	similarly, as a multi-line block comment. Inside a multi-line
+	raw string, there is ordinary auto-indent but no C parsing.
+
+
+Option 16384, C-style labels:
+
+	A label for these purposes is an identifier at the beginning
+	of a line, followed by a single ':', possibly with space
+	between. An identifier followed by "::" is not a label.
+
+	If "case"-heuristics are enabled (Option 64), then the below
+	doesn't apply to the special label "default:".
+
+	  1) When scanning backward for a non-blank line, ignore lines
+	     consisting solely of a label.
+
+	  2) If the current line begins with a label, decrease one tabstop.
+
+	  3) If the previous statement consists of a label followed by
+	     other content, increase one tabstop.
+
+	"clike-insert-special" does not re-indent a general label
+	automatically in order to not get a jump back-and-forth when
+	typing "something::".
+
+
+Option 32768, Simple labels:
+
+	If "case"-heuristics are enabled (Option 64), then the below
+	doesn't apply to the special label "default:".
+
+	Increase one tabstop after any line that ends with ':'.
+
+	This is not part of any builtin mode.
+
+
+Philosophy:
+
+	Clike is meant to be an unobtrusive mode - an assist, rather
+	than a replacement for editing. It doesn't occupy the TAB key,
+	and it doesn't default to an indent other than the same as the
+	previous line.

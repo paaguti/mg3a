@@ -1,0 +1,542 @@
+Charsets:
+
+"set-default-charset" 		- Sets the default charset that is used for new buffers.
+				  Need normally not be set; it's read from the locale.
+
+"set-default-8bit-charset" 	- Sets the charset to use when an 8-bit file is detected
+				  in a UTF-8 locale. Default is CP1252.
+
+"set-alternate-charset"		- Sets the charset used by the "dos" command and by the
+				  automode for .cmd and .bat files on Cygwin. Default is
+				  CP437.
+
+"local-set-charset"		- Sets the charset of the current buffer.
+
+"list-charsets"			- Lists the available charsets.
+
+
+Charset shortcuts and commands:
+
+"utf8"				- Sets/clears UTF-8 mode in the current buffer.
+
+"dos"				- Toggles between the alternate charset and the 8-bit
+				  charset in the current buffer.
+
+"8bit"				- Resets the current buffer to the default 8-bit charset.
+
+"bom"				- Sets/clears a UTF-8 BOM (Byte Order Mark) in the
+				  current buffer.
+
+"ubom"				- Toggles both BOM and UTF-8 in the current buffer.
+
+
+Unicode:
+
+"ucs-insert" 			- Emulates the numeric input part of Emacs "ucs-insert".
+				  Recognizes "#x", "#o", "#b" and "#nrn" notation for a
+				  Unicode codepoint on input (defaults to hex), and
+				  inserts it as a character in the current buffer's
+				  charset. "insert-char" is an alias.
+
+"insert-unicode"		- Asks for a number as a C integer and inserts it as
+				  an UTF-8 character.
+
+"insert-8bit"			- Asks for a C integer, inserts a raw byte.
+
+"show-bytes"			- Shows the bytes of the current character.
+
+"explode-character"		- Explodes a combined character by inserting a
+				  no-break-space before each combining diacritical
+				  mark. This separates the marks visually from the
+				  base character and lets you edit them.
+
+"implode-character"		- Does the opposite of "explode-character".
+
+
+Line endings:
+
+"lf"				- Toggles lf/crlf in the current buffer
+
+"crlf"				- Resets to crlf in the current buffer
+
+"set-default-mode"		- A parameter "lf" or "crlf" sets the default
+				  as appropriate.
+
+
+Text is translated between charsets in different buffers if moved via
+the killbuffer (or with "insert-buffer").
+
+If the locale charset is not recognized, Mg3 reverts to being a pure
+8bit editor. Charset commands are then not available.
+
+
+Features on/off:
+
+Some features can be set on/off via variables
+
+"set-variable"			- Sets a variable (to an integer). 0 is false, everything
+				  else is true. A short-form alias is "sv".
+
+"list-variables"		- List variables. Local unset variables are not listed
+				  unless the command is given an argument.
+
+
+Variable names:
+
+"case-fold-search"		- Controls whether searches are case-insensitive. Default
+				  is 1.
+
+"termdoescombine"		- Terminal is presumed to handle zero-width characters
+				  and combining marks. Default is 1.
+
+"termdoeswide"			- Terminal is presumed to display double-wide characters
+				  double-wide. Default is 1.
+
+"termdoesonlybmp"		- Terminal is presumed to be limited to the Basic
+				  Multilingual Plane (<= 0xffff). Default is 1.
+
+"width-routine"			- Controls how the program determines the width of
+				  characters. Default is 0.
+
+				  0 = Use the system routine, wcwidth or wcswidth
+
+				  1 = Use a builtin routine where CJK Ambiguous
+				      characters = narrow
+
+				  2 = Use a builtin routine where CJK Ambiguous
+				      characters = wide
+
+"manual-locale"			- A manual locale setting. Default is 0. If set to 1,
+				  upcasing/downcasing work the Turkish way.
+
+"word-search"			- Indicates if word search is on. Default is off.
+
+"fill-column"			- The existing fill column, as a variable.
+
+"bsmap"				- Indicates if "bsmap-mode" is in effect, remapping
+				  BS and DEL to each other. Default is 0.
+
+"make-backup"			- Indicates if backups are being made of files.
+				  Default is 0.
+
+"window-scroll"			- Indicates how windows scroll. 0 (default) is the
+				  default Emacs scrolling. 1 means scroll windows
+				  one line at a time.
+
+"recenter-redisplay"		- Indicates if the screen should be cleared for the
+				  "recenter-top-bottom" and "recenter" commands.
+				  Default 0.
+
+"modeline-show"			- A set of binary flags controlling what is showed in
+				  the modeline. Default is 0. Values to add together:
+
+				  1	Show default 8-bit charset
+
+				  2	Show "-crlf"
+
+				  4	Don't show "-lf"
+
+				  8	Don't show the overall default charset.
+
+"kill-whole-lines"		- When true, the "kill-whole-line" command stays in the
+				  same column and sets a killbuffer flag so that "yank"
+				  yanks back whole lines before the current line and also
+				  stays in the same column. Default is false.
+
+"backward-compat"		- A set of binary backward compatibility flags with older
+				  versions of Mg. Default is 0. Values to add together:
+
+				  1	After "split-window", end up in the lower or upper
+					window depending on where you are in the current
+					one.
+
+"quoted-char-radix"		- The radix used if you type digits to the "quoted-insert"
+				  command. Default is 8.
+
+"fill-options"			- A set of binary flags of default options for "fill-
+				  paragraph". Default is 0. Values to add together:
+
+				  1	Do single spacing (no double space after '.', '?',
+					'!'. No special treatment of single space after
+					'.'.)
+
+				  2	Automatically indent the whole paragraph to the
+					column of the first word. Skip any non-quote, non-
+					alphanumeric characters (simple bullets) when
+					finding the first word.
+
+				  4	Manual fill. Take the current cursor position to
+					be the exact beginning of the first word of the
+					paragraph. Indent the rest of the paragraph to the
+					current column of the cursor. Take priority over
+					option 2.
+
+				  8	Act like manual fill (4), but replicate the
+					content of the indent of the first line into the
+					indent of following lines and ignore existing
+					content there.
+
+				 16	Break words after hyphens. Also re-assemble words
+					across lines when a line ends with a word
+					character and a hyphen.
+
+				 32	Always reassemble hyphens across lines even when
+					not breaking at hyphens.
+
+				 64	Like option 2, but do not consider digits to be
+					word characters. Recognize numbered itemized lists
+					(like this one) automatically.
+
+				  Paragraphs are delimited by blank lines.
+
+				  An argument to "fill-paragraph" is interpreted as
+				  options in the same format and inverts what you have set
+				  as default. See more about interactive use in
+				  README.fill-paragraph.
+
+"trim-whitespace" 		- Indicates if trailing whitespace is automatically
+				  trimmed off lines in a (non-readonly) buffer when it's
+				  saved to a file. Default is 0.
+
+"insert-default-directory"	- Indicates if the default directory is automatically
+				  inserted when asking for a file. Default is 1.
+
+"preserve-ligatures"		- Indicates if extra screen updates are made to try to
+				  preserve ligatures between non-zero-width characters.
+				  Default is 0.
+
+"complete-fold-file" 		- Controls whether file- and buffer name completion is
+				  case-insensitive. Default is 1 on Cygwin, 0 otherwise.
+
+"compare-fold-file" 		- Controls whether internal file- and buffer name
+				  comparisons and file pattern matches by "auto-execute"
+				  are case-insensitive. Default is 1 on Cygwin, 0
+				  otherwise. This should be set to match the case-
+				  sensitivity of the filesystem.
+
+"blink-wait"			- How long the "blink-and-insert" command shows the cursor
+				  blinking at the matching parenthesis, in milliseconds.
+				  Values <= 0 or > 10000 mean no blinking, instead a
+				  display in the echo-line. Default is 1000.
+
+"soft-tab-size"			- The size of emulated soft tabs, if any. Default is 0,
+				  which means to use hard tabs. Valid values are 0 - 100.
+				  Others work as zero.
+
+				  For those who are familiar with Vim, this is the
+				  equivalent of "softtabstop".
+
+"tabs-with-spaces"		- Indicates that hard tabs should not be inserted, instead
+				  only spaces. Default is 0.
+
+				  For those familiar with Vim, this is like "expandtab".
+
+"tab-options"			- A set of binary flags for setting tab options. Default
+				  is 0. Values to add together:
+
+				  1	Soft tabs outside of leading whitespace are always
+					size 8.
+
+"buffer-name-width"		- The width of a buffer name in "*Buffer List*". Default
+				  is 24. 0 means center the next field. Minimum otherwise
+				  is 14.
+
+"undo-limit"			- A limit on the number of bytes in the undo-list, per-
+				  buffer. This is a hard limit. Default is 1000000.
+
+"undo-enabled"			- Controls whether undo is enabled. Default is 1.
+
+"bell-type"			- Controls the type of bell:
+
+				  0	No bell.
+				  1	Audible bell (default).
+				  2	Visible bell.
+
+"emacs-compat"			- Control bits for turning on more Emacs-like behavior.
+				  Default is 0. Values to add together:
+
+				  1	Make "save-buffers-kill-emacs" with an argument
+					save all modified buffers without warning and
+					then exit.
+
+				  2	Make "save-buffer" not save if the buffer is not
+					modified.
+
+"shell-command-limit" 		- A limit on how much memory, in bytes, data from "shell-
+				  command" can occupy. Default is 10000000. Overhead
+				  per line is included.
+
+"termdoescombine" and "termdoeswide" are both set to zero if $TERM
+starts with "cygwin", and "termdoesonlybmp" is set to 1.
+
+
+Local variables:
+
+Some variables can be set locally per-buffer. They are "fill-column",
+"fill-options", "make-backup", "soft-tab-size", "tab-options", "tabs-
+with-spaces" and "trim-whitespace".
+
+"local-set-variable"		- Sets a local variable to an (integer) value. A short
+				  form alias is "lv".
+
+"local-unset-variable"		- Makes a local variable unset.
+
+
+Search commands:
+
+"word-search-mode"		- Turns "word-search" on and off. If given an argument,
+				  sets it if the argument is positive, clears if zero
+				  or negative.
+
+"case-fold-mode"		- Does the same thing as "word-search-mode" to the
+				  variable "case-fold-search", ie case-insensitive
+				  search.
+
+With word search on, the beginning and the end of the search string
+will not match in the middle of a word. A word character is defined
+(for search) as Unicode alphanumerics + underscore.
+
+
+Commands related to "auto-execute" (inspired by OpenBSD mg):
+
+Regarding file tests and commands in more detail, see README.auto-execute.
+
+"auto-execute"			- Associates a filename pattern with a list of commands
+				  which will be executed when you visit a file and the
+				  pattern is the first one to match the file. The pattern
+				  is shell-style (for details see README.misc).
+
+				  Each command in the list can be a string consisting of a
+				  command and parameters and commands are separated by ";".
+
+				  Errors during the execution of the commands will be
+				  ignored.
+
+				  "auto-execute" does not treat ";" in the pattern
+				  specially.
+
+				  Examples:
+
+				    auto-execute "*.ini" "crlf"
+				    auto-execute "*.rus" "local-set-charset cp1251"
+
+"auto-execute-list"		- Does the same thing as "auto-execute", but lets the
+				  first parameter be a list of patterns separated by ";".
+
+"shebang"			- Lets you add a check for a shebang -- a substring of a
+				  first line starting with "#!". It applies to the next
+				  auto-execute statement.
+
+				  Example:
+
+				    shebang "perl"
+				    auto-execute "*.pl" "clike-mode"
+
+				  If you leave the file pattern empty there will be no
+				  file pattern test. Note that "*" always matches.
+
+"if"				- Lets you test a few things about the current buffer. Is
+				  followed directly with a command, DOS-style. Currently
+				  there are four tests:
+
+				    "if empty"		True if the buffer is empty
+				    "if not empty"	True if the buffer is not empty
+				    "if bom"		True if the BOM flag is set
+				    "if not bom"	True if the BOM flag is not set
+
+				  Example:
+
+				    auto-execute-list "*.ps1;*.psm1;*.psd1" "if empty crlf; if not bom 8bit"
+
+"message"			- Shows a message in the echo line.
+
+				  Messages are normally suppressed during execution of a
+				  file with "load" or commands triggered by auto-execute.
+				  "message" overrides this.
+
+"with-message"			- Sets up the following arbitrary command to override
+				  suppression of messages. If the following command causes
+				  statements to be auto-executed, errors in those will not
+				  be ignored.
+
+"list-patterns"			- Lists the current patterns and commands in a help
+				  buffer.
+
+
+Useful with "auto-execute":
+
+"local-set-tabs"		- "local-set-tabs a b c" is shorthand for setting local
+				  soft-tab-size to a, tabs-with-spaces to b, tab-options
+				  to c. (detail below)
+
+"local-mode-name"		- Sets a name that will be shown in the modeline of the
+				  current buffer. The name doesn't do anything, it's only
+				  shown. Max 255 bytes in the locale's charset. The string
+				  can be set to empty to remove it.
+
+
+Insert shell output:
+
+"shell-command"			- A version of Emacs' "shell-command". See README.shell-
+				  command.
+
+"yank-process"			- A variant of "shell-command".
+
+"set-shell"			- Override the shell used by the above.
+
+
+Commands from GNU Emacs that were not in Mg2a:
+
+  append-next-kill			(ESC ^W)
+  back-to-indentation			(ESC m)
+  backward-delete-char-untabify
+  balance-windows			(^X +)
+  beginning-of-visual-line
+  delete-region
+  delete-trailing-whitespace
+  dired-create-directory		(Dired: +)
+  dired-jump				(^X ^J)
+  dired-jump-other-window		(^X 4 ^J)
+  dired-next-dirline			(Dired: >)
+  dired-prev-dirline			(Dired: <)
+  dired-up-directory			(Dired: ^)
+  end-of-visual-line
+  eval-buffer
+  find-file-read-only			(^X ^R)
+  find-file-read-only-other-window	(^X 4 r)
+  ignore-errors
+  insert-char
+  join-line				(ESC ^)
+  kill-emacs
+  kill-this-buffer
+  kill-whole-line
+  mark-paragraph			(ESC h)
+  mark-whole-buffer			(^X h)
+  move-to-window-line
+  move-to-window-line-top-bottom	(ESC r)
+  next-buffer				(^X Right)
+  nil
+  previous-buffer			(^X Left)
+  quit-window				(system buffers: q)
+  recenter-top-bottom			(^L)
+  revert-buffer
+  shell-command				(ESC !)
+  shrink-window-if-larger-than-buffer	(^X -)
+  toggle-read-only			(^X ^Q)
+  transpose-paragraphs
+  transpose-words			(ESC t)
+
+The syntax is different but "ignore-errors" ignores the errors of one
+command on the same line. "nil" has a use as the command to undefine a
+key using "define-key". "transpose-words" and "transpose-paragraphs"
+transpose only adjacent items.
+
+
+Commands neither from GNU Emacs nor other Mg:s:
+
+"join-line-forward"		- As "join-line" but joins forward by default and backward
+				  with an argument. I think it's more natural to join
+				  forward.
+
+"newline-classic"		- Works like "newline" used to work in Mg2a: if the next
+				  line is empty, go to it without inserting a newline.
+
+"newline-and-indent-same"	- Like "newline-and-indent" but indents using the same
+				  combination of tabs and spaces as in the current line.
+
+"no-break"			- Changes the current character from a space to a
+				  no-break-space, or from a hyphen to an en-dash.
+				  Otherwise inserts a no-break space.
+
+"insert-tab"			- Tabs aren't mostly used for re-indenting as in Emacs so
+				  a different name.
+
+"insert-tab-8"			- Always insert a tab of width 8. Bound to "ESC i".
+
+"local-set-tabs"		- "local-set-tabs a b c" is shorthand for "local-set-
+				  variable soft-tab-size a; local-set-variable tabs-with-
+				  spaces b; local-set-variable tab-options c".
+
+				  If a parameter is left empty, that variable is not
+				  changed. If a parameter is a negative number, that local
+				  variable is unset.
+
+				  The second and third parameters are optional in a
+				  script.
+
+"save-and-exit"			- Save all buffers with files unconditionally and if there
+				  are no errors, exit.
+
+"list-keymaps"			- List the keymaps.
+
+"list-kbd-macro"		- List the keyboard macro.
+
+"tab-region-left"		- Shift the region a tabstop to the left or right.
+"tab-region-right"
+
+"kill-buffer-quickly"		- Kill the current buffer without asking for a name. With
+				  a universal argument, kill the current buffer without
+				  asking even if it has an associated file and is modified.
+
+"undo", "undo-only", 		- See README.undo.
+"redo", "undo-boundary"
+
+"revert-buffer-forget"		- Like "revert-buffer", but clears the undo list.
+
+"with-key"			- Like "with-message" but reads the command from a
+				  keystroke.
+
+
+Optional commands neither from GNU Emacs nor Mg2a that can be turned
+on in the Makefile, by Makefile option:
+
+SLOW
+
+  Creates a "slow-mode" command that asks for a baud rate, and makes
+  the terminal output emulate that output speed. Turn off by giving no
+  speed.
+
+CHARSDEBUG
+
+  Creates a command "charsdebug" that toggles a running display of
+  total bytes input ("keys"), total bytes output ("chars"), and the bytes
+  output of the last command. "charsdebug-zero" zeroes the counts.
+
+SEARCHALL
+
+  Create "search-all-forward" and "search-all-backward" commands. They
+  search trough all non-system buffers. They use the existing search
+  string, or ask for it if given an argument.
+
+LANGMODE_C
+
+  Includes the "c-mode" ported from OpenBSD mg. It defines the
+  commands "c-mode", "c-handle-special-brace", "c-handle-special-
+  char", "c-indent", "c-indent-and-newline", "c-tab-or-indent". "c-
+  preproc" is an extension.
+
+UCSNAMES
+
+  Makes it possible to use Unicode character names with "ucs-insert"
+  and to show them with "what-cursor-position". Requires an external
+  database in the format of
+  http://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt. See
+  README.ucsnames.
+
+LANGMODE_PYTHON
+
+  A python-mode written by Pedro A. Aranda. See README.python-mode.
+
+LANGMODE_CLIKE
+
+  Modes for C-like languages. See README.clike-mode.
+
+USER_MODES
+
+  Commands for creating and deleting used-defined modes. See
+  README.user_modes.
+
+USER_MACROS
+
+  Commands for creating and listing named macros. See
+  README.user_macros.

@@ -1,0 +1,59 @@
+What is included with USER_MODES:
+
+"create-mode"			- Create a new, user-defined named mode with optional
+				  initialization commands and an empty keymap. You can
+				  then populate the keymap with "define-key."
+
+				  Examples:
+
+				    create-mode "mymode"
+				    create-mode "mymode_tab4" "local-set-tabs 4 0"
+				    define-key mymode "\r" newline-and-indent
+
+"delete-mode"			- Delete a mode.
+
+"copy-mode"			- Copy a mode with its key assignments. The commands are
+				  not copied.
+
+				  Example:
+
+				    copy-mode clike mymode "new commands"
+
+"rename-mode"			- Rename a mode.
+
+"list-modes"			- List the modes and any initialization-commands.
+
+"local-set-mode"		- Set the mode in the current buffer. If the mode has
+				  initialization commands, run them first.
+
+"local-unset-mode"		- Clear the mode from the current buffer.
+
+"local-toggle-mode"		- Toggle the mode in the current buffer.
+
+
+These commands can operate on user-defined modes, and on builtin
+language-modes, but not on other builtin modes.
+
+"local-set-mode", "local-unset-mode" and "local-toggle-mode" are
+included with LANGMODE_CLIKE.
+
+Mode names are case-sensitive and can include any character in your
+locale.
+
+When USER_MODES is defined, "list-keymaps" is an alias of "list-
+modes".
+
+
+Rationales:
+
+"create-mode": "define-key" and "local-set-key" aren't particularly useful without it.
+
+"delete-mode": the names of builtin language modes should not be reserved.
+
+"copy-mode": it's tedious to copy all key assignments.
+
+"rename-mode": trivial to do, completeness, perhaps useful.
+
+"local-toggle-mode": more useful interactively than -set and -unset.
+
+"local-set-mode", "local-unset-mode": more comfortable to use in a script than a toggle.

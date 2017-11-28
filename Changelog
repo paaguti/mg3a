@@ -1,0 +1,2667 @@
+Changelog, in reverse date order. Files are named yymmdd.
+
+From 110724, Bugfixes are listed with "--", most serious bugs first.
+
+170403:
+
+"shell-command". And its cousin "yank-process".
+
+-- Fixed a bug where "backward-delete-char-untabify" didn't implement
+   overwrite mode.
+
+-- Fixed a bug where invoking "with-message" non-interactively would
+   show an extra error message if the controlled command gave an
+   error.
+
+-- Fixed a bug where "scroll-up", "scroll-down", "move-to-window-
+   line", "move-to-window-line-top-bottom", "shrink-window-if-larger-
+   than-buffer" wouldn't work in a script when the window framing had
+   already been changed in the script.
+
+-- Fixed bugs in macro recording:
+
+   * Forbidden "with-message" from being recorded because it won't do
+     anything.
+
+   * Memory running out could be interpreted as a default response on
+     input from the echo line.
+
+   * "blink-and-insert", "clike-blink-and-insert", "c-handle-special-
+     char" and "c-handle-special-brace" recorded nonsense data when
+     used with repeat counts.
+
+-- Fixed a bug where "quit-window" avoided switching to an existing
+   "*scratch*" buffer.
+
+- There is now a version of "shell-command" from Emacs. See
+  README.reference.
+
+- Sequential interactive invocations of "backward-delete-char-
+  untabify" now inhibit an undo boundary.
+
+- When USER_MACROS is defined, "describe-bindings" with an argument
+  now lists only the keys bound to macros.
+
+- Clarified the text on "kill-whole-lines" in README.reference.
+
+- Now "everything else" can be completed from an empty input on the
+  echo line. Everything else shares a single line of recall.
+
+- Increased input buffer for "insert" to the max length of a filename.
+
+170316:
+
+No new version, because of no changes. There will probably be more
+irregular versions in the future.
+
+170216:
+
+-- Fixed a bug where you could get stuck in the "help-help" command if
+   you couldn't find a defined key in the "help" keymap. Now ^G will
+   always get you out.
+
+-- In Clike, made Option 1024 check that C labels are enabled as the
+   documentation says.
+
+- Cleaned up a lot provisions for extensions in keymap.c. They were
+  never used.
+
+- Brought back undo to the non-Emacs section in README.reference.
+
+- Removed empty keymap.h that wasn't used.
+
+170118:
+
+-- Fixed a bug where "\^c" would lead to unexpected results if c >
+   127. Now this is an error and the command is silently ignored.
+
+- Added info about the "install" Makefile entry to the README.
+
+- Clike "c#" mode now supports C# literal strings delimited by @"...".
+  The literal strings can be multi-line.
+
+161217:
+
+-- Fixed a bug where empty answers to a "yes"/"no" question would be
+   recorded in a keyboard macro, and would be wrongly supplied to the
+   following commands during macro execution if you eventually
+   answered "yes".
+
+- Documented in README.misc that an argument to "redraw-display" shows
+  the display size rather than redrawing.
+
+- Added a command "with-key". It can be used to debug a command or
+  macro assigned to a key.
+
+- The Makefile now has an "install" target for Linux/BSD/OSX. Written
+  by Pedro A. Aranda.
+
+- Broken out Undo to its own section in README.reference.
+
+- A feature of undo: a repeat count of 0 counts as infinite.
+
+161117:
+
+-- Fixed a bug in Clike Swift mode where a "guard" statement with the
+   "else" first on the next line would throw off the following
+   formatting by a tab.
+
+-- Fixed a bug in "kill-paragraph" where invoking it in an empty,
+   newly made buffer would give an error message about a lost mark.
+
+- "undo", "undo-only" and "redo" now accept repeat counts.
+
+161017:
+
+Small fixes.
+
+-- Fixed a bug where "clike-insert" wouldn't work correctly if
+   recorded in a keyboard macro with a repeat count of 0.
+
+- Filled in "(void)" for a number of function declarations.
+
+- Internal routine "position()" now sets the window flags a bit more
+  efficiently.
+
+- Cleaned up code in "ffgetline()".
+
+- The calls to wcwidth() and wcswidth() have their parameters cast so
+  that it should work correctly on all platforms even without
+  prototypes. This was done already in the previous version.
+
+- Functions "blink-and-insert", "call-last-kbd-macro" and "insert-
+  with-wrap" should now work correctly with all kinds of repeat
+  counts.
+
+160917:
+
+-- Fixed a crash bug after starting mg and "^X b RET ^X k RET". From
+   OpenBSD.
+
+-- Fixed a bug in the definition of EFNOSTRICTCR that happened to
+   work.
+
+- Rewritten code for "switch-to-buffer" and "switch-to-buffer-other-
+  window".
+
+- The "\u" escape can now have its value within "{}", like "\u{abc}3".
+
+- The #defines KILLQUICKLY, SHIFTREGION and JOINLINEFORWARD have been
+  removed from the source. They were already obligatory.
+
+- Adjusted "clike-align-after-paren" so that it says "No '(' or '['"
+  if not found.
+
+- Added a '%K' keyname output format for internal routines
+  "ewprintf()" and "ewprintfc()".
+
+- The "clike-*" functions that accept a repeat count now consistently
+  do nothing and return FALSE with a negative repeat count and do
+  nothing and return TRUE with a count of zero.
+
+- Removed the #define EFCONTINUE and the code for it because it was
+  never used.
+
+- _XOPEN_SOURCE is now defined also on Cygwin so that it will compile
+  at highest warning level without warning that wcwidth() and
+  wcswidth() don't have prototypes.
+
+160817:
+
+-- Fixed a bug where a newly created backup or copy of a file with
+   restrictive permissions could become accessible to others by
+   getting the default permissions. Now such a file gets the same
+   permissions as the original minus setuid, setgid, and sticky bits.
+
+-- Somehow the fix for showing messages from .mg-$TERM didn't get in.
+   But now it's there.
+
+- Speeded up wildcard matching of "*" 2-10 times.
+
+- Clike now recognizes "guard", "catch" and "} catch" as keywords for
+  Swift when "clike-lang" is 6, and "foreach" for C# when "clike-lang"
+  is 4.
+
+- If USER_MACROS is defined, the named macros are kept sorted and
+  looked up by binary search.
+
+160717:
+
+-- Fixed a bug in startup where errors while executing .mg-$TERM
+   weren't shown on the screen.
+
+-- Fixed a bug where if SLOW was defined, the "slow-mode" command
+   didn't work if the argument was parsed as a prefix argument.
+
+- "query-replace" now implements the ',' command from Emacs, replacing
+  and updating the screen before moving.
+
+- When UCSNAMES is defined, changed the display of screen width of a
+  codepoint from "(width)" to "[width]". The width is shown as 0 for
+  end-of-line and as computed width for a hard tab.
+
+- Parsing the first argument to a function when it is numeric as a
+  prefix argument is a questionable practice from original Mg.
+  However, it's weird to have to write "with-message 1 what-cursor-
+  position". So now you can also write "with-message what-cursor-
+  position 1".
+
+160617:
+
+-- Fixed "kill-region" and "copy-region-as-kill" to be compatible with
+   GNU Emacs regarding the direction of appending/prepending to the
+   killbuffer. GNU Emacs considers a region to be in the forward
+   direction if dot is at the end of it.
+
+-- Fixed a potential problem where an initially empty killbuffer with
+   a length of 0 would be referred to through a NULL.
+
+-- Fixed a bug where "forward-paragraph", "backward-paragraph" and
+   "kill-paragraph" with a repeat count of 0 would move the cursor
+   (and kill to there).
+
+- "yank" with a repeat count has been changed to put the region around
+  all inserted copies. This seems more practical.
+
+- "query-replace" now remembers the replacement string so that it can
+  be filled in with TAB.
+
+- An ambiguous completion that is in a different case will now be
+  refreshed.
+
+- Completion error messages now also work when emulating a slow
+  terminal.
+
+160609:
+
+-- Fixed a bug in "kill-line" where it could add a newline at the end
+   of a buffer only to immediately remove it.
+
+-- Fixed a possible overflow in the column count in internal
+   routine "getindent()" when the column wasn't asked for.
+
+- If a region is too big for undo, the undo list is now cleared since
+  such a region is necessarily bigger than "undo-limit". There is no
+  longer an error.
+
+- When the "kill-whole-lines" variable is set, made "kill-whole-line"
+  work the same backward as forward, with the cursor ending up
+  in the same column.
+
+- Speeded up killing large regions a bit.
+
+160511:
+
+-- Fixed two bugs where you, in extreme circumstances, could get an
+   overflow in the column count from output in the echo line.
+
+-- Fixed a bug where the screen would be repainted twice after
+   resuming from suspension.
+
+- Now explicitly initializing the screen buffer pointer to 0.
+
+160410:
+
+-- Fixed the compile problem on FreeBSD.
+
+- A new approach to portability: the only system-specific definition
+  is now _XOPEN_SOURCE on Linux.
+
+160323:
+
+- Changed the order of included system headers because for some reason
+  it didn't work on FreeBSD.
+
+- Marks are now cleared in all windows showing a system buffer that is
+  emptied.
+
+160223:
+
+-- Fixed a bug where a newline was automatically added to the end of a
+   buffer by "next-line", "end-of-buffer", "mark-whole-buffer",
+   "forward-paragraph" or "kill-line" but not recorded by undo. It
+   would leave an extra newline at the end of the buffer after undo.
+
+-- Fixed a bug in "dired-jump" when "compare-fold-file" is set where
+   it wouldn't find the filename of the current buffer in the Dired
+   listing if the filename in the listing was in a different case.
+
+160216:
+
+-- Fixed a bug that could happen if HOME is "/". "//" at the beginning
+   of a filename of a startup script could be misinterpreted.
+
+- When UCSNAMES is defined, the change made in version 160116 is
+  undone.
+
+- A change was made in undo.c to not assume MAXINT is more than 24
+  bits.
+
+- "beginning-of-visual-line" and "end-of-visual-line" now accept
+  repeat counts.
+
+160116:
+
+- When UCSNAMES is defined, "list-unicode" now only matches on the
+  character name, by default.
+
+- Effectivized undo slightly: only reset modified flag and update mode
+  lines once per 'undo' or 'redo'.
+
+151216:
+
+- The editor is now more robust against internal byte position error.
+  Only if there is a serious buffer format error will the editor quit.
+
+- When UCSNAMES is defined, show "<block name>" if the character name
+  isn't defined, and "(undefined)" if the codepoint isn't defined.
+
+151116:
+
+-- Fixed a bug in "transpose-paragraphs" which would not update the
+   dot byte position in another window if the current buffer was
+   visible in that window and if the dot in that window was within the
+   second paragraph.
+
+- Removed some obsolete tests in undo.c.
+
+151108:
+
+-- Fixed a bug where "revert-buffer" and "revert-buffer-forget" would
+   reset the position to the beginning of the buffer if the new
+   content was shorter than the old one, and the original position was
+   beyond the end of the new content.
+
+-- Fixed a bug in Clike where a tab level increase from a label in the
+   previous non-blank line wasn't added to an increase from other
+   content in that line.
+
+- Speeded up file I/O: reads are speeded up 20% (more for long lines)
+  by searching more intelligently for the LF. Writes are speeded up 2-
+  3 times by using the same local buffering as for reads.
+
+- In Clike, block comment/multiline raw string recognition has been
+  changed to recognize strings, character constants and end-of-line
+  comments continued with "\" from the previous line.
+
+- Now compatible with Emacs, "revert-buffer" doesn't refuse to revert
+  when the buffer is unmodified.
+
+151008:
+
+-- Fixed a bug with undo recording in "newline-classic".
+
+-- Fixed a bug in "delete-horizontal-space" which would return an
+   error code if the current point was at a combining character at the
+   beginning of a line.
+
+-- Fixed a bug in "shrink-window-if-larger-than-buffer" where the
+   whole text would not be shown if the current window were the bottom
+   one.
+
+- There is now a constant maintainance of the byte position of dot, as
+  well as the byte size of a buffer.
+
+  * Performance of undo is now independent of buffer size and position
+    in it.
+
+  * The performance of "tab-region-left", "tab-region-right" and
+    "clike-indent-region" are now independent of position in the
+    buffer.
+
+- Added a command "revert-buffer-forget" that is like "revert-buffer",
+  except it allows reverting an unmodified buffer and it clears the
+  undo list.
+
+  In other words, when reverting a buffer the editing session is
+  wholly reset.
+
+150908:
+
+- Performance of undo has been improved for big buffers: previously
+  operations could take a very long time for big regions or large
+  repeat counts.
+
+- Undo now always restores the buffer-modified flag.
+
+- "save-buffer" now always saves to the file, even when the modified-
+  flag isn't set.
+
+- Added an "emacs-compat" bit to have "save-buffer" work exactly like
+  in Emacs.
+
+150803:
+
+- There is now a position-cache to speed up editing a bit when you are
+  more than a million lines from the beginning of the buffer and undo
+  is enabled.
+
+150703:
+
+-- Fixed bugs in "join-line", "join-line-forward", "transpose-words",
+   "prefix-region", "tab-region-left", "tab-region-right", where the
+   modified flag wasn't reset after undo.
+
+-- Fixed a bug when running "save-buffers-kill-emacs" or "save-and-
+   exit" in a script, where they would exit even if there was a
+   problem with saving a file.
+
+- Fixed an editing mistake in the code for "transpose-paragraphs" that
+  mixed declarations with statements.
+
+- There is a new variable "bell-type" for the type of bell. 0 = off, 1
+  = audible bell, 2 = visible bell. Default is 1.
+
+- Added a nicer message if mg is started and standard input is not a
+  tty.
+
+- When used interactively, "save-buffers-kill-emacs" with an argument
+  now saves all files before exiting without questions, like GNU
+  Emacs.
+
+  There is a warning that you can turn off because the previous
+  behavior was to exit without saving.
+
+- There is a new variable "emacs-compat" with control bits for
+  behaving more like GNU Emacs.
+
+150603:
+
+-- Fixed a bug in C-like, in modes with keywords without parentheses,
+   that wasn't fixed right in the previous version.
+
+-- Fixed a bug where the undo list could come out of sync with the
+   buffer if you ran out of memory in "yank".
+
+-- Fixed a bug in "transpose-paragraphs" where if the final undo entry
+   failed, the screen would not be updated.
+
+-- Fixed a small bug in "revert-buffer" where a buffer bigger than
+   MAXINT would still give an error when undo was off.
+
+- "list-undo" will now truncate very long undo records to 16 MB
+  instead of trying to list the whole thing.
+
+150519:
+
+An undo is implemented.
+
+-- Fixed a bug in "delete-char", "delete-backward-char" where you
+   could theoretically overflow an integer.
+
+-- Fixed a bug in C-like, where if brace matching would hit the
+   beginning of the buffer, the previous statement was returned,
+   rather than the beginning of the buffer.
+
+-- Fixed a bug in C-like, in modes with keywords without parentheses,
+   where the column of a statement in column 0, or of the beginning of
+   the buffer, would be returned as the column of the previous
+   statement, rather than 0.
+
+- Undo is implemented. It is a linear undo like in a GUI. The command
+  "undo" works mostly like in Emacs, and is assigned to "^X u" and
+  "^_". See README.undo.
+
+- Created a command alias "sv" for "set-variable".
+
+150427:
+
+-- Fixed a bug when recording a keyboard macro where entering a self-
+   inserting character with a repeat count of 1 would record a
+   spurious prefix argument of 1.
+
+-- Fixed bugs in "eval-buffer" and "set-default-mode" where the
+   parameter was declared too short.
+
+-- Fixed a cosmetic bug when a buffer name got truncated in the
+   modeline before a double-width character.
+
+- "insert-char" is now an alias for "ucs-insert" to be compatible with
+  Emacs.
+
+- The declaration of the internal routine "emessage()" has been
+  changed to make it easier to use.
+
+- Updated README.reference with the defaults on "termdoescombine",
+  "termdoeswide" and "termdoesonlybmp".
+
+150328:
+
+- C-like now handles labels. A C-style label is considered to be an
+  identifier at the beginning of the line followed by a ":" but not by
+  "::". It has its indent decreased by one tab. If the previous
+  statement has a label, the indent is increased with one tab.
+
+  Should a line consist of nothing but a label it is ignored when
+  scanning for non-blank lines.
+
+  There is no longer any reaction to a line merely ending with ':'.
+
+  There is a new "clike-options" bit for C-style labels.
+
+  Some languages (and builtin modes) have C-style labels, like C/C++,
+  C# and Go. Some do not, like Perl, Java, JavaScript, and Swift.
+
+  There is also a compatibility bit if you want to turn on the old
+  behavior.
+
+- For command lists, error checking and message level are now
+  separated. User macros execute like scripts: execution is terminated
+  on error unless you use "ignore-errors", and messages are not shown
+  unless you use "with-message". This gives a cleaner execution,
+  especially of user macros assigned to keys.
+
+  Auto-executed statements and mode-initialization commands execute as
+  before and ignore errors by default.
+
+- Like in GNU Emacs, "eval-current-buffer" is now an alias for the
+  command "eval-buffer", and the command takes an optional parameter
+  in a script, which is the name of the buffer to execute.
+
+- "insert-buffer" now displays an error message when the buffer could
+  not be found.
+
+150228:
+
+-- Fixed a bug in GNU or Whitesmith style in C-like, where C++ access
+   specifiers were not withdrawn an extra tab after a block-ending
+   '}'. The same thing would happen to case statements if brace
+   matching was not turned on.
+
+- Comment parsing in C-like should be more accurate and 2-4 times
+  faster.
+
+- There is a new function "clike-indent-region" that re-indents the
+  lines in the region. It's bound to "ESC ^\" like "indent-region" in
+  Emacs.
+
+- There is a new function "clike-indent-next" that re-indents the
+  current line and steps to the next line. It's not bound to a key.
+
+- There is a new "-l loadfile" command line option. It loads a file
+  after program startup.
+
+- There is a new "-e commands" command line option. It executes a list
+  of commands after program startup. If both "-l" and "-e" are
+  specified, "-e" executes last.
+
+- There is a new "-L loadfile" option that loads a script immediately
+  after startup files. The execution of startup files has been
+  revised with a global fallback. See README.misc.
+
+- The GOTOLINE #defines have been cleansed from the source.
+
+- "auto-execute" patterns now support alternatives "{pat1,pat2,...}"
+  like for example in Bash. It is, like in Bash, a textual
+  replacement, and on any error the string is used directly as a
+  pattern.
+
+- Cleaned up the source dealing with the SLOW option a bit.
+
+- A lone "+" argument as "mg + file" or "mg file +" now goes to the
+  end of file.
+
+- Stray "test.c" removed.
+
+150129:
+
+-- Fixed an undefined behavior where memcpy() was called with a NULL
+   pointer in display.c.
+
+-- Fixed a problem in main.c where "thisflag" and "lastflag" weren't
+   explicitly set to 0 when commands were first executed.
+
+-- Fixed a potential problem in the scripts in sys/unix where GNU grep
+   could interpret a file as binary if it contained characters that
+   were not in the locale.
+
+- There has been a change in "auto-execute" so that only the first set
+  of matching patterns/tests have their commands executed.
+
+- "clike-style" has a new bit, bit 4, indicating that multi-line "if",
+  "while", "for" and "switch" expressions should be indented by two
+  tabs.
+
+141227:
+
+-- Fixed a bug in "what-cursor-position" where a line-end could be
+   displayed as a combined character due to an uninitialized variable.
+
+-- Fixed a bug in "what-cursor-position", "recenter" and "recenter-
+   top-bottom" where a numeric argument in a script was interpreted as
+   universal rather than numeric.
+
+-- Fixed a wrong listing of dired mode in README.bindings.
+
+- "what-cursor-position" now accepts a numeric argument of 1-5 as a
+  substitute for the same number of prefixed ^U.
+
+- Made screen update more robust if the screen is resized while being
+  updated.
+
+141130:
+
+-- Fixed two bugs dealing with block comment parsing in Clike: end-of-
+   line comments could hide, through caching, what would later be
+   changed by a prior '`' or "/*", and the line after a continued line
+   should not be cached.
+
+-- Fixed two bugs in "ucs-insert": it now interprets "#b" as binary,
+   and radix notation is "#xxryyyy", not "#xx#yyyy".
+
+- Made "clike-blink-and-insert" re-indent if entered on a blank line.
+  Needed for the "import" statement in Go.
+
+141031:
+
+-- Fixed a bug when inputting filenames on Cygwin where a DOS pathname
+   with '\' delimiters couldn't be completed.
+
+- Arguments for "what-cursor-position" are interpreted differently so
+  that a single ^U always shows the Unicode codepoint(s) for the
+  current character in hex.
+
+- In Clike there is a new "go" mode for Google's Go language. It's
+  very similar to Swift mode.
+
+140930:
+
+- Changes to Clike:
+
+  * Swift mode is official. There are two new option bits in "clike-
+    options", for nested comments, and keywords without parentheses.
+
+  * "clike-style" is now a set of bits; bit 1 is as before for half-
+    size tabs, bit 2 is for indented case statements in a switch.
+
+  * "clike-lang" number 6 is now Swift.
+
+  * High bit checked of characters to not confuse the beginning of
+    multinational identifiers with keywords.
+
+  * Whitespace is not fully Swift, but now includes Form Feed in
+    addition to space and tab.
+
+  * Statements with a negative brace level will be recognized even if
+    the '{' is not last on the line. Necessary for trailing closures.
+
+  * "clike-align-after-paren" now aligns after both '(' and '['.
+
+  * A fix for trailing closures in Swift lets you enter things in
+    Horstmann or Pico style in C.
+
+- Reinstated the "mark-paragraph" and "transpose-paragraphs" commands
+  because what the heck.
+
+- You can now bind macros to keys. Unnamed macros can also be bound to
+  keys by "global-set-key", "local-set-key", and "define-key".
+
+140831:
+
+- Advanced Swift mode has been removed. It has serious problems with
+  some styles of Swift. By #defining LANGMODE_SWIFT you now get the
+  simple Swift mode.
+
+  The compile option ALL no longer sets LANGMODE_SWIFT.
+
+140731:
+
+-- Fixed a bug where mode initialization commands wouldn't be run
+   unless LANGMODE_CLIKE or USER_MODES were defined.
+
+-- Fixed a bug in Clike introduced in the previous version where if
+   the tabsize was 1 and half-tab size was used you got a divide-by-
+   zero.
+
+- Messages are now not hidden when executing named macros
+  interactively. It makes the execution similar to interactive
+  execution of either a keyboard macro or of "eval-current-buffer".
+
+140726:
+
+-- Fixed a bug in Clike where multiple half-tab levels didn't work.
+
+-- Fixed a bug in Swift where a multiline if-expression followed by a
+   "{".."}" block on one line wouldn't reset the column.
+
+-- Fixed a bug in Clike where if a line with a preprocessor command in
+   column 0 was inside a block comment and the line ended with ')',
+   the block comment wouldn't be detected after this line.
+
+- Changes to Swift mode:
+
+  * Dropped the half-tab feature because it combines badly with "{}"
+    blocks within "[]" blocks which aren't that unusual in Swift.
+    Instead you can set "swift-style" to 2 for "case"-statements with
+    a tab indent (this seems to be Apple's preferred style).
+
+  * Lines starting with '#' are now ignored when scanning for non-
+    blank lines. They are for conditional compilation.
+
+  * The Swift definition of whitespace is used at crucial points
+    (Null, Tab, Line Feed, Vertical Tab, Form Feed, (lone) Carriage
+    Return, Space).
+
+  * Testing for keywords like "if" is now done so that they can't be
+    confused with the start of multilingual identifiers.
+
+  * Combinations of "case" statements and braces should now act
+    consistently.
+
+  * More documentation in README.swift-mode.
+
+- In Swift and C-like, scanning for a non-blank line was stopped after
+  100 lines, including block comments. That was probably too little.
+  Changed to 10000 lines.
+
+- Clike now contains a simple "swift" mode. If you #define
+  LANGMODE_SWIFT you get instead the specially-designed one.
+
+- The "transpose-paragraphs" and "mark-paragraph" commands have been
+  removed since they are not essential. The definition of a paragraph
+  is reset as it was before.
+
+140628:
+
+-- Fixed a bug in "fill-paragraph" where doing a manual fill with
+   whitespace after the cursor could lead to access to freed memory.
+
+-- Fixed a bug in clike where "clike-blink-and-insert" would miss the
+   beginning or the end of a block comment (!).
+
+-- Fixed a bug that was introduced when trying to optimize for a
+   single-line screen cache. This should solve nagging problems of
+   updating several windows on the same buffer.
+
+-- Fixed a bug where it wasn't checked up front in "fill-paragraph"
+   that the buffer was read-only. It could modify the buffer in
+   certain cases similar to a previous bug.
+
+-- Fixed a bug where you would get a surprising result of "clike-
+   newline-and-indent" if the text after the cursor had special
+   behavior at the beginning of the line.
+
+- There are two new commands for selecting a region, "mark-whole-
+  buffer" bound to "^X h", and "mark-paragraph", bound to "ESC h",
+  like in Emacs.
+
+- A new command "transpose-paragraphs" has been added like in Emacs.
+
+- The definition of a paragraph has been changed to be like how GNU
+  Emacs behaves when paragraphs are separated by empty lines.
+
+- "backward-paragraph" now puts you on the line before the first line
+  of the paragraph.
+
+- Emacs has a command "kill-this-buffer" for killing the current
+  buffer without asking for a name, and mg has it now. It lacks the
+  extra universal-argument feature of "kill-buffer-quickly".
+
+- "move-to-window-line-top-bottom" has been bound to "ESC r" like in
+  Emacs ("search-backward" is available on "^R RET").
+
+- Documented "ignore-errors" and "nil" in README.reference.
+
+- In Clike "perl" mode "{" is no longer bound because braces are
+  mandatory and parentheses are not parsed, and it makes it easier to
+  adjust the indent manually.
+
+- There is an optional "swift" mode for Apple's Swift language. Enable
+  by #defining LANGMODE_SWIFT and see README.swift-mode.
+
+140528:
+
+-- Fixed a bug where restoring cursor position could put you at the
+   internal end-of-buffer line, if you had added only one line and
+   were at the last line before restoring.
+
+-- "clike-align-after" now checks for an invalid codepoint.
+
+-- Fixed a bug in "fill-paragraph" where if the paragraph was a single
+   line, and if the only change was replacement of tabs with spaces,
+   the buffer would not be marked as modified.
+
+- "eval-expression" now accepts a repeat count, similarly to "execute-
+  extended-command". It makes it easier to repeat command sequences.
+
+- "auto-execute" and "auto-execute-list" now interpret "~" at the
+  start of a pattern as the name of a home directory in the usual way.
+
+140514:
+
+-- Fixed a bug where the undocumented "insert-unicode-hex" and
+   "insert-8bit-hex" no longer interpreted their argument in hex.
+
+- Changed "query-replace" so that an uppercase single-character word
+  is considered uppercase and not titlecase.
+
+- "revert-file" and "list-macro" have now been hidden from "apropos"
+  but other function name aliases can now be completed.
+
+140509:
+
+-- Fixed a bug where a local "make-backup" variable was checked for
+   the current buffer rather than a general buffer.
+
+-- Fixed a possible integer overflow of parenthesis depth in "blink-
+   and-insert" and "clike-blink-and-insert" with extremely large
+   buffers.
+
+-- Fixed a bug in clike where a block comment ending at the same line
+   as another began with no content ("..*/ /*..") would be
+   misinterpreted.
+
+-- Fixed a theoretical overflow in block comment caching in clike
+   after 128 million edits.
+
+-- Made it possible to enter abbreviated charset names like in the
+   modeline interactively.
+
+- Made sure that clike can't mess with line flags in system buffers.
+
+- Made an option in clike to recognize C++-style "public:", "private:"
+  and "protected:" and enabled it when "clike-lang" is 1.
+
+- On further thought, having a local "modeline-show" variable and an
+  option to turn off showing "-bom" are bad ideas. They are removed.
+
+- Two new commands from Emacs, "move-to-window-line" and "move-to-
+  window-line-top-bottom", are added. However "ESC r" is still
+  assigned to "search-backward", unlike in Emacs.
+
+140402:
+
+-- Fixed a bug in clike where block comments not having "*/" at end of
+   line would get the parser confused. Such comments should now work.
+
+-- Fixed a bug in clike where regular expressions would mess up
+   parsing in "perl" and "javascript" modes. Solved for now by making
+   "perl" mode identical to basic "clike", and "javascript" mode
+   having only basic "clike" + "if" and "case" heuristics.
+
+- Made the definition of a MODE be an INT and moved the definition to
+  "def.h".
+
+- Changes to python mode:
+
+  * Removed "python-tab" and "python-delete-backward-char" commands.
+
+  * Removed the "python-indent-offset" variable. It gives no error
+    when set.
+
+  * Set init command of python mode to "local-set-tabs 4 1 1".
+
+  * Extra indent on the next line now triggers on the last nonblank
+    character being ':', not only the last character.
+
+  The behaviour is the same except that "tabs" are now only spaces.
+
+- Added an alias "lv" meaning "local-set-variable".
+
+- Added a bit to the variable "fill-options" to recognize numbered
+  itemized lists. See README.reference.
+
+- Added a variable "clike-style" to clike, as an overall style number.
+  So far, 0 = default, 1 = BSD.
+
+- Added two commands not from Emacs: "tab-region-left" and "tab-
+  region-right" shift the region one tab stop to the left or right.
+
+- Added another command not from Emacs: "kill-buffer-quickly" kills a
+  buffer without asking for a name. With a universal argument, the
+  buffer is killed without question even if it's modified.
+
+- Simplified the display of "what-cursor-position" with an argument
+  when UCSNAMES is defined. There is no longer a separate format for a
+  display wider than 80.
+
+140304:
+
+-- Mistakenly listed "list-macro" twice (once as an alias) when
+   USER_MODES was not defined.
+
+-- Fixed a compilation problem on OS X by renaming a function.
+
+-- Fixed bugs in clike:
+
+   * An end of a block comment in column 0 would be missed.
+
+   * If there was content on the same line before the beginning of a
+     block comment, the last character of it wouldn't be seen.
+
+   * Keys like "}" no longer re-indent in a block comment when entered
+     on a blank line. Previously only the formatting rules were turned
+     off, not the re-indenting.
+
+   * Corrected the help text on brace matching.
+
+140206:
+
+- Improved clike C parsing:
+
+  * The statement after a braceless "if", "for" etc. now has to end
+    with a ";" to be recognized. Otherwise too many contructs get
+    wrong.
+
+  * Before and after a block-ending "}" and after the end of multiline
+    assignments, a search for the "{" of the enclosing block is done,
+    or for a "case"-statement, used for setting the indent in those
+    cases.
+
+  * Block comments are recognized separatedly. C mode is not active
+    within them.
+
+  * A "//" comment in column 0 stays put and is not changed by re-
+    indenting.
+
+  * Modes for Java, C# and JavaScript are included.
+
+  * A new function "clike-blink-and-insert", bound to ")", does what
+    "blink-and-insert" does but respects comments and strings.
+
+  * Case statements line up under each other, in case you used a
+    custom indent.
+
+140122:
+
+C-like and user-defined modes.
+
+-- It used to be possible to assign some named keymaps to keys. As far
+   as I know, it has never been used and it is incredibly dangerous:
+   it can create circular key definitions that will blow up "describe-
+   bindings" and the copying of a keymap. It has been disabled.
+
+-- You couldn't enter function name aliases or obsolete function names
+   interactively. You can now, if you spell them out.
+
+-- Fixed a bug where the most negative number could get garbled when
+   shown in the echo line.
+
+- Documented the "list-keymaps" and "list-kbd-macro" commands.
+
+- Stray "test.c" removed.
+
+- (Optional) "search-all-forward" and "search-all-backward" no longer
+  look for the special "MGSEARCHALL" environment variable. Use the
+  "-p" switch.
+
+- A (temporary) "check-for-python" command which was there in the
+  snapshots is no longer there. Use "shebang".
+
+- The compilation option ALL now turns on all options except NO_TERMH.
+
+- There is an optional set of modes for C-like languages. Enable by
+  #defining LANGMODE_CLIKE, and see README.clike-mode. Included are
+  modes for a basic C-like language, three different styles of C, and
+  Perl.
+
+- There is an option for user-defined modes. Enable by #defining
+  USER_MODES, and see README.user_modes.
+
+- There is an option to create named macros. Enable by #defining
+  USER_MACROS, and see README.user_macros.
+
+- Regularized declarations so that predicates are "int". Status
+  returns are INT returning TRUE, FALSE or ABORT.
+
+- Completing an empty keymap name now fills in the last fully
+  completed entry.
+
+- Tightened error checking of input of numerical values in "set-
+  variable", "local-set-variable", "goto-line", "insert-unicode",
+  "insert-8bit" and "local-set-tabs". No out of range (truncated)
+  values are allowed. The minimum integer is disallowed.
+
+- Speeded up "what-cursor-position" with an argument when UCSNAMES is
+  defined a bit by using strtol() rather than sscanf().
+
+- There is a new variable "tab-options" that can set options for soft
+  tabs. Currently, there is one option: "alternate tabs". It makes soft
+  tabs outside of leading whitespace in a line always be of size 8.
+
+  There is a buffer-local version of "tab-options".
+
+- "local-set-tabs" has been extended to ask for tab options. In a
+  script, the second and third parameter have been made optional, so
+  that "local-set-tabs 8" sets only the size.
+
+- There are now buffer-local versions of the "make-backup" and
+  "modeline-show" variables.
+
+- There is a new flag for "modeline-show", turning off the display of
+  "-bom". Mostly for Powershell.
+
+- There is no longer any "overwrite" keymap. The overwrite status bit
+  is instead shown directly.
+
+- There is a new command "insert-tab-8" that always inserts a tab of
+  width 8. Bound to "ESC i", it fills a similar function as "tab-to-
+  tab-stop" on the same key in Emacs programming modes.
+
+- In "auto-execute" and "auto-execute-list", when executing in a
+  script, you can now leave out the second parameter if it otherwise
+  would be empty.
+
+- Speeded up finding the screen column for ASCII around 6 times.
+  Needed for programming modes.
+
+- Numeric prefix arguments in a script can now be given in "0.." and
+  "0x.." notation for octal and hex. Example: "clike-align-after
+  0x3d". The value is also range checked.
+
+- When using "with-message" to run "load" and there is an error in the
+  file, the error message "Error on line n of file xyz" is now not
+  shown. Instead the error message from the command is shown. It helps
+  with debugging.
+
+131222:
+
+-- Fixed a bug in "load", "eval-current-buffer", and "eval-
+   expression", where a lone double quote at the end of a line would
+   skip past the end of the line.
+
+-- Fixed two possible buffer overflows in "describe-bindings": one
+   with extremely long key sequences, the other with an overly long
+   mode name.
+
+-- Fixed a bug where the right #includes were not done in ttyio.c when
+   SELECT_FOR_TYPEAHEAD was 0.
+
+-- Fixed a bug forgetting to check for a readonly buffer in a few
+   places.
+
+-- Fixed a bug where resetting a buffer didn't reset the local
+   variables, the local mode name, or the flag for scratch buffers.
+   This happens for "write-file" and for the original "*scratch*"
+   buffer.
+
+-- Popup windows are now the window below the current one, or the top
+   one, like in Emacs, therefore always scrolled by "scroll-other-
+   window".
+
+- Simplified the message of "help-ret" a bit. It now says "U+xxxx
+  copied/appended to killbuffer"
+
+- "with-message" now not only turns on messages, but turns on checking
+  of exit status for any triggered auto-execute statements. This makes
+  "with-message" + "find-file" a way to debug auto-execute statements.
+
+- There is an optional python-mode written by Pedro A. Aranda. Enable
+  by #defining LANGMODE_PYTHON, and see README.python-mode.
+
+- There is a new command "shebang" for doing Unix interpreter line
+  tests. It sets up the following "auto-execute" statement to check
+  for a substring in a "#!" line. See README.reference.
+
+- Cleaned up ugly code in "define-key".
+
+- In order to make it possible to do only a "shebang" test, you can
+  now leave the pattern(s) empty in "auto-execute" and "auto-execute-
+  list". You can also leave the commands empty. See README.auto-
+  execute.
+
+- Cleaned up functions a bit. Aliases and obsolete functions no longer
+  show up with completion. Obsolete functions are left out from
+  "apropos" and aliases are indicated.
+
+- "auto-execute" now accepts a list of commands separated by ";" (but
+  not a list of file patterns). It was too confusing that it treated a
+  ";" as starting a comment -- ignoring the rest of the line.
+
+  "eval-expression" also now evaluates a list of commands, for the
+  same reason.
+
+131113:
+
+-- Fixed two bugs in Dired where a symlink that pointed to a non-
+   existent file couldn't be renamed, or edited as a new file.
+
+-- Fixed a bug where internal routines "ereply()" and "eread()" were
+   not properly declared.
+
+-- Fixed a bug in "c-preproc" where an integer could overflow in a long
+   line.
+
+-- Fixed a bug in "what-cursor-position" where the wrong charset could
+   be displayed if you started in a help buffer.
+
+-- Fixed a bug in "what-cursor-position" where a random row number
+   would be shown if the cursor was not visible in the current window.
+   Such a row number is now shown as 0.
+
+- Entering an empty string in "set-unicode-data" now clears the
+  Unicode data filename.
+
+- When UCSNAMES is defined, a new function "help-ret" is bound to RET
+  in a help buffer. It can copy or append a Unicode character to the
+  killbuffer. See README.ucsnames.
+
+130909:
+
+- Put the routines for UCSNAMES in a separate file: ucsnames.c.
+
+130811:
+
+-- Fixed a bug where no character would be shown by "what-cursor-
+   position" with an argument if UCSNAMES was defined and you
+   started in a help buffer.
+
+- UCSNAMES is even more optional: no extra code is included if it's
+  not defined, and even if it is defined, the program behaves as
+  before UCSNAMES if the Unicode database is not defined.
+
+  Info on what is in UCSNAMES is now in README.ucsnames rather than
+  elsewhere.
+
+- Saved some space in a line by not confusing sizeof() with offsetof()
+  the last empty member.
+
+130801:
+
+-- Fixed a trivial bug that didn't show the Unicode names in "what-
+   cursor-position".
+
+130731:
+
+- Made dealing with Unicode character names optional. You now have to
+  define UCSNAMES to use these functions. See README.reference and
+  Makefile.
+
+130718:
+
+-- Fixed a bug where a too big "buffer-name-width" would cause
+   overwriting the end of an array in "list-buffers".
+
+-- Fixed a bug where a quoted argument would be truncated after the
+   first "\{cap}" escape.
+
+-- Fixed a small bug: the length of the buffer local mode name was 255
+   bytes, and so was the total length of all modes, so the local mode
+   name could be cut off.
+
+- Tried to skip output of initial spaces in a line again. D*mned
+  cursor flashing.
+
+- There is a new command "set-unicode-data". It allows you to set the
+  name of a file with a Unicode character database. The database
+  should be in the format of
+  http://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt.
+
+  When set, "ucs-insert" can both recognize and complete Unicode
+  character names.
+
+- There is a new command "list-unicode" that can list all or part of
+  the Unicode database. You can match on the code ("U+(hex)") or on a
+  substring of the code or character name. By default, the code and
+  character name are listed.
+
+  If given an argument, "list-unicode" matches the whole database
+  line, and also shows the whole line.
+
+- There is a more comprehensive display of "what-cursor-position" (^X
+  =) when given an argument:
+
+  A help window is opened, showing 1) the width of the character (with
+  width on the terminal in parentheses), 2) the raw bytes of the
+  character, 3) Unicode codepoint, and 4) the character name, if
+  available.
+
+  Two ^U (^U^U) shows the numbers in decimal (default is hex). Three
+  ^U (^U^U^U) shows the numbers in octal.
+
+  There is one line for each codepoint in a combined character.
+
+  If the locale charset is not recognized, only the default display
+  works, since there is no more information to show.
+
+- If you have an old (default) search pattern it is now filled in if
+  you press TAB to complete an empty pattern so you can edit it.
+
+130620:
+
+-- Fixed a serious bug in "delete-backward-char" erasing too far
+   backwards when on a hard tab boundary but not a soft tab boundary.
+
+-- Put in checks in two places in the display code that could get
+   column overflow.
+
+130618:
+
+-- You can no longer use "ignore-errors" in a keyboard macro. There
+   are too many possible problems with it without doing a redesign.
+
+-- Fixed a bug in Dired, where if "insert-default-directory" was off,
+   file completion was done relative to the current working directory
+   rather than the Dired directory.
+
+-- Fixed a long-standing bug in parsing a command line, where a ';' in
+   or immediately after an unquoted argument was taken as part of the
+   argument.
+
+-- Fixed a bug where a long search pattern needed to be truncated in a
+   default prompt to make it possible to enter a new one.
+
+-- Fixed a bug where clearing the echo line generated terminal output
+   even when messages were off.
+
+-- Fixed a bug where output from a command run under "with-message"
+   wasn't necessarily promptly flushed. It means a message wouldn't be
+   shown if there was a lengthy operation.
+
+- The new "-q" command line option inhibits running startup files.
+
+- The new "-p pattern" command line option sets the initial search
+  pattern.
+
+  The (optional) "search-all-*" commands still look for the special
+  environment variable MGSEARCHALL, but that will eventually be
+  removed.
+
+- The splitting of the command list in "auto-execute-list" is now less
+  simplistic: the list is parsed and not split on a ';' inside quotes.
+
+- You can now use "eval-expression", "eval-current-buffer" and "load"
+  in a keyboard macro.
+
+- A soft tab feature:
+
+  * There is a new "insert-tab" command, bound to TAB, inserting
+    different kinds of tabs.
+
+  * There is a new variable "soft-tab-size" that turns on soft
+    (emulated) tabs of a given size. Default is 0, which means use
+    hard tabs.
+
+  * There is a new variable "tabs-with-spaces" which indicates that
+    hard tabs shouldn't be used, but only spaces. Default is 0.
+
+  * "soft-tab-size" and "tabs-with-spaces" exist both as global
+    variables and as local variables.
+
+  * The "no-tab-mode" command now manipulates the "tabs-with-spaces"
+    local variable. There is no longer a separate "notab" keymap.
+
+    The NOTAB compile-time option no longer does anything and is not
+    needed.
+
+  * When soft tabs are on the "delete-backward-char" command emulates
+    soft tabs when deleting whitespace.
+
+  * There is a new command "local-set-tabs". "local-set-tabs" is a
+    shortcut for setting both the "soft-tab-size" and "tabs-with-
+    spaces" local variables.
+
+  * For those who have used Vim, "soft-tab-size" corresponds to
+    "softtabstop" and "tabs-with-spaces" is "expandtab".
+
+- A new command "local-mode-name" sets a name that will be shown in
+  the modeline of the current buffer. The name doesn't otherwise do
+  anything, it's only shown.
+
+- The NO_BACKUP Makefile option no longer does anything. Backups are
+  always included, but are by default off.
+
+- There is a new variable "buffer-name-width" that is the width of the
+  buffer name in "*Buffer List*". Default is 24. 0 means center the
+  next column. Minimum is 14. See README.reference.
+
+- There is now a "save-and-exit" command that saves all buffers with
+  files unconditionally and exits. This command is not in Emacs, but
+  is there to give it a function that can be assigned.
+
+- Completing empty input on the echo line now completes to:
+
+    Variable:	last variable name used
+    Function:	last function name used
+    Buffer:	*scratch*
+    Charset:	buffer default charset
+    File name:	directory of current buffer (as before)
+
+- New strategy for showing messages: messages are shown by default,
+  but turned off in files loaded with "load" and in statements that
+  are auto-executed.
+
+  This means that messages are now shown during the execution of
+  keyboard macros, "eval-expression" and "eval-current-buffer".
+
+- If C-mode is compiled in there are four configuration-variables,
+  "cc-strip-trailp", "cc-basic-indent", "cc-cont-indent", "cc-colon-
+  indent" that are accessible as global variables.
+
+- Fixed screen update to deal more intelligently with spaces and tabs
+  to get rid of cursor flashing in the Windows 7 console when desktop
+  composition is off, when using soft tabs of different size than 8.
+
+130528:
+
+-- Fixed a bug where "ignore-errors" didn't work when recording or
+   playing a keyboard macro.
+
+-- Fixed a problem with self-modifying code in "eval-current-buffer"
+   by making a copy of the buffer.
+
+-- Fixed a bug in "save-some-buffers" where text other than an
+   unanswered question was cleared from the echo-line.
+
+- Added a "auto-execute" command, like in OpenBSD mg. It lets you
+  associate a filename pattern with a command to execute when you
+  visit a file matching it.
+
+  The command to execute can, unlike in OpenBSD mg, be a command with
+  parameters.
+
+- Added a "auto-execute-list" command. It does what "auto-execute"
+  does, but lets you add several filename patterns at once, separated
+  with ";" and also several commands, separated with ";".
+
+- Added an "if" command to be used with "auto-execute". Currently
+  there are four tests: "if empty", "if not empty", "if bom", "if not
+  bom". Example: "if empty crlf".
+
+- Added a "list-patterns" command, for listing the patterns added with
+  "auto-execute".
+
+- Added a "\u" escape for strings. It can be followed by up to six
+  hexadecimal digits and specifies a Unicode codepoint. See
+  README.misc.
+
+- Added a "compare-fold-file" variable. When set, file name
+  comparisons (and pattern matching by "auto-execute") are case-
+  insensitive. This was previously hardwired on Cygwin.
+
+- Changed the definition of the first word in a paragraph for adaptive
+  fill (option 2 in "fill-options"). See README.fill-paragraph.
+
+- Added a command "join-line-forward" (that doesn't exist in Emacs),
+  that works like "join-line" but joins forward by default. Somewhat
+  like "J" in vim and not like "join-line" in Emacs. I think that is
+  more useful.
+
+- Added a command "message" which shows messages even in macros and
+  command lines. Somewhat similar to the command in GNU Emacs although
+  there it can do more than show a string.
+
+- There is a new command (not from GNU Emacs) "with-message". In Mg,
+  showing messages is normally suppressed during execution of a macro
+  or a command line. "with-message" changes that for the following
+  command.
+
+- Added a check for too few arguments to a command, with an error
+  message.
+
+- Added error message for too long argument.
+
+- Made command execution recursive up to an arbitrary limit of 10
+  levels. A file loaded with "load" can now execute file operations,
+  including "load" itself. It was really done to explore possibilites
+  with "if".
+
+- When there is an error in a loaded file, report what line the error
+  is on.
+
+- Added an emulation of GNU Emacs "ucs-insert". It does the numeric
+  part: "#o", "#x", "#n#", and defaults to hex. It is bound to
+  "^X 8 RET" like in Emacs.
+
+- "insert-unicode-hex" and "insert-8bit-hex" are now undocumented but
+  are still there.
+
+- Added a new command "dired-create-directory" bound to "+" in Dired
+  mode like in Emacs.
+
+- Made the filename default to the name of the original file in
+  "dired-copy-file" and "dired-rename-file" if the destination is a
+  directory.
+
+- Ported "c-mode" from OpenBSD mg. It can be enabled with LANGMODE_C
+  in the Makefile.
+
+- Buffers can now have local variables. They start out unset, and if
+  set, override the global variable. Currently, there are three local
+  variables: "fill-column", "fill-options" and "trim-whitespace".
+
+  Local variables are set with "local-set-variable" and unset with
+  "local-unset-variable".
+
+  "list-variables" normally only lists local variables if they are
+  set. It lists all of them when given an argument.
+
+  "set-fill-column" now sets the buffer-local variable. You have to
+  set the global one with "set-variable".
+
+- In a string, you can use the "\{name}" construct to insert a named
+  Terminfo key capability. However, the names are obscure, like
+  "kcuu1" for up-arrow key. Now there are the following hopefully
+  obvious aliases:
+
+  "up", "down", "left", "right", "pageup", "pagedn", "home", "end",
+  "insert", "delete".
+
+- Exit the command cleanly in incremental search or "query-replace" if
+  you enter an escape sequence (such as a cursor key).
+
+- Exit "query-replace" if an unknown control character is typed in
+  response, in the same way as with incremental search.
+
+130428:
+
+-- Fixed a bug where read errors from Stdin could cause a read loop.
+   Found by the people behind OpenBSD mg.
+
+- Widened a buffer field slightly in "*Buffer List*" up to 100GB.
+
+- Changed "end-of-visual-line" to go to a position of 1 1/4 screen
+  width in a long unshifted line if the position would otherwise be
+  unchanged. This makes both "beginning-of-visual-line" and "end-of-
+  visual-line" be scroll-sideways commands for long lines.
+
+- Speeded up recognition of charset when it's only ASCII. Cuts CPU
+  time of "find-file" with 20%.
+
+- Use putc_unlocked() to write line-ends. Cuts CPU time of saving with
+  25% on Cygwin.
+
+- Speeded up performance about 5% of "yank" when not translating
+  charsets.
+
+- Changed the internal routine panic() to reset the input terminal
+  channel and exit without dumping core. Errno is reported when
+  meaningful.
+
+- There are now nicer error messages using the new panic() if the
+  Terminfo database or terminal type $TERM are not found.
+
+- Changes to "blink-and-insert" to be more like Emacs:
+
+  * The matching parenthesis is now shown by default for one second,
+    and interrupted by input.
+
+  * You can match any Unicode codepoint.
+
+  * Matching pairs U+00AB, U+00BB and U+2039, U+203A are now included.
+
+  * There is a limit on how far back to search for a matching
+    parenthesis of 100KB to avoid slowdown.
+
+  * The message "Matches ..." for out-of window matches is truncated
+    after the matching character.
+
+  You can set the time, in milliseconds, to blink the matching
+  parenthesis with the variable "blink-wait". Default is 1000. The
+  author likes to set it lower.
+
+130330:
+
+-- Fixed a bug in "kill-line" where the size of the region deleted
+   could overflow an integer.
+
+-- Fixed bugs where counting either lines or bytes >= 128 in a buffer
+   could overflow an integer.
+
+- Some more error checking in "kill-line" and "kill-whole-line";
+  preserving error message if normalization of the buffer fails.
+
+130327:
+
+Small stuff.
+
+-- Truncate prompt in "...? (y or n)" question if necessary to tell
+   what is going on.
+
+-- Fixed a bug where "kill-line" and "kill-whole-line" with positive
+   arguments would return success status even when stopping at the end
+   of the buffer when the buffer hadn't been normalized.
+
+-- Fixed a bug where the "kill-whole-line" command with a negative
+   argument didn't do what it should when the "kill-whole-lines"
+   variable was set: killing whole lines backward while staying in the
+   same column.
+
+- Using select() for typeahead works in Cygwin and may be more
+  portable. It is now the default.
+
+- Clear the echo line after "save-some-buffers" if questions were
+  asked in order to not display an awkward unanswered question.
+
+- New functions "back-to-indentation" and "join-line" bound to "ESC m"
+  and "ESC ^" like in GNU Emacs and OpenBSD mg.
+
+- New functions "beginning-of-visual-line" and "end-of-visual-line"
+  like in GNU Emacs. Long lines are treated differently than in GNU
+  Emacs, but the problem of navigating long lines is the same. These
+  are very small functions, easily implemented.
+
+- An argument of 0 to "list-buffers" or "buffer-menu" now turns off
+  buffer name truncation so you can see the whole buffer name.
+
+- If a key is not bound, show a message "That key is not bound",
+  rather than "Quit".
+
+- "describe-key-briefly" now tries to show the whole key sequence,
+  including typeahead, for an undefined key.
+
+130315:
+
+-- Fixed a bug where messages from errors in the startup file were not
+   shown.
+
+-- Suspend (^Z) and resume should now work.
+
+-- Typeahead characters are now discarded before the "Quit" after an
+   aborted command and before the message of the "describe-key-
+   briefly" command. Otherwise the message would go away, and junk
+   commands would be run for the rest of the characters.
+
+   Typeahead is sensed in a new way that unfortunately doesn't work on
+   Cygwin. The old way didn't work reliably with suspend/resume.
+
+- Trimmed the messages in Dired Copy and Rename. There is no
+  particular point in showing truncated names of full paths.
+
+- Backups of files when "make-backup" is set are now made by copying
+  rather than renaming.
+
+- File copies are no longer done byte by byte but a kilobyte at a time
+  which is far more efficient.
+
+- Error checking on closing outfiles.
+
+130314:
+
+-- Fixed a bug where the "*scratch*" buffer couldn't be killed if it
+   was the only buffer.
+
+-- Fixed automatic refresh on resizing of the terminal window.
+
+-- Made prompts and error messages in Dired Copy and Rename work with
+   very long file names.
+
+-- Dired Rename now checks that the file exists before trying to
+   rename it.
+
+- Buffer names can now be as long as file names. The names are
+  truncated in "*Buffer List*", and also in the mode line if the
+  buffer modes otherwise couldn't be shown.
+
+- Old Amiga and VMS code removed.
+
+- Updated terminal I/O to use the more modern termios.
+
+- "redraw-display" no longer shows the size.
+
+- Like in GNU Emacs and OpenBSD mg, Space no longer word-completes
+  filenames. ESC-Space still word-completes filenames.
+
+- Documented echo-line input (with control characters) in README.misc.
+
+- An empty string argument in a startup file now works like an empty
+  string interactively to prevent mishaps.
+
+130228:
+
+-- Removed a reference to the obsolete #define NO_STARTUP in fileio.c.
+
+-- Fixed a bug where overwriting a character could erase too little if
+   it was a tab followed by a combining character.
+
+- Cleaned up source and removed unnecessary #ifdefs. Put declarations
+  in keymap.c in the right section.
+
+- "write-file" now sets the buffer name. If there is a mode matching
+  the fileextension that mode is set.
+
+130209:
+
+-- Fixed a bug where other windows showing the same buffer would
+   sometimes not be updated while a "query-replace" was ongoing.
+
+- Removed the always-skip-initial-blanks optimization. It just causes
+  grief in the code.
+
+- Added mode for Powershell on Cygwin for files with extensions
+  ".ps1", ".psd1" and ".psm1". The automode is that an empty file is
+  set to CRLF and a file without a BOM is set to 8-bit.
+
+- Added a shortcut command "ubom" for switching both BOM and UTF-8 at
+  the same time.
+
+130107:
+
+-- Fixed a bug where input on the echo line limited in displayed
+   string width (ie buffer names) wasn't limited like that if the
+   input wrapped.
+
+-- Fixed a bug where not being able to allocate a help buffer would
+   lead to a crash.
+
+121205:
+
+-- Fixed another bug where a combined character wasn't updated
+   correctly.
+
+-- Fixed a bug where entirely blank lines wouldn't generate a '$' at
+   the end.
+
+121126:
+
+-- Fixed a bug where a base character, if repeated, and followed by a
+   combining mark would not get updated to the screen right when you
+   edited a line.
+
+-- Fixed a bug where a combined character at the end of a line at the
+   right edge of the screen would not be shown, instead the line would
+   be shown as if it were truncated due to being wider than the
+   screen.
+
+-- Fixed a bug where a combined character in the last position of the
+   echo line would not be shown, instead only the base character would
+   be shown.
+
+- The new variable "complete-fold-file" controls whether file and
+  buffer name completion is case-insensitive. Default is 1 on Cygwin,
+  0 otherwise.
+
+- Optimized to always skip over an initial indent in screen update
+  where a line was previously empty.
+
+- Changed the overlap on overlong echo line input from 1/8 to 1/2.
+
+121111:
+
+-- Fixed a bug where the byte 0xdf in a buffer was upcased wrong when
+   the locale wasn't recognized.
+
+-- Fixed a bug where "backward-delete-char-untabify" deleted only one
+   byte backward when the previous tab was followed by combining
+   characters.
+
+- Tidied up the error messages for completion a bit.
+
+121009:
+
+- There is now a variable "preserve-ligatures" to turn on extra screen
+  updates to preserve ligatures, so this is still functional. However,
+  turning it on leads to annoying cursor flashing in the Windows 7
+  console, if you don't have desktop composition on.
+
+120918:
+
+-- Fixed an off-by-one error in completion of keymaps.
+
+120826:
+
+-- Fixed a bug where file completion didn't work in the root.
+
+-- Fixed a bug where "/" was not appended to the name of a directory
+   during completion when the file spec was delimited by "//" or "/~".
+
+- Extra screen updates to preserve ligatures have been turned off, for
+  now. It's not clear whether they are needed.
+
+- The variables "advancedinput" and "advancedinputdebug" are obsolete
+  and don't exist anymore.
+
+- The variable "auto-trim-whitespace" has been renamed to "trim-
+  whitespace".
+
+- Setting variables that have been renamed continues to do the same thing
+  and setting variables that are obsolete does nothing with no error.
+
+- The delayed prompting for multi-key sequences has been turned off.
+  It never worked properly.
+
+- You can now complete and enter an abbreviated name with RET for
+  charset names, keymap names, and variable names.
+
+- Completion on the echo line has been changed to minimize cursor
+  flashing.
+
+120819:
+
+-- Fixed a bug where inputting nulls on the echo line was allowed.
+
+-- Fixed a bug where a non-spacing character that was input on
+   the echo line at the right edge of the screen would not be shown.
+
+- There is now input completion for command names, buffer names,
+  variable names, charset names and file names. Completion on buffer
+  names and file names is case-insensitive on Cygwin.
+
+  If the new variable "insert-default-directory" is set (set by
+  default), the completion of files works like in Emacs, pre-filling
+  in the directory of the current buffer.
+
+  If you complete a file when the input line is empty, the directory
+  of the current buffer is filled in.
+
+- A new command "delete-trailing-whitespace" removes trailing
+  whitespace from all lines in the current buffer, like in Emacs.
+
+- A new variable "auto-trim-whitespace" indicates whether whitespace
+  should be automatically trimmed in a buffer when it is saved.
+  Default is 0.
+
+- The compile options FKEYS and NO_STARTUP are now removed and no
+  longer do anything.
+
+- Character classification has been improved a bit when the locale
+  isn't known.
+
+- The blinking of parentheses has been simplified like in Portable and
+  OpenBSD Mg: The "blink-matching-paren-hack" function has a new name
+  "blink-and-insert" and is bound to ")" by default.
+
+  There is no longer a separate "blink" mode and there is no "blink-
+  matching-paren" command that does anything.
+
+- Completion for keymaps has been added (for the "define-key"
+  command). There is now a new command "list-keymaps" that lists the
+  keymaps.
+
+- More compatibility with Portable Mg: assigned "^X g" to "goto-line",
+  "^X n" to "other-window, and "^X p" to "previous-window".
+
+- The behavior of erase-backward on the echo-line has been changed to
+  erasing non-spacing characters together with the base character in
+  order to work better with completion.
+
+- New escapes for argument strings:
+
+  * Numbered function keys can now be referred to as "\fnn" where nn
+    is a one- or two-digit number (it can start with zero).
+
+  * Any named Terminfo string capability can be referred to as
+    "\{capability}". For example, the string for the Home key is
+    "\{khome}".
+
+    If a named capability does not exist, the current command is
+    ignored without error.
+
+  * Any unrecognized "\.." backslash sequence now causes the command
+    to be silently ignored. See README.misc for a list of valid
+    escapes.
+
+- Input on the echo line now handles long strings by shifting the text
+  sideways like in the editor.
+
+A slight difference in opening files: in Mg3a, if you enter a filename
+without a directory, the Unix default directory is used. In Emacs, the
+current buffer directory is used. I think the former choice fits
+better with a small editor, where you navigate to the directory first,
+and then start.
+
+120719:
+
+-- Fixed a bug where other dots and marks at the same place as the
+   current dot were wrongly moved to the new line after a "newline".
+
+-- Fixed a bug where if type "char" is signed, "list-macro" couldn't
+   list arguments beyond the 127th macro entry.
+
+-- Fixed a small bug where using an argument with "what-cursor-
+   position" at the end of a line would not show the linefeed
+   character (^J) in Unicode (U+xxxx) notation.
+
+-- Fixed some cosmetic overflow bugs by using size_t, off_t and
+   intmax_t.
+
+- The new "fill-paragraph" works quite differently from Emacs:
+
+  There is extensive documentation how "fill-paragraph" works in
+  README.reference and README.fill-paragraph. See the variable "fill-
+  options" in README.reference first.
+
+  The new "fill-paragraph" keeps the cursor in the same place where
+  you started.
+
+- There is a new "no-break" command. It changes a space to a no-break
+  space, or a hyphen to an en-dash. Otherwise it inserts a no-break
+  space. This innovation is not from Emacs.
+
+- Previously if you used a universal argument with "save-buffer-kill-
+  emacs" or "kill-emacs" to exit the editor, the exit status of the
+  program was set to 1. Now it's always set to 0.
+
+- There are a bit more elaborate error messages in Dired Copy and
+  Rename.
+
+120619:
+
+-- Previously a Dired listing was quit if lstat() got an error.
+   But that can't be the right behavior. Now an error is dealt
+   with more robustly (by ignoring it :-).
+
+-- Fixed multiple bugs in "kill-paragraph": not stopping at the end of
+   file, not adding multiple paragraphs to the killbuffer with a
+   repeat count, not supporting negative repeat count, leaving
+   detritus between paragraphs separated by several blank lines,
+   using/overwriting the mark.
+
+-- "quoted-insert" now stores its data as an ASCII number when
+   recording it in a macro in order to always be able to read it back.
+   It used to be stored as an UTF-8 character. That would sometimes
+   go wrong.
+
+-- When you write a Dired buffer with "write-file" the filename is
+   no longer set. Doing that would be confusing.
+
+- New features in Dired:
+
+  The filename display is now more complete with full file modes
+  'S', 's', 'T' and 't', number of links, user and group name, and
+  symbolic links.
+
+  Field widths are now auto-adjusting. User and group name are
+  shown as numeric uid or gid if they contain space or non-ASCII.
+
+  New functions bound like in Emacs:
+
+    "^X ^J"	"dired-jump"		Go to directory of file.
+    "^X 4 ^J"	"dired-jump-other-window"	"", other window.
+
+  New functions, or bindings, in Dired mode, like in Emacs:
+
+    "<"		"dired-prev-dirline"	Go to previous subdirectory.
+    ">"		"dired-next-dirline"	Go to next subdirectory.
+    "^"		"dired-up-directory"	Go up one directory level.
+    "g"		"revert-buffer"		Re-read directory.
+
+  "dired-unflag-backward" now unsets the delete flag on the line
+  above the current one, like in Emacs.
+
+  "dired-flag-file-deleted", "dired-unflag", and "dired-unflag-
+  backward", and "next-line" and "previous-line" in a Dired buffer
+  now move the cursor to the column of the filename.
+
+  "scroll-up", "scroll-down" and "beginning-of-buffer" also go to
+  the name column, not like in Emacs but prettier.
+
+  MINIDIRED does not exist anymore.
+
+  There is a new README.dired summarizing commands.
+
+- Symbolic links are now resolved in filenames before being
+  assigned to a buffer.
+
+- The key "^J" is now shown (or listed) as keyname "C-j" and null
+  as keyname "C-@", instead of "LFD" and "NUL", respectively. This
+  is like in Emacs and because "C-x LFD" looks stupid.
+
+- The compile-time options NO_DIR and MINIDIRED are no longer
+  valid and don't do anything.
+
+- "kill-buffer" has changed behavior to kill a buffer without
+  prompting even if it's modified if it has no associated file.
+  Emacs seems to do this. I suppose that makes sense, since they
+  are not auto-saved when you quit.
+
+- There is a new command "kill-buffer-and-window", like in Emacs,
+  that kills both the current buffer and its window. It's Emacs-
+  like assignment is "^X 4 0".
+
+- Paragraphs are now only delimited by blank lines.
+
+- "fill-paragraph", "forward-paragraph" and "backward-paragraph" have
+  all been re-written. They should work the same except for the
+  paragraph-delimiters.
+
+- "kill-paragraph" now works by moving forward/backward by paragraph
+  according to the repeat count, then killing text from the current
+  dot. This is how Emacs behaves.
+
+120527:
+
+-- Fixed a bug in macro execution where a universal argument in a
+   very long macro could access memory beyond the end of the array.
+
+-- Fixed a bug where using the routine ungetkey() interacted badly
+   with "bsmap" (DEL and BS would be swapped twice). It could happen
+   in "isearch-*" and "quoted-insert".
+
+-- You can now rename any files in Dired, not just regular files.
+
+- There is now a simple "list-macro" command which lists the current
+  keyboard macro in a helpbuffer.
+
+- Dired now stores an extra flag and data per line, and checks that
+  the lines are Dired lines before doing anything.
+
+- The internal macro-recording code in selfinsert() has been re-
+  written and de-uglified.
+
+- Newline is handled more consistently. It should now not be possible
+  to insert a ^J into a line using quoting.
+
+- Overwrite mode now works more like in Emacs with the addition
+  that it edits characters of different widths visually (according
+  to a fully capable terminal).
+
+- "quoted-insert" works more similar to Emacs:
+
+  The new variable "quoted-char-radix" sets the radix for digits used
+  in "quoted-insert". The default is 8.
+
+  In overwrite mode, "quoted-insert" now reads no digits, and always
+  inserts the next character.
+
+  In insert mode, "quoted-insert" now reads digits until you overflow
+  the code space, you type a RET to end the sequence, or you type
+  something else.
+
+120513:
+
+-- Fixed a bug in "split-window-vertically" where specifying an
+   invalid size would leak memory and miscount the number of mapped
+   windows on a buffer.
+
+-- Fixed a bug where a big (absolute) argument to "split-window-vertically"
+   would be reported as invalid 2 lines early.
+
+-- Fixed a bug in "shrink-window-if-larger-than-buffer" where the
+   cursor on the last line of the buffer could cause the window
+   to scroll.
+
+- Added an octal display to all displays of "what-cursor-position"
+  because I needed it.
+
+- Made output with "slow-mode" smoother at very slow speeds when the
+  terminal is not UTF-8.
+
+- If "split-window-vertically" splits a window and the cursor is in
+  the bottom half and backward-compatibility is not turned on, both
+  new windows are now recentered on dot, like in GNU Emacs.
+
+120428:
+
+-- Error in Changelog: "split-window" has in fact always had the
+   true name "split-window-vertically".
+
+-- Fixed a bug in the internal routine rescan() (used by minor modes)
+   that could overflow the input key sequence buffer.
+
+-- A second repeat count immediately after a numeric repeat count
+   is now disallowed (you can still use ^U to terminate a number).
+   Otherwise you could trigger infinite recursion.
+
+- Like Emacs, "shrink-window-if-larger-than-buffer" now doesn't
+  shrink if the first line of the buffer isn't displayed.
+
+- "split-window-vertically" now more like in Emacs always ends up in
+  the upper window. You can change back to the old behavior via the
+  variable "backward-compat". See README.reference.
+
+- An argument to "split-window-vertically" now specifies the size
+  of the window including modeline, like Emacs.
+
+- The implicit "goto-line" used by starting with "+line" now also
+  uses a "long".
+
+- More error-checking on reading files on the command line.
+
+- Changes in the tty handling with using term.h and the terminfo
+  database. A number of function keys like <home>, <end> are now
+  assigned. See README.bindings.
+
+- If you don't have <term.h> or on Cygwin <ncurses/term.h> you can
+  define NO_TERMH in the Makefile to skip it.
+
+- Pressing ^U before "what-cursor-position" now gets you the
+  character displayed as a Unicode codepoint U+xxxx for 8-bit and
+  UTF-8. For a combined character, Pressing ^U^U and ^U^U^U gets
+  you the Unicode as U+xxxx and as decimal.
+
+120405:
+
+-- Fixed bugs in interactive use of "describe-key-briefly", "global-
+   set-key", "global-unset-key", "local-set-key", "local-unset-key"
+   and the internal routine getkey() where a long key sequence
+   could overflow the prompt buffer.
+
+-- If Mg3a failed to allocate a buffer for a file on the command
+   line, you could get a spectacular crash.
+
+- New key assignments like in Emacs:
+    * "goto-line" 	to "ESC g g" and "ESC g ESC g"
+    * "next-buffer" 	to "ESC <right>"
+    * "previous-buffer"	to "ESC <left>"
+  <left> and <right> are the ANSI sequences.
+
+- "balance-windows" is a new function, works like in Emacs, bound to
+  "^X +". "shrink-window-if-larger-than-buffer", ditto, bound to
+  "^X -".
+
+- "split-window" with an argument now acts like in Emacs. A positive
+  argument sets the size of the upper window and a negative one sets
+  the size of the lower window.
+
+- Because it was easy to do, added two new functions to Buffer Menu:
+  "Buffer-menu-2-window" and "Buffer-menu-switch-other-window".
+  Bound like Emacs etc.
+
+- The Makefile option NO_HELP is no longer valid and doesn't do
+  anything.
+
+120327:
+
+Full Unicode input and key binding.
+
+-- Fixed a bug in "load", "eval-current-buffer", and "eval-expression",
+   where a too long argument could overflow a buffer.
+
+-- Fixed a bug in "load", "eval-current-buffer", and "eval-expression",
+   where it was possible to use "\" to skip past the end of the line.
+
+-- Fixed a bug in "load", "eval-current-buffer", and "eval-expression",
+   where non-ASCII characters got garbled. They are now instead
+   interpreted in the locale's charset.
+
+-- A line with many tabs could lead to integer overflow when computing
+   the column.
+
+-- Fixed a bug in the "load" command where file read errors could
+   lead to execution errors or a crash. In particular this could
+   happen if the file was a directory.
+
+-- Fixed a bug where "scoll-other-window" would scroll the previous
+   window with a negative argument.
+
+-- Removed possible integer overflows in utility routines for string
+   copying/concatenating and window position save/restore.
+
+-- When unbinding a key, the last key in the sequence is now echoed.
+   Otherwise it looks confusing.
+
+- Terminal input is now always translated to Unicode, first, and
+  UTF-8 input is supported in all places. Previously there were
+  some exceptions.
+
+- Key assignments are now to a sequence of Unicode codepoints,
+  not to a sequence of bytes.
+
+- "describe-bindings" now lists non-ASCII keys as U+xxxx.
+
+- If the locale's charset is not recognized, the editor works with
+  raw bytes as before. "describe-bindings" then lists in octal.
+
+- The "load" command now gives error messages if the file does not
+  exist, is a directory or is not readable.
+
+- The "load" and "eval-current-buffer" commands can now handle lines
+  up to twice the maximum length of a filename (earlier 127 bytes),
+  and there is an error message if the line is longer.
+
+- If you really needed "goto-line" to go to lines > 2G, you can do
+  that now.
+
+- Made a new key assignment of "backward-paragraph" and changed
+  "forward-paragraph" to "ESC {" and "ESC }" like in Emacs.
+
+- Bound "eval-expression" and "toggle-read-only" to "ESC :" and
+  "^X ^Q" like in Emacs.
+
+- Added the trivial function of doubtful usefulness "find-file-
+  read-only-other-window" bound to "^X 4 r" because, what else,
+  it's in Emacs.
+
+- GNU Emacs names the functions to select buffers in "*Buffer
+  List*" with a capital "B". That means it's unambiguous what
+  "Buffer-menu-other-window" means. The functions in "bufmenu"
+  mode in Mg have been renamed accordingly, and the new function
+  "buffer-menu-other-window" with a lowercase "b" starts instead
+  up buffer menu in another window like in GNU Emacs.
+
+- Added the function "scroll-other-window-down" like in GNU Emacs.
+
+- The key binding code is still very unsafe. But have increased
+  a buffer of keyboard input to double the size to deal with
+  modern escape sequences and put in some checks.
+
+120315:
+
+-- The program wouldn't link if DIRED was not defined. Fixed. Also
+   checked with/without the other compile-time options.
+
+-- Fixed a bug in screen handling where the first line would not be
+   cleared when erasing to end of screen, if the terminal understands
+   neither erase-to-end-of-screen nor erase-to-end-of-line escape
+   sequences.
+
+- Documented that an argument to "save-some-buffers" saves all
+  modified buffers without asking. Also, it now does that for
+  any argument, not only universal-argument (^U).
+
+- In a Dired buffer, "scroll-up" and "scroll-down" now preserve the
+  screen column.
+
+- Staying closer to the Unicode specification: the UTF-8 decoder will
+  now recognize 0xfdd0 to 0xfdef and anything that has the last 16
+  bits as 0xfffe or 0xffff as invalid.
+
+120308:
+
+-- Fixed memory errors that would happen if the screen cache could
+   not be allocated.
+
+120217:
+
+--- Serious bug fixed: TAB didn't insert a tab unless you had
+    SOFTTAB defined.
+
+-- Fixed a problem where "delete-char" and "delete-backward-char"
+   would allocate too much memory when the repeat count is
+   bigger than the number of characters available to delete.
+
+- The modeline always got updated for "tab-region-right" and
+  "tab-region-left" and that is not needed.
+
+120201:
+
+-- Invalidate the screen cache when a variable is set so that the
+   screen really gets rewritten, because character translation can
+   have changed.
+
+- With an argument, "list-buffers" and "buffer-menu" now show the
+  number of lines in addition to the size of the buffer. The numbers
+  are shown right-justified and in wider fields.
+
+120104:
+
+-- Fixed a (remotely possible) overflow bug when a Dired buffer has
+   more than 2G lines when compiled for 32 bit on a 64 bit system.
+
+-- Fixed a bug where other windows with the same buffer would not
+   get fully updated if "query-replace" made replacements on
+   multiple lines.
+
+-- Fixed a bug where "dired-do-deletions" would not update other
+   windows mapping the same buffer.
+
+- Changed the maximum file/path name length to PATH_MAX (from
+  limits.h).
+
+- Instead of exiting with a message when given an overlong
+  filename, just show a message.
+
+- The variable "kill-whole-lines", when set, makes "kill-whole-line"
+  stay in the same column, and set a flag that makes a subsequent
+  "yank" yank whole lines.
+
+- Screen updates have been optimized more.
+
+111207:
+
+-- Fixed a bug in "yank" where dots in other windows and marks
+   in all windows would end up after an inserted multi-line text
+   rather than before it if they were at the position of the
+   current dot to begin with.
+
+-- "revert-buffer" now reparses the content for charset, newlines,
+   BOM etc, as "find-file" does with a new file.
+
+- Optimized "yank" some more when translating charsets.
+  Improvement 2-10 times.
+  Russian from cp1251 to utf-8: 2.5 times.
+  Russian from utf-8 to cp1251: 6 times.
+  ASCII from utf-8 to cp1252: 10 times.
+
+- Fixed multinational file parsing to work in Cygwin version
+  1.7.10 and greater.
+
+111122:
+
+-- A sorting error made it impossible to find the name for the
+   function "buffer-menu-this-window".
+
+-- Keyboard macros are now recorded in the terminal charset, and
+   translated to the buffer charset when used.
+
+- If the SLOW option is enabled the slowest speed allowed is now
+  70 baud.
+
+- Three files, re_search.c, regex.c and regex.h were removed; all
+  source files that are included should now be public domain.
+
+- The default compile has been changed to include everything GNU
+  Emacs and Mg2a-like. This means DIRED, PREFIXREGION and NOTAB are
+  enabled by default.
+
+- The REVERT Makefile option is now mandatory and need not be given.
+  Also, the "revert-file" command now has an alias "revert-buffer".
+  It's called "revert-buffer" in GNU Emacs.
+
+- The SHIFTREGION option is documented in the Makefile. It creates
+  commands for shifting the region one tab to the left or right,
+  suitable for K&R-style.
+
+On readonly: In GNU Emacs, a file that is readonly to you gets a
+readonly buffer, but why? One can argue that there is an illusion that
+the buffer represents the file so that it should be readonly so that
+you can't edit it in place. But you're not doing it like that: you are
+reading the file into the program, modifying it, and possibly writing
+it back. Maybe you want to modify the buffer, use the text for
+something, then kill the buffer, or the editor, so why make it harder
+by making the buffer readonly?
+
+Once readonly isn't used for files, there is little point in including
+an indicator for it in the buffer list. Instead readonly is useful for
+system buffers, like Dired and help, so that the special commands can
+be a minor mode, and any global commands that don't modify the buffer
+can still be used, for example commands to switch window or buffer.
+
+Indeed, the whole idea of a major mode seems to have been a mistake:
+there is no point in disabling any global commands you may have
+assigned that don't modify the buffer.
+
+111015:
+
+-- The integer overflow detection code turned out to be not so good.
+   Hopefully improved via the help of Google.
+
+-- Fixed a bug where using different kinds of arguments (universal-
+   argument, digit-argument, negative-argument) in combination
+   would disable macro-recording.
+
+-- The cursor placement code now always computes that a zero-width
+   character that can't be represented in the terminal charset
+   has a width of 1 to match the display code.
+
+-- Made the second ^U in ^U1234^U terminate the argument digit
+   sequence like in GNU Emacs.
+
+-- "kill-whole-line" should now behave like in GNU Emacs also for
+   0 and negative arguments.
+
+-- Having "explode-character" insert a <space> before each combining
+   character could cause problems with the definition of whitespace.
+   Now <no-break-space> is used instead.
+
+-- Fixed "query-replace" when "case-fold-search" is true to replace
+   text with upper/lower/title case also for ligatures and digraphs.
+
+-- "capitalize-word" no longer marks the buffer modified if the
+   digraphs DZ, DZ WITH CARON, LJ, and NJ at the beginning of a
+   word are already in titlecase.
+
+-- Macros now preserve flags, so that the macro can see the
+   difference between "^U" and "^U 4".
+
+- Optimized the killbuffer. Yanks and copy-region are 10 times
+  faster. Kills are about twice as fast.
+
+- Memory space in a line is now recovered if content is removed.
+
+- Overflow checking was added for arguments and region size, in
+  addition to for memory allocation.
+
+- Speeded up file reading and writing by using fread/fwrite.
+
+- Speeded up the reading of long lines from disk by using a non-
+  quadratic algorithm.
+
+110915:
+
+-- Fixed a bug where other windows mapping the same buffer would not
+   get fully updated if "upcase-word"/"downcase-word"/"capitalize-word"
+   /"transpose-word" affected words on multiple lines.
+
+-- Fixed "transpose-word" to put the cursor at a more reasonable place
+   if there is only one word in the buffer and the cursor is before
+   that word.
+
+- "transpose-word" now uses the search definition of a word, where
+  "_" is included.
+
+110904:
+
+-- Fixed a bug where input of an integer would return 1 if the
+   input string contained at least one whitespace character and
+   only whitespace.
+
+-- Fixed a limitation where "recenter" and "recenter-top-bottom"
+   couldn't reframe to an arbitrary line if the terminal had more
+   than 127 lines.
+
+- Documented the "recenter-redisplay" variable.
+
+- There is now a "dired-find-file-one-window" analogously to
+  "buffer-menu-one-window".
+
+- "what-cursor-position" now shows the character code point as
+  (dec, oct, hex) rather than (oct, dec, hex).
+
+- Done away with the "-dos" indicator in the modeline. The charset
+  is shown instead.
+
+- A new command, "set-alternate-charset" lets you set the Dos charset.
+  Default is CP437. This charset is used by the automode on Cygwin
+  for .cmd and .bat files and by the "dos" command.
+
+- There is a new variable "modeline-show" which controls what
+  is shown in the modeline. See README.reference.
+
+110825:
+
+-- Fixed a bug where a symbolic link to a non-existent file would
+   stop the Dired listing.
+
+-- Fixed a bug where case-insensitive compare of I, i, I-width-dot,
+   i-without-dot would not work consistently because of a bug in
+   Cygwin.
+
+-- Fixed "insert-with-wrap" to always count zero-width characters
+   as zero-width, like "fill-paragraph" does.
+
+- When starting mg with "mg +line file" the window is now recentered
+  on dot.
+
+- Renamed the minor mode "bufed" to "bufmenu" for more similarity
+  with Emacs.
+
+- There is now a "recenter-top-bottom" command like in Emacs, bound
+  to ^L. There is also a variable "recenter-redisplay" that tells
+  whether to clear the screen. Default is 0.
+
+- There is now a "append-next-kill" command like in Emacs, bound
+  to "ESC ^W".
+
+- "emacs-version" now reports the version as "Mg3a, version yymmdd".
+
+- "capitalize-word" now handles translations for Unicode digraphs
+  DZ, DZ WITH CARON, LJ, and NJ.
+
+- SCROLLBYONE was implemented a bit differently. Now no matter
+  how you arrive one line outside of the window, it will scroll
+  by one.
+
+- "revert-file" can now refresh a Dired buffer.
+
+- "transpose-words" can now transpose two adjacent words generally,
+  not only within one line.
+
+- Removed the old definition of a word for word movement where
+  "$", "%", and "'" were considered part of a word. The definition
+  of a word is now Unicode alphanumerics + nonspacing characters.
+  For word search, "_" is also included.
+
+110808:
+
+-- Fixed a bug in Dired where examining "/" would not work.
+
+-- Fixed a bug in Dired where a directory was left open if there
+   was an error while generating the list of filenames.
+
+- More informative error messages in Dired than "Problem opening
+  directory".
+
+- Removed internal debug stuff where the environment variable
+  "slowspeed" would set slow-mode.
+
+- Mg3a is now so tolerant that it only demands cursor positioning.
+
+110803:
+
+-- Fixed a bug in cursor positioning at the bottom line of a
+   window in rare cases on Cygwin.
+
+-- The filesize in Dired should now be displayed correctly even if
+   bigger than 2 GB on a 32-bit system.
+
+-- Made all combinations of kill and copy-region commands chained
+   after each other prepend/append to the killbuffer correctly.
+
+-- In 32-bit mode, the killbuffer is now limited to 2 GB. Ancient
+   code got it right, but intermediate code got it wrong.
+
+- "next-line" acted as if there were an empty line at the end of
+  a buffer. Now "kill-line", "newline" and "end-of-buffer" also
+  do that.
+
+- "revert-file" now clears the mark.
+
+- Mg now shows an error message if a visited file exists but
+  isn't readable.
+
+- The Makefile options XKEYS and BSMAP are now mandatory and need
+  not be given.
+
+- The NO_BACKUP option is now removed from the default Makefile
+  compile and making backups are supported.
+
+- The status of "bsmap-mode" and making backups is visible as
+  variables "bsmap" and "make-backup". Both default to 0.
+
+- SCROLLBYONE is now always compiled in. The scrolling of windows
+  is set via the variable "window-scroll". Default is 0 (Emacs
+  default scrolling). 1 scrolls the window by one line at a time.
+
+- LF line delimiters are now the default on Cygwin.
+
+110724:
+
+-- Fixed a bug where "kill-buffer" could core dump when you kill
+   buffers repeatedly and there are several windows.
+
+-- Show/don't show the default 8-bit charset in the modeline
+   correctly even if you change the default 8-bit charset
+   afterwards.
+
+-- Finally tested when the terminal can't either clear to end of
+   line or to end of screen. Fixed two more bugs.
+
+-- Undone a bug where a directory in the buffer list would be
+   modified.
+
+- There is now help in Dired and Bufed by pressing "h" or "?".
+
+- The name of the Dired function dired-backup-unflag has been
+  changed to dired-unflag-backward for better discoverability.
+
+- When DIRED is enabled, "find-file" and "find-file-other-window"
+  now call dired when the file is a directory. When DIRED is not
+  enabled, the same functions check for a directory and give an
+  error message, and any file arguments on the command line that
+  are directories are ignored.
+
+- MINIDIRED was expanded to include all commands that aren't
+  file-on-disk-manipulation (ie file delete, copy or rename).
+
+- Tweaked "quit-window" to prefer non-system buffers.
+
+- Dired buffers are now shown in *Buffer List* with a trailing
+  "/" on the filename.
+
+- Help buffers are now read only with minor mode "helpbuf".
+
+- Added a "ignore-errors" command that works like
+  "execute-extended-command" but ignores errors.
+
+- Made a command "nil" available for use when undefining a key.
+
+- Messages in the echo-line are now cleared after the next
+  command.
+
+- Optimized cursor movement a bit.
+
+110719:
+
+- The codepages added in 110714 are actually the missing Windows OEM
+  codepages from http://msdn.microsoft.com/en-us/goglobal/bb964655
+
+- There is now a read-only mode for a buffer. Toggled by
+  "toggle-read-only".
+
+- There is now a "find-file-read-only" command bound to "^X ^R".
+
+- The Dired buffer is now readonly and dired is a minor mode not
+  a major one so that user keybindings work.
+
+- A Dired buffer is indicated in the *Buffer List* with "dir"
+  instead of the ordinary flags.
+
+- If a directory is revisited in Dired, the dot is now put at the
+  beginning of the buffer.
+
+- Return in Dired mode now visits a file since that seems more
+  practical.
+
+- "^X 4 d" is now bound to dired-other-window.
+
+- Added a "quit-window" command. Bound to "q" in Dired and Bufed
+  modes.
+
+- "list-charsets" with an argument list only the charset names.
+
+- The Makefile options GOSMACS and GOTOLINE are now mandatory and
+  need not be given. The NO_DIRED option is changed to the positive
+  DIRED and Dired is no longer compiled in by default.
+
+- There is a MINIDIRED option for a smaller version of Dired with
+  only find-file and quit.
+
+- There is now a simplified implementation of GNU Emacs's Buffer
+  Menu as a minor mode in *Buffer List*. See README.reference.
+
+- Stray line2.c file removed.
+
+- Documentation in README.* files updated generally.
+
+
+Even though there are many updates to Dired, it is no longer the
+default. I always felt that you have the shell, with wildcards,
+history and file name completion for manipulating files. I never felt
+much use for Dired. On the other hand, manipulating the buffers inside
+Emacs is more useful because, after all, you can't do it outside. So
+Bufed is more useful than Dired. In my opinion.
+
+110714:
+
+- Made abort possible at search-all prompt.
+
+- Made the charset representation half the size for a smaller
+  executable.
+
+- Added charsets CP737, CP775, CP850, CP852, CP855, CP857, CP858,
+  CP866, KOI8-R, KOI8-U.
+
+- Documented the SCROLLBYONE option in the Makefile.
+
+- Fixed a possible formatting overflow in "what-cursor-position" with
+  extreme-sized buffers.
+
+- Made redisplay work in the echo-line even if the terminal is not
+  capable of doing an erase to end of line.
+
+- Minor cosmetic fixes for control characters overflowing an editor line
+  and for double-width characters being cut off in a modeline in a very
+  narrow window.
+
+- Added word search, toggled by "word-search-mode" command. This is not
+  done like in GNU Emacs. Whether it's on or off is visible as the
+  variable "word-search" (initially zero).
+
+- The command "case-fold-mode" toggles case folding for search.
+
+- The fill-column is now visible as variable "fill-column".
+
+- Fixed a long-standing bug mapping a window to a buffer which is
+  already visible in one of at least two other windows which are
+  mapped to at least two different buffers where the buffer you
+  are mapping to is not in the top window on screen.
+
+110518:
+
+-- Most important fix: Fixed a bug where a NUL character was considered to
+   have a zero width.
+
+- "emacs-version" returns just "Mg3a".
+
+- Documented that file names are now case insensistive on Cygwin.
+
+- Fixed some finer points of buffer-name completion with UTF-8.
+  Still always case-sensitive though.
+
+- Case-insensitive search work with all combinations of I, i, I-with-dot
+  and i-without-dot.
+
+- Changed some algorithms to deal with very long lines in linear rather
+  than quadratic time.
+
+- Fixed "capitalize-word" to deal with special characters.
+
+- Documented the "manual-locale" variable.
+
+- Fixed modeline to not overflow in narrow display.
+
+- Fixed translation bug with echo-line input of high-bit-set character
+  on 8-bit terminal.
+
+- Updated the buffer list and widened fields slightly.
+
+- Fixed "delete-backward-char" to save to the killbuffer in the
+  backward direction.
+
+- Fixed a spurious error message with SEARCHALL if there is only one
+  buffer to search.
+
+- Fixed a possible bug with SEARCHALL if the first buffer during
+  search was removed.
+
+- Small changes to "insert-with-wrap" to get the exact same result as
+  "fill-paragraph".
+
+- Multiline kills backward now finally work correctly.
+
+- Added "delete-region" command.
+
+110409:
+
+- Display double-wide characters on 8-bit terminal as two question-marks,
+  earlier only one.
+
+- Fixed two bugs with CP874: it contains zero-width characters and has the
+  alias "TIS-620".
+
+- Fixed bug in charset translation from bogus UTF-8 to 8-bit.
+
+- Fixed bug of not being able to abort on slow-mode prompt.
+
+- Mg3a is now full 64 bit on a 64 bit system.
+
+- The variable "ambiguous-wide" is replaced with "width-routine". Default
+  is 0 on all systems. 0 = use the system width routine, 1 = use Markus
+  Kuhn's routine with ambiguous-wide = 1, 2 = use MK's routine  with
+  ambiguous-wide = 2.
+
+- Fixed a display bug with a shifted line with a tab in the shifted part.
+  Also enabled more efficient display of shifted lines.
+
+- Case-insensitivity works for almost all characters (earlier only ASCII)
+  in search. Upcasing in addition handles common latin lowercase ligatures
+  like German double-s and fi, fl and ffl that don't have an upper-case
+  equivalent.
+
+- There is a variable "manual-locale". Default is 0. If set to 1 upcase/
+  downcase work in the Turkish way.
+
+- There is a new option SEARCHALL in the Makefile. It enables two new
+  commands "search-all-forward" and "search-all-backward". They search
+  through all non-system buffers instead of just the current one. With
+  a repeat count they ask for a pattern. Not enabled by default.
+
+- Documented the option LF_DEFAULT in the Makefile, for always making LF
+  the default line-end character.
+
+- Cleaned up code, ANSI-fied everything, made it easier to add
+  multi-byte charsets.
+
+- if PREFIXREGION is enabled in the Makefile, it now handles multi-
+  national characters.
+
+- Fixed a problem with ~/ and ~name/ filenames not working on Cygwin.
+
+- Made it possible to use ~ with "cd".
+
+- Made the code more robust against overlong filenames.
+
+- There is a first implementation of "transpose-words" (only within a
+  single line).
+
+- Non-spacing characters are now always inserted, even in overwrite mode.
+
+- There is a nicer refresh of the file list in dired when using "copy"
+  and "rename".
+
+- A new option in the Makefile REVERT creates a "revert-file" command
+  that reverts a buffer to the file contents on disk. Not on by default.
+
+110304:
+
+- In Cygwin, the width of characters is now handled by the system. On
+  other systems there is a new variable "ambiguous-wide" which can
+  be set if ambiguous-width characters are to be considered wide.
+
+- An error in keymap.c sorting nobom/no-tab-mode wrong has been fixed.
+
+- "emacs-version" now returns "Mg3a"
+
+- Fixed a crash bug in "apropos" by temporarily removing the key
+  sequence listing.
+
+- There is now a simple "dired".
+
+- The length of an editor line has been limited to 512 MByte and the
+  killbuffer to 1 GByte to harden it for 64-bit systems.
+
+- File opens are now done in non-binary to deal properly with text mounts.
+
+- Some old configuration files are included in sys/. They aren't used
+  anymore, but could be used as examples.
+
+- Copyright in the README has been made a bit clearer. It's public domain,
+  with a few exceptions listed in orig/README.
+
+- The options in the Makefile have been updated and documented.
+
+110223:
+
+- Original
