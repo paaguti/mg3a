@@ -10,8 +10,14 @@ His repository has not been updated since the 4th of April, 2017.
 
 ## Intent of this repository
 
-The intent of this repository is to get a home for further developing this very nice piece of software
+The intent of this repository is to preserve the original code and
+establish a home for further developing this very nice piece of software.
 
 ## Licensing, etc. 
 
 Refer to the different README.* files
+
+## Ways of working
+
+Always preserve the original code. Use quilt to add features correct bugs. The home for the patches is in debian/patches
+
