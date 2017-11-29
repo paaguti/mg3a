@@ -16,6 +16,6 @@ Description: mg3a: MicroEmacs-based editor with UTF-8 support
   and key-bindings similar to GNU Emacs.  It is a development of the
   earlier public domain Mg2a editor, with the addition of functions to
   deal with UTF-8, CRLF/LF line endings, and some other updates.
-
+  --
   In addition, allows to pipe form stdin into a special buffer for further
   editing.
