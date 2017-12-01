@@ -55,25 +55,6 @@
  
  test: COPT += -Wall -Wextra -Wno-unused-parameter
  
-@@ -96,6 +109,18 @@
- install: install-bin install-doc install-data
- 
- # end install entries
-+#
-+# entries to apply the quilt patches (Homebrew and BSD)
-+
-+quilt:
-+	patch -p1 < debian/patches/01-pipein.diff
-+	patch -p1 < debian/patches/02-Makefile.bsd
-+
-+unquilt:
-+	patch -R -p1 < debian/patches/02-Makefile.bsd
-+	patch -R -p1 < debian/patches/01-pipein.diff
-+
-+# end quilt
- 
- $(OBJ):		$(INCS) $(OINCS)
- 
 --- a/version.c
 +++ b/version.c
 @@ -5,7 +5,7 @@
@@ -81,7 +62,7 @@
  #include	"def.h"
  
 -char version[] = "Mg3a, version 170403";
-+char version[] = "Mg3a, version 171122";
++char version[] = "Mg3a, version 171201";
  
  
  /*
