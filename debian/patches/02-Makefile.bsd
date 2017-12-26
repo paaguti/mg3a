@@ -46,15 +46,30 @@
  
  # Everything.
  #CDEFS	= -DALL
-@@ -66,7 +79,7 @@
+@@ -66,11 +79,18 @@
  OINCS =	ttydef.h sysdef.h chrdef.h cpextern.h
  INCS =	def.h
  
 -doit: mg
-+all: mg
+-
+-test: COPT += -Wall -Wextra -Wno-unused-parameter
+-
+-test: mg
++# This target is needed for BSD ports
++#
++all:
++	$(MAKE) CDEFS="-DDIRED \
++-DPIPEIN \
++-DPREFIXREGION \
++-DCHARSDEBUG \
++-DSEARCHALL \
++-DLANGMODE_PYTHON \
++-DLANGMODE_CLIKE  \
++-DUSER_MODES \
++-DUSER_MACROS" mg strip
  
- test: COPT += -Wall -Wextra -Wno-unused-parameter
- 
+ mg:	$(OBJ)
+ 	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBS)
 --- a/version.c
 +++ b/version.c
 @@ -5,7 +5,7 @@
