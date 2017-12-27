@@ -6,7 +6,8 @@ CATEGORIES=	editors
 MASTER_SITES=   http://github.com/paaguti/mg3a/archive/
 DISTNAME=	171201
 
-PATCH_SITES=	https://raw.githubusercontent.com/paaguti/mg3a/master/debian/patches/
+#PATCH_SITES=	https://raw.githubusercontent.com/paaguti/mg3a/master/debian/patches/
+PATCH_SITES=	https://raw.githubusercontent.com/paaguti/mg3a/e57e99bbea7b123c4e8886cf8f7f7c0c0df3eceb/debian/patches/
 PATCHFILES=	01-pipein.diff 02-Makefile.bsd
 PATCH_DIST_STRIP=	-p1
 
