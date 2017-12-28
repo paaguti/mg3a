@@ -1,0 +1,6 @@
+This is Mg3a, a public domain MicroEMACS-based editor with commands
+and key-bindings similar to GNU Emacs.  It is a development of the
+earlier public domain Mg2a editor, with the addition of functions to
+deal with UTF-8, CRLF/LF line endings, and some other updates.
+
+WWW: https://github.com/paaguti/mg3a

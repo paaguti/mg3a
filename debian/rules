@@ -7,14 +7,13 @@
 %:
 	dh $@ --with quilt
 
+# clean and strip are OK
+
 override_dh_auto_build:
 	$(MAKE) \
-	CDEFS="-DPIPEIN -DDIRED -DPREFIXREGION -DSEARCHALL \
-	-DLANGMODE_PYTHON -DLANGMODE_CLIKE \
-	-DUSER_MODES -DUSER_MACROS" \
 	CC=gcc \
 	COPT="-O3 $(shell pkg-config --cflags ncursesw)" \
-	LIBS=$(shell pkg-config --libs ncursesw) clean all strip
+	LIBS=$(shell pkg-config --libs ncursesw) all
 
 override_dh_auto_install:
 	make DESTDIR=$(shell pwd)/debian/mg3a PREFIX=/usr install

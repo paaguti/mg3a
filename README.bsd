@@ -1,0 +1,13 @@
+20171226:	A first version of the FreeBSD port infrastructure
+
+I have created a first version of the infrastructure needed to install
+mg3a from the ports. Files are part of the 02-Makefile.bsd patch
+
+To install mg3a on FreeBSD using the ports:
+
+git clone <repo>
+cd mg3a
+quilt push -a
+cd sys/bsd
+sudo make install
+sudo make clean

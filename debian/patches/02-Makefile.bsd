@@ -31,7 +31,17 @@
  #	PREFIXREGION	-- enable function "prefix-region"
  #	CHARSDEBUG	-- A debugging tool for input/output
  #	SLOW		-- Implement "slow-mode" command for emulating a slow terminal
-@@ -33,7 +40,13 @@
+@@ -25,6 +32,9 @@
+ #	USER_MODES	-- Include commands for creating and deleting user-defined modes.
+ #	USER_MACROS	-- Include commands for creating and listing named macros.
+ #	ALL		-- Include everything above except NO_TERMH.
++#	NO_CMODE	-- With -DALL, disable LANGMODE_C
++#	NO_UCSN		-- With -DALL, disable USCNAMES
++#	NO_PIPEIN	-- With -DALL, disable PIPEIN
+ 
+ # Minimal, with debug
+ #CDEFS	= -DCHARSDEBUG -DSLOW
+@@ -33,7 +43,13 @@
  #CDEFS	= -DBSMAP=1 -DMAKEBACKUP=1
  
  # Everything GNU Emacs and mg2a-like by default
@@ -46,34 +56,21 @@
  
  # Everything.
  #CDEFS	= -DALL
-@@ -66,7 +79,7 @@
+@@ -66,11 +82,10 @@
  OINCS =	ttydef.h sysdef.h chrdef.h cpextern.h
  INCS =	def.h
  
 -doit: mg
-+all: mg
+-
+-test: COPT += -Wall -Wextra -Wno-unused-parameter
++# The 'all' target is needed for BSD ports and handy for the rest
  
- test: COPT += -Wall -Wextra -Wno-unused-parameter
+-test: mg
++all:
++	$(MAKE) CDEFS="-DALL -DNO_CMODE -DNO_UCSN" mg strip
  
-@@ -96,6 +109,18 @@
- install: install-bin install-doc install-data
- 
- # end install entries
-+#
-+# entries to apply the quilt patches (Homebrew and BSD)
-+
-+quilt:
-+	patch -p1 < debian/patches/01-pipein.diff
-+	patch -p1 < debian/patches/02-Makefile.bsd
-+
-+unquilt:
-+	patch -R -p1 < debian/patches/02-Makefile.bsd
-+	patch -R -p1 < debian/patches/01-pipein.diff
-+
-+# end quilt
- 
- $(OBJ):		$(INCS) $(OINCS)
- 
+ mg:	$(OBJ)
+ 	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBS)
 --- a/version.c
 +++ b/version.c
 @@ -5,7 +5,7 @@
@@ -81,7 +78,39 @@
  #include	"def.h"
  
 -char version[] = "Mg3a, version 170403";
-+char version[] = "Mg3a, version 171122";
++char version[] = "Mg3a, version 171217";
  
  
  /*
+--- a/def.h
++++ b/def.h
+@@ -12,9 +12,28 @@
+ #define UCSNAMES
+ #define USER_MODES
+ #define USER_MACROS
+-#define WITH_PIPEIN
++#define PIPEIN
+ #endif
+ 
++#ifdef NO_CMODE
++# ifdef LANGMODE_C
++#  undef LANGMODE_C
++# endif
++#endif
++
++#ifdef NO_UCSN
++# ifdef UCSNAMES
++#  undef UCSNAMES
++# endif
++#endif
++
++#ifdef NO_PIPEIN
++# ifdef PIPEIN
++#  undef PIPEIN
++# endif
++#endif
++
++
+ /* Obligatory definitions */
+ 
+ #undef NO_MACRO

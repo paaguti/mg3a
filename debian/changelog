@@ -1,3 +1,8 @@
+mg3a (171227-1) unstable; urgency=low
+
+  * Align with FreeBSD port and OSX Brew personal tap
+
+ -- Pedro A. Aranda <paag@unknown>  Tue, 14 Nov 2017 14:11:24 +0100
 mg3a (171122-1) unstable; urgency=low
 
   * normalise patch series, include PIPEIN as an option
