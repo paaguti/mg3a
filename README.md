@@ -11,7 +11,7 @@ As of the 15th of December 2017, www.bengtl.net became inaccessible and thus the
 
 ## Intent of this repository
 
-The intent of this repository is to preserve the original code and establish a home for further developing this very nice piece of software. My focus will be on Debian/ubuntu, OSX and FreeBSD, which are the three operating systems I use. I'll try not to break to much things and keep compatibility wiht MinGW/CygWin (although it's ages I haven't actively developed anything for that environment)
+The intent of this repository is to preserve the original code and establish a home for further developing this very nice piece of software. My focus will be on Debian/ubuntu, OSX and FreeBSD, which are the three operating systems I use. I'll try not to break things too much and keep compatibility wiht MinGW/CygWin (although it's ages I haven't actively developed anything for that environment)
 
 ## What is original, what has been added
 
