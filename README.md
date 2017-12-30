@@ -14,7 +14,7 @@ The intent of this repository is to preserve the original code and establish a h
 
 ## What is original, what has been added
 
-The closest to the original code is the first tag in this github. My initial additions have initially been included as patches in the Debian building infrastructure (which is also mine) I have included a FreeBSD ports directory under sys/bsd and the Homebrew .rb file from my OSX Homebrew personal tap. under sys/osx
+The closest to the original code is the first tag (20171130) in this github. My initial additions have initially been included as patches in the Debian building infrastructure (which is also mine) I have included a FreeBSD ports directory under sys/bsd and the Homebrew .rb file from my OSX Homebrew personal tap. under sys/osx
 
 ## Licensing, etc. 
 
