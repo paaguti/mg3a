@@ -1,5 +1,14 @@
 Startup files:
 
+Starting from 170703, Mg can be placed at the end of a pipe.
+It will then read the pipe and display the output in
+a READ ONLY buffer named *stdin*:
+
+ls | mg
+
+Time consuming commands will make mg to show the *scratch* buffer until
+the pipe is fully read.
+
 For compatibility, Mg reads two startup files if they exist, .mg-$TERM
 and .mg, in that order. Startup execution is below.
 
@@ -35,6 +44,7 @@ Startup execution:
   endif
   load "-L" script
   visit file(s)
+  read stdin to *stdin* buffer if mg at end of pipe
   goto "+" line
   load "-l" script
   execute "-e" commands.

@@ -50,6 +50,14 @@ writebuf(char *buf, INT len)
 }
 
 
+INT ffrset(FILE *f) {
+	if ((ffp = f) == NULL)
+		return FIOFNF;
+	io_buflen = 0;
+	io_bufptr = 0;
+	return FIOSUC;
+}
+
 /*
  * Open a file for reading.
  */
@@ -57,13 +65,7 @@ writebuf(char *buf, INT len)
 INT
 ffropen(char *fn)
 {
-	if ((ffp=fopen(fn, "r")) == NULL) {
-		return FIOFNF;
-	}
-
-	io_buflen = 0;
-	io_bufptr = 0;
-	return FIOSUC;
+	return ffrset(fopen(fn, "r"));
 }
 
 

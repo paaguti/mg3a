@@ -1,11 +1,17 @@
 # Makefile for Mg 3a
 
-CC=gcc -pipe
-COPT=-O2
+# These are defaults, change them in your external build tool
+# * in Linux, you can use pkg-config to customize ncurses libs and includes
+# * in Cygwin, set CC=gcc
+# * in xBSD or Darwin, set CC=clang
 
-#LIBS		= -lncurses	# Try if -lcurses doesn't work
-LIBS		= -lcurses
-PREFIX 		?= /usr/local	# For install entries
+CC=cc
+COPT=-O3
+LIBS=-lcurses
+# Try if -lncurses doesn't work
+
+# For install entries
+PREFIX ?= /usr/local
 
 
 # Current supported compile-time options:
@@ -13,6 +19,7 @@ PREFIX 		?= /usr/local	# For install entries
 #	NO_TERMH	-- If you don't have <term.h> (or on Cygwin <ncurses/term.h>) you
 #			   can use this. You then don't get keypad keys defined.
 #	DIRED		-- enable "dired".
+#	PIPEIN		-- enable reading from pipe at startup
 #	PREFIXREGION	-- enable function "prefix-region"
 #	CHARSDEBUG	-- A debugging tool for input/output
 #	SLOW		-- Implement "slow-mode" command for emulating a slow terminal
@@ -25,6 +32,9 @@ PREFIX 		?= /usr/local	# For install entries
 #	USER_MODES	-- Include commands for creating and deleting user-defined modes.
 #	USER_MACROS	-- Include commands for creating and listing named macros.
 #	ALL		-- Include everything above except NO_TERMH.
+#	NO_CMODE	-- With -DALL, disable LANGMODE_C
+#	NO_UCSN		-- With -DALL, disable USCNAMES
+#	NO_PIPEIN	-- With -DALL, disable PIPEIN
 
 # Minimal, with debug
 #CDEFS	= -DCHARSDEBUG -DSLOW
@@ -33,12 +43,18 @@ PREFIX 		?= /usr/local	# For install entries
 #CDEFS	= -DBSMAP=1 -DMAKEBACKUP=1
 
 # Everything GNU Emacs and mg2a-like by default
-CDEFS = -DDIRED -DPREFIXREGION
+# CDEFS = -DDIRED -DPREFIXREGION
+
+# Advanced mg3a with python and clike mode,
+# no c-mode, nor UCS_NAMES, nor simple search
+CDEFS = -DDIRED -DPREFIXREGION -DSEARCHALL \
+    -DLANGMODE_PYTHON -DLANGMODE_CLIKE \
+    -DUSER_MODES -DUSER_MACROS
 
 # Everything.
 #CDEFS	= -DALL
 
-CFLAGS	= $(COPT) $(CDEFS)
+CFLAGS	= $(COPT) $(CDEFS) -DDIST_VERSION=\"180101\"
 
 # Objects which only depend on the "standard" includes
 OBJS	= basic.o dir.o dired.o file.o line.o match.o paragraph.o \
@@ -66,11 +82,13 @@ SRCS	= basic.c dir.c dired.c file.c line.c match.c paragraph.c \
 OINCS =	ttydef.h sysdef.h chrdef.h cpextern.h
 INCS =	def.h
 
-doit: mg
+# The 'all' target is needed for BSD ports and handy for the rest
 
-test: COPT += -Wall -Wextra -Wno-unused-parameter
+all:
+	$(MAKE) CDEFS="-DALL -DNO_CMODE -DNO_UCSN" mg strip
 
-test: mg
+full:
+	$(MAKE) CDEFS="-DALL" mg strip
 
 mg:	$(OBJ)
 	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBS)

@@ -5,6 +5,8 @@
 #include	"def.h"
 
 static INT	insertfile(char *fname, char *newname);
+static INT	finsertfile(FILE *f);
+static INT	doinsertfile(char *newname);
 static void	makename(char *bname, char *fname, INT buflen);
 static INT	writeout(BUFFER *bp, char *fn);
 
@@ -424,6 +426,61 @@ readin(char *fname)
 	return status;
 }
 
+/*
+ * Read the file "fname" into the current buffer. Make all of the text
+ * in the buffer go away, after checking for unsaved changes. This is
+ * called by the "read" command, the "visit" command, and the mainline
+ * (for "mg file").
+ */
+
+INT
+freadin(FILE *f)
+{
+	INT		status;
+	WINDOW		*wp;
+
+	if (bclear(curbp) != TRUE)		/* Might be old.	*/
+		return TRUE;
+
+	count_crlf = 0;
+	count_lf = 0;
+
+	status = finsertfile(f) ;
+
+	if (count_lf > count_crlf) {
+		internal_unixlf(1);		/* Set Unix line endings */
+	} else if (count_crlf > count_lf) {
+		internal_unixlf(0);		/* Set MS-DOS line endings */
+	}
+
+	if (!termcharset) {
+		internal_utf8(0);
+		internal_bom(0);
+	} else if (find_and_remove_bom(curbp)) {
+		internal_utf8(1);
+		internal_bom(1);
+	} else {
+		setcharsetfromcontent(curbp);
+	}
+
+	setmodefromfileextension(1);
+	curbp->b_flag &= ~BFCHG;		/* No change.		*/
+
+	// Reset all windows to beginning
+
+	for (wp = wheadp; wp; wp = wp->w_wndp) {
+		if (wp->w_bufp == curbp) {
+			wp->w_dotp   = wp->w_linep = lforw(curbp->b_linep);
+			wp->w_doto   = 0;
+			wp->w_markp  = NULL;
+			wp->w_marko  = 0;
+			wp->w_dotpos = 0;
+		}
+	}
+
+	return status;
+}
+
 
 /*
  * Insert a file in the current buffer, after dot. Set mark at the end
@@ -442,14 +499,7 @@ readin(char *fname)
 static INT
 insertfile(char *fname, char *newname)
 {
-	INT		nbytes, maxbytes = 2*NLINE;
 	INT		s;
-	size_t 		nline;
-	LINE		*prevline;
-	INT		savedoffset;
-	size_t		savedpos;
-	int		first = 1;
-	char		*cp, *cp2;
 
 	if (curbp->b_flag & BFREADONLY) return readonly();
 
@@ -473,6 +523,24 @@ insertfile(char *fname, char *newname)
 			return FALSE;
 		}
 	}
+	return doinsertfile(newname);
+}
+
+static INT	finsertfile(FILE *f)
+{
+	ffrset(f);
+	return doinsertfile(NULL);
+}
+
+static INT doinsertfile(char *newname)
+{
+	INT		s, nbytes, maxbytes = 2*NLINE;
+	size_t 		nline;
+	LINE		*prevline;
+	INT		savedoffset;
+	size_t	savedpos;
+	int		first = 1;
+	char	*cp, *cp2;
 
 	prevline = lback(curwp->w_dotp);
 	savedoffset = curwp->w_doto;

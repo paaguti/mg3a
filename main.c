@@ -42,12 +42,25 @@ main(int argc, char *argv[])
 	char	*linearg = NULL;
 	INT	lineno;
 	char	*loadfile = NULL, *startexpr = NULL, *pre_loadfile = NULL;
+#ifdef PIPEIN
+	FILE *pipein = NULL;
 
+ 	if (!isatty(fileno(stdin))) {
+ 		/*
+		 * Create a copy of stdin for future use
+ 		 */
+		pipein = fdopen(dup(fileno(stdin)),"r");
+ 		/*
+ 		 * Reopen the console device /dev/tty as stdin
+ 		 */
+ 		stdin = freopen("/dev/tty","r",stdin);
+	}
+#else
 	if (!isatty(0)) {
 		fprintf(stderr, "mg: standard input is not a tty\n");
 		exit(1);
 	}
-
+#endif
 	setlocale(LC_ALL, "");
 
 	while ((c = getopt(argc, argv, "qp:L:l:e:")) != -1) {
@@ -124,7 +137,16 @@ main(int argc, char *argv[])
 
 		if (readin(cp) != TRUE) break;
 	}
-
+#ifdef PIPEIN
+	if (NULL != pipein) {
+		if ((bp = findbuffer("*stdin*")) != NULL) {
+			curbp = bp;
+			showbuffer(curbp, curwp);
+			freadin(pipein);
+			curbp->b_flag |= BFREADONLY;
+		}
+	}
+#endif
 	if (linearg) {
 		if (linearg[1] == 0) gotoline(FFARG, 0);
 		else if (getINT(linearg + 1, &lineno, 1)) gotoline(FFARG, lineno);

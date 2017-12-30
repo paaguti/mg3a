@@ -12,7 +12,27 @@
 #define UCSNAMES
 #define USER_MODES
 #define USER_MACROS
+#define PIPEIN
 #endif
+
+#ifdef NO_CMODE
+# ifdef LANGMODE_C
+#  undef LANGMODE_C
+# endif
+#endif
+
+#ifdef NO_UCSN
+# ifdef UCSNAMES
+#  undef UCSNAMES
+# endif
+#endif
+
+#ifdef NO_PIPEIN
+# ifdef PIPEIN
+#  undef PIPEIN
+# endif
+#endif
+
 
 /* Obligatory definitions */
 
@@ -671,6 +691,7 @@ int	autoexec_execute(int change);
 BUFFER	*findbuffer(char *fname);
 void	setcharsetfromcontent(BUFFER *bp);
 INT	readin(char *fname);
+INT	freadin(FILE *f);
 INT	buffsave(BUFFER *bp);
 void	upmodes(BUFFER *bp);
 void	refreshbuf(BUFFER *bp);
@@ -679,6 +700,7 @@ BUFFER	*buftotop(BUFFER *bp);
 
 /* fileio.c */
 
+INT	ffrset(FILE *f);
 INT	ffropen(char *fn);
 INT	ffwopen(char *fn);
 INT	ffclose(void);
