@@ -100,7 +100,7 @@ strip: mg
 
 # Install entries for Linux/BSD/OSX by Pedro A. Aranda
 
-install-bin: mg
+install-bin: all
 	install -d $(DESTDIR)$(PREFIX)/bin
 	install mg $(DESTDIR)$(PREFIX)/bin
 
