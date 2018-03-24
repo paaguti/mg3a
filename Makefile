@@ -7,6 +7,7 @@
 
 CC=cc
 COPT=-O3
+LD=cc
 LIBS=-lcurses
 # Try if -lncurses doesn't work
 
@@ -91,7 +92,7 @@ full:
 	$(MAKE) CDEFS="-DALL" mg strip
 
 mg:	$(OBJ)
-	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ $(OBJ) $(LIBS)
 
 
 strip: mg
@@ -104,8 +105,9 @@ install-bin: mg
 	install mg $(DESTDIR)$(PREFIX)/bin
 
 install-doc:
-	install -d $(DESTDIR)$(PREFIX)/share/doc/mg3a
+	install -d $(DESTDIR)$(PREFIX)/share/doc/mg3a/orig
 	install README* $(DESTDIR)$(PREFIX)/share/doc/mg3a
+	install orig/README $(DESTDIR)$(PREFIX)/share/doc/mg3a/orig
 
 install-data:
 	install -d $(DESTDIR)$(PREFIX)/share/mg3a
