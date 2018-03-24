@@ -18,22 +18,18 @@ mg3a (171114-1) unstable; urgency=low
   * add SEARCHSIMPLE
 
  -- Pedro A. Aranda <paag@gmail.com>  Tue, 14 Nov 2017 14:11:24 +0100
-
 mg3a (170703-1) unstable; urgency=low
 
   * pipein moved to file.c and fileio.c. No need for temporal files anymore
 
  -- Pedro A. Aranda <paag@gmail.com>  Thu, 16 Feb 2017 19:02:59 +0100
-
 mg3a (170622-1) unstable; urgency=low
 
   * pipein support. Development with quilt started
 
  -- Pedro A. Aranda <paag@gmail.com>  Thu, 16 Feb 2017 19:02:59 +0100
-
 mg3a (170403-1) unstable; urgency=low
 
   * shell-command and yank-command support (last release by Bengt Larsson)
 
  -- Pedro A. Aranda <paag@gmail.com>  Thu, 16 Feb 2017 19:02:59 +0100
-
