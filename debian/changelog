@@ -1,3 +1,8 @@
+mg3a (180324-1) unstable; urgency=low
+
+  * Include support for rudix.org OSX packages
+
+ -- Pedro A. Aranda <paag@gmail.com>  Tue, 14 Nov 2017 14:11:24 +0100
 mg3a (180101-1) unstable; urgency=low
 
   * Apply all quilt patches and reset quilt
