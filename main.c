@@ -27,8 +27,9 @@ INT	gotoline(INT f, INT n);
 static int
 usage(char *progname)
 {
-	fprintf(stderr, "Usage: %s [-q] [-p pattern] [-L loadfile] [-l loadfile]"
+	fprintf(stderr, "Usage:\n %s [-q] [-p pattern] [-L loadfile] [-l loadfile]"
 		" [-e commands] [+line] [files...]\n", progname);
+	fprintf(stderr, " %s -v: print program version\n", progname);
 	return 1;
 }
 
@@ -63,8 +64,12 @@ main(int argc, char *argv[])
 #endif
 	setlocale(LC_ALL, "");
 
-	while ((c = getopt(argc, argv, "qp:L:l:e:")) != -1) {
+	while ((c = getopt(argc, argv, "vqp:L:l:e:")) != -1) {
 		switch (c) {
+		case 'v':
+			fprintf(stdout,"%s\n",version);
+                        exit(0);
+			break;
 		case 'q':
 			inhibit_startup = 1;
 			break;
