@@ -203,7 +203,9 @@ extern	INT	py_lfindent();		/* Python newline and indent	*/
 #ifdef UPDATE_DEBUG
 extern INT	do_update_debug();	/* Turn on debugging of screen updates */
 #endif
-
+extern INT lduplicate();
+extern INT lmoveup();
+extern INT lmovedown();
 /*
  * defined by "macro.c"
  */
@@ -1843,6 +1845,7 @@ const FUNCTNAMES functnames[] = {
 	{cmddos,	"dos", 0},
 	{lowerregion,	"downcase-region", 0},
 	{lowerword,	"downcase-word", 0},
+	{lduplicate, "duplicate-line", 0},
 	{showversion,	"emacs-version", 0},
 	{end_kbd_macro,	"end-kbd-macro", 0},
 	{gotoeob,	"end-of-buffer", 0},
@@ -1906,6 +1909,10 @@ const FUNCTNAMES functnames[] = {
 	{killwholeline,	"kill-whole-line", 0},
 	{delfword,	"kill-word", 0},
 	{unixlf,	"lf", 0},
+#if 0							/* Not yet ready */
+	{lmovedown, "line-move-down", 0},
+	{lmoveup,   "line-move-up", 0},
+#endif
 	{listbuffers,	"list-buffers", 0},
 	{listcharsets,	"list-charsets", 0},
 	{list_kbd_macro, "list-kbd-macro", 0},

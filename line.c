@@ -464,6 +464,127 @@ linsert_ucs(charset_t charset, INT n, INT c)
 
 
 /*
+ * Mg3a: duplicate the current line below it
+ *
+ * IGNORE parameters
+ */
+INT
+lduplicate(INT f, INT n)
+{
+	struct LINE *dotp = curwp->w_dotp;
+	struct LINE *nextp = dotp->l_fp;
+	struct LINE *newlp;
+
+	/* Check you can do it */
+	if (curbp->b_flag & BFREADONLY) return readonly();
+
+	/* try to insert a new line that fits the current line */
+
+	newlp = lrealloc(NULL, dotp->l_used);
+	if (newlp == NULL)
+		return FALSE;
+	/* insert the line contents */
+	memcpy((void *) newlp->l_text, dotp -> l_text, dotp -> l_used);
+
+	/* handle pointers:
+	 * l_fp : dotp -> newlp -> nextp
+	 * l_bp : nextp -> newlp -> dotp
+	 */
+	dotp->l_fp = newlp;
+	newlp->l_fp = nextp;
+	newlp->l_bp = dotp;
+	nextp->l_bp = newlp;
+
+	/*
+	 * Mark buffer as dirty
+	 */
+	curbp->b_flag |= BFCHG;
+
+	/*
+	 * refresh the display
+	 */
+	refreshbuf(curbp);
+	return TRUE;
+}
+
+#if 0							/* Not yet ready */
+/*
+ * MG3A: swap current line and next line
+ */
+INT
+lmovedown(INT f, INT n)
+{
+	int i;
+	struct LINE *dotp = curwp->w_dotp;
+
+	/* Check you can do it */
+	if (curbp->b_flag & BFREADONLY)
+		return readonly();
+
+	if (n < 0) {
+		return lmoveup(f, -n);
+	}
+
+	for (i = 0; i< n; i++) {
+		struct LINE *prevp = dotp -> l_bp;
+		struct LINE *nextp = dotp -> l_fp;
+		struct LINE *followp = nextp -> l_fp;
+
+		nextp->l_bp = prevp;
+		nextp->l_fp = dotp;
+		dotp->l_bp = nextp;
+		dotp->l_fp = followp;
+	}
+	/*
+	 * Mark buffer as dirty
+	 */
+	curbp->b_flag |= BFCHG;
+
+	/*
+	 * refresh the display
+	 */
+	refreshbuf(curbp);
+	return TRUE;
+}
+/*
+ * Mg3a: move current line up
+ */
+INT
+lmoveup(INT f, INT n)
+{
+	int i;
+	struct LINE *dotp = curwp->w_dotp;
+	/* Check you can do it */
+	if (curbp->b_flag & BFREADONLY)
+		return readonly();
+
+	if (n < 0) {
+		return lmovedown(f, -n);
+	}
+	for (i=0; i<n;i++) {
+		struct LINE *prevp =  dotp -> l_bp;
+		struct LINE *firstp = prevp -> l_fp;
+		struct LINE *nextp =  dotp -> l_fp;
+
+		dotp->l_fp = prevp;
+		dotp->l_bp = firstp;
+		prevp->l_fp = nextp;
+		prevp->l_bp = dotp;
+	}
+	/*
+	 * Mark buffer as dirty
+	 */
+	curbp->b_flag |= BFCHG;
+
+	/*
+	 * refresh the display
+	 */
+	refreshbuf(curbp);
+	return TRUE;
+}
+#endif
+
+/*
  * Mg3a: erase characters to a visual width, preparing for a
  * subsequent insert to implement overwrite mode.
  */

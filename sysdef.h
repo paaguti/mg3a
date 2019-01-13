@@ -29,6 +29,7 @@ typedef ucs4	KCHAR;			/* Type for internal keystrokes	*/
 
 #define MALLOCROUND 8			/* round up to 8 byte boundary	*/
 
-#define bcopy(s,d,n)	memmove((d),(s),(n))	/* memory-to-memory copy	*/
+#ifdef __linux__
+# define bcopy(s,d,n)	memmove((d),(s),(n))	/* memory-to-memory copy	*/
+#endif
 #define	gettermtype()	getenv("TERM")	/* determine terminal type	*/
-
