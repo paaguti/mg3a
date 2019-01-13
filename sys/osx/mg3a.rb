@@ -2,8 +2,7 @@ class Mg3a < Formula
   desc "Small Emacs-like editor inspired by mg with UTF8 support."
   homepage "https://gtihub.com/paaguti/mg3a/"
 
-  url "https://github.com/paaguti/mg3a/archive/180101.tar.gz"
-  # sha256 "82eb7e74b50756d5a7ddfc40b5368c0c097382b71fe2dd997001c958ec0e6e65"
+  url "https://github.com/paaguti/mg3a/archive/190113.tar.gz"
 
   option "with-full",  "Include all fancy stuff (build with -DALL)"
 
