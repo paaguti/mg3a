@@ -471,40 +471,30 @@ linsert_ucs(charset_t charset, INT n, INT c)
 INT
 lduplicate(INT f, INT n)
 {
+	INT s;
 	struct LINE *dotp = curwp->w_dotp;
-	struct LINE *nextp = dotp->l_fp;
-	struct LINE *newlp;
+	INT          doto = curwp->w_doto;
 
-	/* Check you can do it */
 	if (curbp->b_flag & BFREADONLY) return readonly();
 
-	/* try to insert a new line that fits the current line */
-
-	newlp = lrealloc(NULL, dotp->l_used);
-	if (newlp == NULL)
-		return FALSE;
-	/* insert the line contents */
-	memcpy((void *) newlp->l_text, dotp -> l_text, dotp -> l_used);
-
-	/* handle pointers:
-	 * l_fp : dotp -> newlp -> nextp
-	 * l_bp : nextp -> newlp -> dotp
+	/*
+	 * Goto the end of line
+	 * 	c&p from gotoeol(f,n);
 	 */
-	dotp->l_fp = newlp;
-	newlp->l_fp = nextp;
-	newlp->l_bp = dotp;
-	nextp->l_bp = newlp;
+	adjustpos(curwp->w_dotp, llength(curwp->w_dotp));
 
 	/*
-	 * Mark buffer as dirty
+	 * Insert a newline
 	 */
-	curbp->b_flag |= BFCHG;
-
+	s = lnewline_n(1);
+	if (TRUE == s) {
+		linsert_str(1, ltext(dotp), llength(dotp)); /* Insert line contents */
+	}
 	/*
-	 * refresh the display
+	 * restore the cursor
 	 */
-	refreshbuf(curbp);
-	return TRUE;
+	adjustpos(dotp,	doto);
+	return s;
 }
 
 #if 0							/* Not yet ready */
