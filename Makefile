@@ -8,12 +8,15 @@
 CC=cc
 COPT=-O3
 LD=cc
-LIBS=-lcurses
-# Try if -lncurses doesn't work
-
+LIBS=$(shell ncursesw6-config --libs)
+ifeq ($(LIBS),)
+	LIBS=-lcurses
+	# Try if -lncurses doesn't work
+else
+	COPT += $(shell ncursesw6-config --cflags)
+endif
 # For install entries
 PREFIX ?= /usr/local
-
 
 # Current supported compile-time options:
 #

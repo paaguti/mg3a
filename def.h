@@ -956,6 +956,9 @@ char	*getnext_varname(INT first);
 char	*getnext_localvarname(INT first);
 INT	get_variable(INT localvar, INT globalvar);
 
+/* version.c */
+extern char version[];
+
 /* width.c */
 
 int	ucs_nonspacing(INT c);
