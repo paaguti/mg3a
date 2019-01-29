@@ -19,6 +19,7 @@ extern char prompt[], *promptp;		/* delayed prompting		*/
 #endif
 INT	inhibit_startup = 0;		/* Inhibit startup files	*/
 
+extern char *version;
 static void	edinit(void);
 
 INT	gotoline(INT f, INT n);

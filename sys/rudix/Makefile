@@ -2,7 +2,7 @@ include ../../Library/Unix.mk
 
 Title=		MG3a
 Name=		mg3a
-Version=	180324
+Version=	190113
 Site=		https://github.com/paaguti
 Source=		https://github.com/paaguti/$(Name)/archive/$(Version).tar.gz
 License=	GPL

@@ -1,7 +1,7 @@
 # $FreeBSD$
 
 PORTNAME=	mg3a
-DISTVERSION=	180324
+DISTVERSION=	190113
 CATEGORIES=	editors
 MASTER_SITES=   http://github.com/paaguti/mg3a/archive/
 DISTNAME=	${DISVERSION}
