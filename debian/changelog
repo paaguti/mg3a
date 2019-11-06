@@ -1,3 +1,9 @@
+mg3a (191106-1) unstable; urgency=low
+
+  * Change declaration of version in main.c
+  *   Failed to compile on Debian10
+
+ -- Pedro A. Aranda <paag@gmail.com>  Wed, 06 Nov 2019 10:11:47 +0100
 mg3a (190113-1) unstable; urgency=low
 
   * First version of duplicate-line (no undo yet!)
