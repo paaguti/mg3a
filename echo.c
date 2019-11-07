@@ -430,7 +430,7 @@ veread(char *fp, char *buf, INT nbuf, INT flag, va_list ap)
 			break;
 		    default:
 		    	// All invalid escape sequences end up here
-		    	while (typeahead()) ttgetc();
+		    	while (type_ahead()) ttgetc();
 			complt_msg(" [no binding]");
 			continue;
 		}

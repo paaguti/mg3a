@@ -58,7 +58,7 @@ CDEFS = -DDIRED -DPREFIXREGION -DSEARCHALL \
 # Everything.
 #CDEFS	= -DALL
 
-CFLAGS	= $(COPT) $(CDEFS) -DDIST_VERSION=\"191106\"
+CFLAGS	= $(COPT) $(CDEFS) -DDIST_VERSION=\"191107\"
 
 # Objects which only depend on the "standard" includes
 OBJS	= basic.o dir.o dired.o file.o line.o match.o paragraph.o \

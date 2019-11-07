@@ -413,7 +413,7 @@ isearch(INT dir)
 			curwp->w_markp = clp;
 			curwp->w_marko = cbo;
 			ewprintf("Mark set");
-			if (typeahead()) ungetkey(c);	// Escape sequence
+			if (type_ahead()) ungetkey(c);	// Escape sequence
 			return (TRUE);
 
 		case CCHR('G'):
@@ -793,7 +793,7 @@ queryrepl(INT f, INT n)
 			goto stopsearch;
 
 		case CCHR('['): /* ESC */
-			if (typeahead()) ungetkey(c);	// Escape sequence
+			if (type_ahead()) ungetkey(c);	// Escape sequence
 			goto stopsearch;
 
 		case '!':

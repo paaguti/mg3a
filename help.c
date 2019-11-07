@@ -83,7 +83,7 @@ found:
     if(funct == rescan) {
     	estart();
     	ewprintfc("%k");
-	while (typeahead()) {
+	while (type_ahead()) {
 		ewprintfc(" %K", getkey(FALSE));
 	}
 	ewprintfc(" is not bound to any function");

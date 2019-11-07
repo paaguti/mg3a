@@ -734,7 +734,7 @@ update()
 	static INT	shift_row = -1;
 	static INT	prev_shift = 0;
 #endif
-	if (typeahead()) return;
+	if (type_ahead()) return;
 
 	checkcache();
 

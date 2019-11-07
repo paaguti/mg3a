@@ -846,7 +846,7 @@ void	ttflush(void);
 INT	ttgetc(void);
 int	ittputc(int c);
 int	waitforinput(INT milliseconds);
-int	typeahead(void);
+int	type_ahead(void);
 void	panic(char *s, int error);
 void	setttysize(void);
 

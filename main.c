@@ -177,7 +177,7 @@ main(int argc, char *argv[])
 	    switch(doin()) {
 		case TRUE: break;
 		case ABORT:
-		    while (typeahead()) ttgetc();
+		    while (type_ahead()) ttgetc();
 		    if (!(thisflag & CFNOQUIT)) ewprintf("Quit");
 		    /* fallthrough */
 		case FALSE:

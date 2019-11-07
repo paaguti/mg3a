@@ -202,6 +202,8 @@ ittputc(int c)
  *
  * Mg3a: New dealing with typeahead. Deal with window change. Deal
  * severely with read errors other than EINTR (which is not an error).
+ * using type_ahead instead of typeahead to avoid possible collisions
+ * with ncurses
  */
 
 INT
@@ -246,7 +248,7 @@ ttgetc()
  */
 
 int
-typeahead()
+type_ahead()
 {
 #if SELECT_FOR_TYPEAHEAD
 	fd_set readset;

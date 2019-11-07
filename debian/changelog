@@ -1,3 +1,8 @@
+mg3a (191107-1) unstable; urgency=low
+
+  * Integrate RUDIX ncurses patch
+
+ -- Pedro A. Aranda <paag@gmail.com>  Thu, 07 Nov 2019 06:17:15 +0100
 mg3a (191106-1) unstable; urgency=low
 
   * Change declaration of version in main.c
