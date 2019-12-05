@@ -2,6 +2,9 @@ Changelog, in reverse date order. Files are named yymmdd.
 
 From 110724, Bugfixes are listed with "--", most serious bugs first.
 
+1921205:
+Moving to autoconf tools
+
 190113:
 "duplicate-line": no key assignments, customise in your .mg3 file
 "line-move-up": no key assigned, cusomise in .mg3 file

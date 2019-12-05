@@ -1,0 +1,2 @@
+I'm moving the development towards autotools
+This should make it easier to detect ncursesw on Linux and Rudix
