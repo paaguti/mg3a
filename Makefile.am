@@ -1,12 +1,5 @@
-# Advanced mg3a with python and clike mode,
-# no c-mode, nor UCS_NAMES, nor simple search
-CDEFS = -DDIRED -DPREFIXREGION -DSEARCHALL \
-    -DLANGMODE_PYTHON -DLANGMODE_CLIKE \
-    -DUSER_MODES -DUSER_MACROS
-COPT = -O3
-
-AM_CFLAGS	= $(COPT) $(CDEFS) -DDIST_VERSION=\"191205\"
-
+AM_CPPFLAGS += -DDIST_VERSION=\"191206\"
+AM_CFLAGS = 
 AM_LDFLAGS =
 
 

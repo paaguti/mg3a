@@ -625,6 +625,7 @@ ac_includes_default="\
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
+AM_CPPFLAGS
 LIBOBJS
 ALLOCA
 EGREP
@@ -719,6 +720,18 @@ ac_user_opts='
 enable_option_checking
 enable_silent_rules
 enable_dependency_tracking
+enable_dired
+enable__pipein=yes
+enable_prefixregion
+enable_slow
+enable_searchall
+enable_pythonmode
+enable_cmode
+enable_clikemode
+enable_usermodes
+enable_usermacros
+enable_ucsnames
+enable_all
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1360,6 +1373,18 @@ Optional Features:
                           do not reject slow dependency extractors
   --disable-dependency-tracking
                           speeds up one-time build
+  --enable-dired          Enable dired [default=yes]]
+  --enable-_pipein=yes    Enable read from pipe at startup [default=yes]]
+  --enable-prefixregion   Enable prefix region [default=yes]]
+  --enable-slow           Enable slow terminal emulation[default=no]]
+  --enable-searchall      Enable search-all commands [default=yes]]
+  --enable-pythonmode     Enable Python mode [default=yes]]
+  --enable-cmode          Enable old C mode [default=no]]
+  --enable-clikemode      Enable C-like modes [default=yes]]
+  --enable-usermodes      Enable user modes [default=yes]]
+  --enable-usermacros     Enable user macros [default=yes]]
+  --enable-ucsnames       Enable Unicode character names [default=no]]
+  --enable-all            Enable all features [default=no]]
 
 Some influential environment variables:
   CC          C compiler command
@@ -5029,6 +5054,178 @@ _ACEOF
 
 fi
 done
+
+
+AM_CPPFLAGS=""
+
+# Check whether --enable-dired was given.
+if test "${enable_dired+set}" = set; then :
+  enableval=$enable_dired; enable_dired="${enableval:-yes}"
+else
+  enable_dired=yes
+fi
+
+if  test "x$enable_dired" == "xyes" ; then :
+  AM_CPPFLAGS="$AM_CPPFLAGS -DDIRED"
+else
+  true
+fi
+
+enable_pipein=yes
+# Check whether --enable-_pipein=yes was given.
+if test "${enable__pipein=yes+set}" = set; then :
+  enableval=$enable__pipein=yes; enable_pipein=yes="${enableval:-yes}"
+else
+  enable_pipein=yes=
+fi
+
+if  test "x$enable_pipein" == "xyes" ; then :
+  AM_CPPFLAGS="$AM_CPPFLAGS -DPIPEIN"
+else
+  true
+fi
+
+enable_prefixregion=yes
+# Check whether --enable-prefixregion was given.
+if test "${enable_prefixregion+set}" = set; then :
+  enableval=$enable_prefixregion; enable_prefixregion="${enableval:-yes}"
+else
+  enable_prefixregion=yes
+fi
+
+if  test "x$enable_prefixregion" == "xyes" ; then :
+  AM_CPPFLAGS="$AM_CPPFLAGS -DPREFIXREGION"
+else
+  true
+fi
+
+enable_slow=no
+# Check whether --enable-slow was given.
+if test "${enable_slow+set}" = set; then :
+  enableval=$enable_slow; enable_slow="${enableval:-yes}"
+else
+  enable_slow=no
+fi
+
+if  test "x$enable_slow" == "xyes" ; then :
+  AM_CPPFLAGS="$AM_CPPFLAGS -DSLOW"
+else
+  true
+fi
+
+enable_searchall=yes
+# Check whether --enable-searchall was given.
+if test "${enable_searchall+set}" = set; then :
+  enableval=$enable_searchall; enable_searchall="${enableval:-yes}"
+else
+  enable_searchall=yes
+fi
+
+if  test "x$enable_searchall" == "xyes" ; then :
+  AM_CPPFLAGS="$AM_CPPFLAGS -DSEARCHALL"
+else
+  true
+fi
+
+enable_pythonmode=yes
+# Check whether --enable-pythonmode was given.
+if test "${enable_pythonmode+set}" = set; then :
+  enableval=$enable_pythonmode; enable_pythonmode="${enableval:-yes}"
+else
+  enable_pythonmode=yes
+fi
+
+if  test "x$enable_pythonmode" == "xyes"; then :
+  AM_CPPFLAGS="$AM_CPPFLAGS -DLANGMODE_PYTHON"
+else
+  true
+fi
+
+enable_cmode=no
+# Check whether --enable-cmode was given.
+if test "${enable_cmode+set}" = set; then :
+  enableval=$enable_cmode; enable_cmode="${enableval:-yes}"
+else
+  enable_cmode=no
+fi
+
+if  test "x$enable_cmode" == "xyes"; then :
+  AM_CPPFLAGS="$AM_CPPFLAGS -DLANGMODE_C"
+else
+  true
+fi
+
+enable_clikemode=yes
+# Check whether --enable-clikemode was given.
+if test "${enable_clikemode+set}" = set; then :
+  enableval=$enable_clikemode; enable_clikemode="${enableval:-yes}"
+else
+  enable_clikemode=yes
+fi
+
+if  test "x$enable_clikemode" == "xyes"; then :
+  AM_CPPFLAGS="$AM_CPPFLAGS -DLANGMODE_CLIKE"
+else
+  true
+fi
+
+enable_usermodes=yes
+# Check whether --enable-usermodes was given.
+if test "${enable_usermodes+set}" = set; then :
+  enableval=$enable_usermodes; enable_usermodes="${enableval:-yes}"
+else
+  enable_usermodes=yes
+fi
+
+if  test "x$enable_usermodes" == "xyes"; then :
+  AM_CPPFLAGS="$AM_CPPFLAGS -DUSER_MODES"
+else
+  true
+fi
+
+enable_usermacros=yes
+# Check whether --enable-usermacros was given.
+if test "${enable_usermacros+set}" = set; then :
+  enableval=$enable_usermacros; enable_usermacros="${enableval:-yes}"
+else
+  enable_usermacros=yes
+fi
+
+if  test "x$enable_usermacros" == "xyes"; then :
+  AM_CPPFLAGS="$AM_CPPFLAGS -DUSER_MACROS"
+else
+  true
+fi
+
+enable_ucsnames=no
+# Check whether --enable-ucsnames was given.
+if test "${enable_ucsnames+set}" = set; then :
+  enableval=$enable_ucsnames; enable_ucsnames="${enableval:-yes}"
+else
+  enable_ucsnames=no
+fi
+
+if  test "x$enable_ucsnames" == "xyes"; then :
+  AM_CPPFLAGS="$AM_CPPFLAGS -DUCSNAMES"
+else
+  true
+fi
+
+# Check whether --enable-all was given.
+if test "${enable_all+set}" = set; then :
+  enableval=$enable_all; enable_all="${enableval:-yes}"
+else
+  enable_all=no
+fi
+
+if test "x$enable_all" == "xyes"; then :
+  AM_CPPFLAGS="-DALL"
+else
+  true
+
+fi
+
+
 
 
 ac_config_files="$ac_config_files Makefile"

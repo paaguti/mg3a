@@ -229,6 +229,7 @@ distcleancheck_listfiles = find . -type f -print
 ACLOCAL = @ACLOCAL@
 ALLOCA = @ALLOCA@
 AMTAR = @AMTAR@
+AM_CPPFLAGS = @AM_CPPFLAGS@ -DDIST_VERSION=\"191205\"
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -316,15 +317,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-
-# Advanced mg3a with python and clike mode,
-# no c-mode, nor UCS_NAMES, nor simple search
-CDEFS = -DDIRED -DPREFIXREGION -DSEARCHALL \
-    -DLANGMODE_PYTHON -DLANGMODE_CLIKE \
-    -DUSER_MODES -DUSER_MACROS
-
-COPT = -O3
-AM_CFLAGS = $(COPT) $(CDEFS) -DDIST_VERSION=\"191205\"
+AM_CFLAGS = -O3
 AM_LDFLAGS = 
 OSRCS = cinfo.c fileio.c spawn.c ttyio.c tty.c ttykbd.c
 SRCS = basic.c dir.c dired.c file.c line.c match.c paragraph.c \
