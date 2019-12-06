@@ -5,15 +5,15 @@
 #export DH_VERBOSE=1
 
 %:
-	dh $@ --with quilt
+	dh $@ # --with quilt
 
 # clean and strip are OK
 
-override_dh_auto_build:
-	$(MAKE) \
-	CC=gcc \
-	COPT="-O3 $(shell pkg-config --cflags ncursesw)" \
-	LIBS=$(shell pkg-config --libs ncursesw) all
+# override_dh_auto_build:
+# 	$(MAKE) \
+# 	CC=gcc \
+# 	COPT="-O3 $(shell pkg-config --cflags ncursesw)" \
+# 	LIBS=$(shell pkg-config --libs ncursesw) all
 
-override_dh_auto_install:
-	make DESTDIR=$(shell pwd)/debian/mg3a PREFIX=/usr install
+# override_dh_auto_install:
+# 	make DESTDIR=$(shell pwd)/debian/mg3a PREFIX=/usr install
