@@ -1,7 +1,5 @@
-AM_CPPFLAGS += -DDIST_VERSION=\"191206\"
 AM_CFLAGS = 
 AM_LDFLAGS =
-
 
 OSRCS	= cinfo.c fileio.c spawn.c ttyio.c tty.c ttykbd.c
 SRCS	= basic.c dir.c dired.c file.c line.c match.c paragraph.c \

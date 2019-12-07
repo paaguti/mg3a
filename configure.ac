@@ -4,7 +4,7 @@
 AC_PREREQ([2.69])
 AC_INIT([mg3a], [191206], [paaguti@gmail.com])
 AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([display.c])
+dnl AC_CONFIG_SRCDIR([display.c])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
@@ -13,7 +13,11 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 
 # Checks for libraries.
-AC_CHECK_LIB([ncurses], [baudrate])
+
+AC_SEARCH_LIBS([beep],[ncursesw ncurses],[],
+    [ AC_MSG_ERROR([unable to find beep in NCURSES])]
+)
+
 # FIXME: Replace `main' with a function in `-ltermcap':
 # AC_CHECK_LIB([termcap], [main])
 
@@ -132,10 +136,13 @@ AC_ARG_ENABLE([all],
 	[enable_all="${enableval:-yes}"],
     [enable_all=no])
 AS_IF(
-	[test "x$enable_all" == "xyes"],[AM_CPPFLAGS="-DALL"],[true]
+	[test "x$enable_all" == "xyes"],[AM_CPPFLAGS="-DALL"]
 )
 
-
+termh=no
+AC_CHECK_HEADERS([term.h], [termh=yes])
+AS_IF([test "x$termh" != "xyes"],
+      [AC_DEFINE([NO_TERMH], [1], [Define if there is no term.h.])])
 
 AC_SUBST([AM_CPPFLAGS])
 AC_CONFIG_FILES([Makefile])

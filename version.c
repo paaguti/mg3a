@@ -5,7 +5,7 @@
 
 #include	"def.h"
 
-char version[] = "Mg3a, version " DIST_VERSION;
+char version[] = "Mg3a, version " VERSION;
 
 
 /*
