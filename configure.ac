@@ -188,6 +188,14 @@ AC_CHECK_HEADERS([term.h], [termh=yes])
 AS_IF([test "x$termh" != "xyes"],
       [AC_DEFINE([NO_TERMH], [1], [Define if there is no term.h.])])
 
+dnl Just to silence the debian/rules warning
+
+AC_ARG_ENABLE([maintainer-mode],
+    AS_HELP_STRING([--enable-maintainer-mode],
+                   [Enable maintainer-mode @<:@default=no@:>@])],
+    [enable_maintainer_mode="${enableval:-yes}"],
+    [enable_maintainer_mode=no])
+
 AC_SUBST([AM_CPPFLAGS])
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
