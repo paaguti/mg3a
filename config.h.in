@@ -162,6 +162,15 @@
    slash. */
 #undef LSTAT_FOLLOWS_SLASHED_SYMLINK
 
+/* Enable automatic backups */
+#undef MAKEBACKUP
+
+/* Enable minidired mode. */
+#undef MINIDIRED
+
+/* Define to suppress .o files in dired */
+#undef NO_O
+
 /* Define if there is no term.h. */
 #undef NO_TERMH
 
@@ -185,6 +194,12 @@
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
+
+/* Enable search all commands. */
+#undef SEARCHALL
+
+/* Enable simple search commands. */
+#undef SEARCHSIMPLE
 
 /* If using the C implementation of alloca, define if you know the
    direction of stack growth for your system; otherwise it will be

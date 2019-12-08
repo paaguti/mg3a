@@ -1,9 +1,9 @@
-/* ALL turns on all options */
-
+/* integrate the auto tools */
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
 
+/* ALL turns on all options */
 #ifdef ALL
 #define DIRED
 #define PREFIXREGION
@@ -56,7 +56,7 @@
 #endif
 
 #ifndef MAKEBACKUP
-#define MAKEBACKUP 0	/* Default the backups to not on */
+# define MAKEBACKUP 0	/* Default the backups to not on */
 #endif
 
 #ifdef MINIDIRED

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([mg3a], [191206], [paaguti@gmail.com])
+AC_INIT([mg3a],[191206],[paaguti@gmail.com])
 AM_INIT_AUTOMAKE
 dnl AC_CONFIG_SRCDIR([display.c])
 AC_CONFIG_HEADERS([config.h])
@@ -74,13 +74,6 @@ AC_ARG_ENABLE([slow],
 AS_IF([ test "x$enable_slow" == "xyes" ],
 		[AM_CPPFLAGS="$AM_CPPFLAGS -DSLOW"],[true])
 
-AC_ARG_ENABLE([searchall],
-   AS_HELP_STRING([--enable-searchall],
-      [ Enable search-all commands @<:@default=yes@:>@ ])],
-   [enable_searchall="${enableval:-yes}"],
-   [enable_searchall=yes])
-AS_IF([ test "x$enable_searchall" == "xyes" ],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DSEARCHALL"],[true])
 
 AC_ARG_ENABLE([pythonmode],
    AS_HELP_STRING([--enable-pythonmode],
@@ -137,6 +130,57 @@ AC_ARG_ENABLE([all],
     [enable_all=no])
 AS_IF(
 	[test "x$enable_all" == "xyes"],[AM_CPPFLAGS="-DALL"]
+)
+
+AC_ARG_ENABLE([searchall],
+   AS_HELP_STRING([--enable-searchall],
+      [ Enable search-all commands @<:@default=yes@:>@ ])],
+   [enable_searchall="${enableval:-yes}"],
+   [enable_searchall=yes])
+AS_IF(
+	[ test "x$enable_searchall" == "xyes" ],
+	[AC_DEFINE([SEARCHALL], [1], [Enable search all commands.])]
+)
+
+AC_ARG_ENABLE([searchsimple],
+   AS_HELP_STRING([--enable-searchsimple],
+      [ Enable search-all commands @<:@default=no@:>@ ])],
+   [enable_searchsimple="${enableval:-yes}"],
+   [enable_searchsimple=no])
+AS_IF(
+	[ test "x$enable_searchsimple" == "xyes" ],
+	[AC_DEFINE([SEARCHSIMPLE], [1], [Enable simple search commands.])]
+)
+
+AC_ARG_ENABLE([noobjs],
+	AS_HELP_STRING([--enable-no-objs],
+		[Enable supressing .o files in dired @<:@default=no@:>@])],
+	[enable_noobjs="${enableval:-yes}"],
+	[enable_noobjs=no])
+AS_IF(
+	[test "x$enable_noobjs" == "xyes"],
+	[AC_DEFINE([NO_O], [1], [Define to suppress .o files in dired])]
+)
+
+AC_ARG_ENABLE([backups],
+	AS_HELP_STRING([--enable-backups],
+		[Enable automatic backups @<:@default=no@:>@])],
+	[enable_backups="${enableval:-yes}"],
+	[enable_backups=no])
+AS_IF(
+	[test "x$enable_backups" == "xyes"],
+	[AC_DEFINE([MAKEBACKUP], [1], [Enable automatic backups])]
+)
+
+AC_ARG_ENABLE([minidired],
+    AS_HELP_STRING([--enable-minidired],
+                   [Enable minidired @<:@default=no@:>@])],
+    [enable_minidired="${enableval:-yes}"],
+    [enable_minidired=no])
+
+AS_IF(
+    [test "x$minidired" == "xyes"],
+        [AC_DEFINE([MINIDIRED], [1], [Enable minidired mode.])]
 )
 
 termh=no
