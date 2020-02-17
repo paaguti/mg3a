@@ -44,84 +44,84 @@ extern INT clike_lang;
 extern INT clike_style;
 #endif
 
-typedef const struct {char *name; INT *value;} var_entry;
+typedef const struct {char *name; char vtype; union{INT *value; char **svalue;};} var_entry;
 
 static const var_entry variables[] = {
-  {"case-fold-search",	&case_fold_search},
-  {"",			NULL},
-  {"termdoescombine", 	&termdoescombine},
-  {"termdoeswide", 	&termdoeswide},
-  {"termdoesonlybmp",	&termdoesonlybmp},
-  {"",			NULL},
-  {"width-routine",	&width_routine},
-  {"manual-locale", 	&manual_locale},
-  {"",			NULL},
-  {"word-search",	&word_search},
-  {"fill-column",	&fillcol},
-  {"",			NULL},
-  {"bsmap",		&bs_map},
-  {"make-backup",	&makebackup},
-  {"",			NULL},
-  {"window-scroll", 	&scrollbyone},
-  {"recenter-redisplay",&recenter_redisplay},
-  {"",			NULL},
-  {"modeline-show",	&modeline_show},
-  {"kill-whole-lines",	&kill_whole_lines},
-  {"",			NULL},
-  {"backward-compat",	&backward_compat},
-  {"quoted-char-radix", &quoted_char_radix},
-  {"",			NULL},
-  {"fill-options",	&fill_options},
-  {"trim-whitespace",	&trim_whitespace},
-  {"",			NULL},
-  {"insert-default-directory", &insert_default_directory},
-  {"preserve-ligatures", &preserve_ligatures},
-  {"",			NULL},
-  {"complete-fold-file", &complete_fold_file},
-  {"compare-fold-file",	&compare_fold_file},
-  {"",			NULL},
-  {"blink-wait",	&blink_wait},
-  {"",			NULL},
-  {"soft-tab-size",	&soft_tab_size},
-  {"tabs-with-spaces",	&tabs_with_spaces},
-  {"tab-options",	&tab_options},
-  {"",			NULL},
-  {"buffer-name-width",	&buffer_name_width},
-  {"",			NULL},
-  {"undo-limit",	&undo_limit},
-  {"undo-enabled",	&undo_enabled},
-  {"",			NULL},
-  {"bell-type",		&bell_type},
-  {"emacs-compat",	&emacs_compat},
-  {"",			NULL},
-  {"shell-command-limit", &shell_command_limit},
+	{"case-fold-search",	'i', &case_fold_search},
+  {"",			0, NULL},
+  {"termdoescombine", 	'i', &termdoescombine},
+  {"termdoeswide", 	'i', &termdoeswide},
+  {"termdoesonlybmp",	'i', &termdoesonlybmp},
+  {"",			0, NULL},
+  {"width-routine",	'i', &width_routine},
+  {"manual-locale", 	'i', &manual_locale},
+  {"",			0, NULL},
+  {"word-search",	'i', &word_search},
+  {"fill-column",	'i', &fillcol},
+  {"",			0, NULL},
+  {"bsmap",		'i', &bs_map},
+  {"make-backup",	'i', &makebackup},
+  {"",			0, NULL},
+  {"window-scroll", 	'i', &scrollbyone},
+  {"recenter-redisplay",'i', &recenter_redisplay},
+  {"",			0, NULL},
+  {"modeline-show",	'i', &modeline_show},
+  {"kill-whole-lines",	'i', &kill_whole_lines},
+  {"",			0, NULL},
+  {"backward-compat",	'i', &backward_compat},
+  {"quoted-char-radix", 'i', &quoted_char_radix},
+  {"",			0, NULL},
+  {"fill-options",	'i', &fill_options},
+  {"trim-whitespace",	'i', &trim_whitespace},
+  {"",			0, NULL},
+  {"insert-default-directory", 'i', &insert_default_directory},
+  {"preserve-ligatures", 'i', &preserve_ligatures},
+  {"",			0, NULL},
+  {"complete-fold-file", 'i', &complete_fold_file},
+  {"compare-fold-file",	'i', &compare_fold_file},
+  {"",			0, NULL},
+  {"blink-wait",	'i', &blink_wait},
+  {"",			0, NULL},
+  {"soft-tab-size",	'i', &soft_tab_size},
+  {"tabs-with-spaces",	'i', &tabs_with_spaces},
+  {"tab-options",	'i', &tab_options},
+  {"",			0, NULL},
+  {"buffer-name-width",	'i', &buffer_name_width},
+  {"",			0, NULL},
+  {"undo-limit",	'i', &undo_limit},
+  {"undo-enabled",	'i', &undo_enabled},
+  {"",			0, NULL},
+  {"bell-type",		'i', &bell_type},
+  {"emacs-compat",	'i', &emacs_compat},
+  {"",			0, NULL},
+  {"shell-command-limit", 'i', &shell_command_limit},
 #if defined(LANGMODE_C) || defined(LANGMODE_CLIKE)
-  {"",			NULL},
-  {"# Language mode variables", NULL},
-  {"# -----------------------", NULL},
+  {"",			0, NULL},
+  {"# Language mode variables", 0, NULL},
+  {"# -----------------------", 0, NULL},
 #endif
 #ifdef LANGMODE_C
-  {"?",			NULL},			// "?" is skipped if previous line is comment,
-  {"cc-strip-trailp",	&cc_strip_trailp},	// otherwise lists as a blank line.
-  {"cc-basic-indent",	&cc_basic_indent},
-  {"cc-cont-indent",	&cc_cont_indent},
-  {"cc-colon-indent",	&cc_colon_indent},
+  {"?",			0, NULL},			// "?" is skipped if previous line is comment,
+  {"cc-strip-trailp",	'i', &cc_strip_trailp},	// otherwise lists as a blank line.
+  {"cc-basic-indent",	'i', &cc_basic_indent},
+  {"cc-cont-indent",	'i', &cc_cont_indent},
+  {"cc-colon-indent",	'i', &cc_colon_indent},
 #endif
 #ifdef LANGMODE_CLIKE
-  {"?",			NULL},
-  {"clike-lang",	&clike_lang},
-  {"clike-options",	&clike_options},
-  {"clike-style",	&clike_style},
+  {"?",			0, NULL},
+  {"clike-lang",	'i', &clike_lang},
+  {"clike-options",	'i', &clike_options},
+  {"clike-style",	'i', &clike_style},
 #endif
-  {NULL, NULL},
+  {NULL, 0, NULL},
 };
 
 static const var_entry obsolete_variables[] = {
-  {"advancedinput",	&dummy},
-  {"advancedinputdebug",&dummy},
-  {"auto-trim-whitespace",	&trim_whitespace},
-  {"python-indent-offset", &dummy},
-  {NULL, NULL},
+	{"advancedinput",	      'i', &dummy},
+	{"advancedinputdebug",    'i', &dummy},
+	{"auto-trim-whitespace",  'i', &trim_whitespace},
+	{"python-indent-offset",  'i', &dummy},
+	{NULL, 0, NULL},
 };
 
 static char *local_variables[] = {
@@ -192,13 +192,17 @@ setvar(INT f, INT n)
 		ewprintf("No value given");
 		return FALSE;
 	}
+	if (p->vtype == 'i') {
+		if (!getINT(numstring, &num, 1)) return FALSE;
 
-	if (!getINT(numstring, &num, 1)) return FALSE;
+		*p->value = num;
 
-	*p->value = num;
-
-	ewprintf("%s set to %d", p->name, *p->value);
-
+		ewprintf("%s set to %d", p->name, *p->value);
+	}
+	if (p->vtype == 's') {
+		strcpy(*p -> svalue, numstring);
+		ewprintf("%s set to '%s'", p->name, p->svalue);
+	}
 	invalidatecache();	/* Translations may have changed */
 	refreshbuf(NULL);
 
@@ -265,7 +269,10 @@ listvars(INT f, INT n)
 			if (prev == '#') continue;
 			strcpy(line, "");
 		} else {
-			sprintf(line, " %-24s %7jd", p->name, (intmax_t)(*p->value));
+			if (p->vtype == 'i')
+				sprintf(line, " %-24s %7jd", p->name, (intmax_t)(*p->value));
+			else
+				sprintf(line, " %-24s %s", p->name, *p->svalue);
 		}
 
 		if (addline(bp, line) == FALSE) return FALSE;
