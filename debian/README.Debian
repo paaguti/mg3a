@@ -1,6 +1,17 @@
 mg3a for Debian
 ---------------
 
-<possible notes regarding this package - if none, delete this file>
+A clean build on a Rasperry Pi3B with ubuntu server 18.04:
 
- -- Pedro A. Aranda <paag@unknown>  Sat, 09 Jul 2016 18:35:23 +0200
+```
+git clone https://github.com/paaguti/mg3a.git
+cd mg3a/
+sudo apt install build-essential
+sudo apt install automake autoconf
+sudo apt install debhelper
+sudo apt install -y libncursesw5-dev
+./boostrap.sh
+fakeroot debian/rules clean binary
+```
+
+ -- Pedro A. Aranda <paag@unknown>  Sun, 26 Apr 2020 07:04:39 +0000
