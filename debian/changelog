@@ -1,3 +1,9 @@
+mg3a (201010-1) unstable; urgency=low
+
+  * Fix handling string variables
+  * Add comment-line
+
+ -- Pedro A. Aranda <paag@gmail.com>  Sat, 10 Oct 2020 12:10:59 +0200
 mg3a (191206-1) unstable; urgency=low
 
   * Use autoconf tools to configure

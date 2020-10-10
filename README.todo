@@ -1,3 +1,11 @@
 My list of TODOs:
 
 Editing in the message buffer (at least ^A, ^E, ^K, ^D and the cursor keys)
+
+comment-line
+
+* Toggle comments with ESC ;
+* comment-begin and comment-end in C-like mode
+* Find the first non-blank character to place comment (at least for Python)
+
+comment-region

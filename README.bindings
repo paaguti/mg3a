@@ -136,6 +136,7 @@ ESC 6           digit-argument
 ESC 7           digit-argument
 ESC 8           digit-argument
 ESC 9           digit-argument
+ESC ;           comment-line
 ESC :           eval-expression
 ESC <           beginning-of-buffer
 ESC >           end-of-buffer
@@ -260,4 +261,3 @@ Local keybindings for mode helpbuf:
 ?               describe-bindings
 h               describe-bindings
 q               quit-window
-

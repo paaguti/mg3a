@@ -1,5 +1,13 @@
 Changelog, in reverse date order. Files are named yymmdd.
 
+20201010:
+
+-- Fixed string variables
+** Add 'comment-begin' 'comment-end' variables
+** Implement 'comment-line' and bind it to Esc-;
+   Comments full line. To comment from point, use Ctrl-U Esc-;
+   Include '# ' as comment string for Python
+
 From 110724, Bugfixes are listed with "--", most serious bugs first.
 
 1921205:
