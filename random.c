@@ -1416,12 +1416,18 @@ setindent(INT col)
 }
 
 INT comment_line(INT f, INT n)
-/* Version 0.0: if there is a comment_begin, insert it and then try to insert a comment_end */
+/* Version 0.1: if there is a comment_begin, insert it and then try to insert a comment_end
+   ^U makes comment from point to end of line
+ */
+
 {
+	/* ewprintf("comment-line(%d,%d)", f,n); */
 	if (strlen (comment_begin) == 0) return FALSE;
-	gotobol(TRUE, 1);
+	if (f==0)
+		gotobol(TRUE, 1);
 	linsert_str(1, comment_begin, strlen(comment_begin));
 	if (strlen (comment_end) == 0) return TRUE;
+	gotoeol(TRUE,1);
 	linsert_str(1, comment_end, strlen(comment_end));
 	return TRUE;
 }

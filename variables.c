@@ -46,7 +46,7 @@ extern INT clike_style;
 
 extern char comment_begin[20], comment_end[20];
 
-typedef const struct {char *name; char vtype; union{INT *value; char **svalue;};} var_entry;
+typedef const struct {char *name; char vtype; union{INT *value; char *svalue[20];};} var_entry;
 
 static const var_entry variables[] = {
 	{"case-fold-search",	'i', &case_fold_search},
@@ -97,8 +97,9 @@ static const var_entry variables[] = {
 	{"emacs-compat",	'i', &emacs_compat},
 	{"",			0, NULL},
 	{"shell-command-limit", 'i', &shell_command_limit},
-	{ "comment-begin", 's', &comment_begin},
-	{ "comment-end", 's', &comment_end},
+	{"",			0, NULL},
+	{ "comment-begin", 's', .svalue = &comment_begin[0]},
+	{ "comment-end", 's', .svalue = &comment_end[0]},
 #if defined(LANGMODE_C) || defined(LANGMODE_CLIKE)
 	{"",			0, NULL},
 	{"# Language mode variables", 0, NULL},
@@ -204,8 +205,8 @@ setvar(INT f, INT n)
 		ewprintf("%s set to %d", p->name, *p->value);
 	}
 	if (p->vtype == 's') {
-		strcpy(*p -> svalue, numstring);
-		ewprintf("%s set to '%s'", p->name, p->svalue);
+		strncpy(*p -> svalue, numstring, 19);
+		ewprintf("%s set to '%s'", p->name, *p->svalue);
 	}
 	invalidatecache();	/* Translations may have changed */
 	refreshbuf(NULL);
