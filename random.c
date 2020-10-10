@@ -9,12 +9,15 @@
 #include	"def.h"
 #include	"macro.h"
 
+char comment_begin[20], comment_end[20];
+
 INT	backchar(INT f, INT n);
 INT	forwchar(INT f, INT n);
 INT	delwhite(INT f, INT n);
 INT	backdel(INT f, INT n);
-
-
+extern INT comment_line(INT f, INT n);
+INT gotobol(INT n, INT f);
+INT gotoeol(INT n, INT f);
 /*
  * Display a bunch of useful information about the current location of
  * dot. The character under the cursor (in octal), the current line,
@@ -1410,4 +1413,21 @@ setindent(INT col)
 	adjustpos(curwp->w_dotp, curwp->w_doto + soff);
 
 	return TRUE;
+}
+
+INT comment_line(INT f, INT n)
+/* Version 0.0: if there is a comment_begin, insert it and then try to insert a comment_end */
+{
+	if (strlen (comment_begin) == 0) return FALSE;
+	gotobol(TRUE, 1);
+	linsert_str(1, comment_begin, strlen(comment_begin));
+	if (strlen (comment_end) == 0) return TRUE;
+	linsert_str(1, comment_end, strlen(comment_end));
+	return TRUE;
+}
+
+extern void reset_comment(void)
+{
+	comment_begin[0] = 0;
+	comment_end[0] = 0;
 }

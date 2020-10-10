@@ -26,34 +26,34 @@ changemode(BUFFER *bp, INT f, INT n, char *mode)
     m = name_mode(mode);
 
     if(invalid_mode(m)) {
-	ewprintf("Can't find mode %s", mode);
-	return FALSE;
+		ewprintf("Can't find mode %s", mode);
+		return FALSE;
     }
     if(!(f & FFARG)) {
-	for(i=0; i <= bp->b_nmodes; i++)
-	    if(bp->b_modes[i] == m) {
-		n = 0;			/* mode already set */
-		break;
-	    }
+		for(i=0; i <= bp->b_nmodes; i++)
+			if(bp->b_modes[i] == m) {
+				n = 0;			/* mode already set */
+				break;
+			}
     }
     if(n > 0) {
-	for(i=0; i <= bp->b_nmodes; i++)
-	    if(bp->b_modes[i] == m) return TRUE;	/* mode already set */
-	if(bp->b_nmodes >= PBMODES-1) {
-	    ewprintf("Too many modes");
-	    return FALSE;
-	}
-	upmodes(bp);
-	if (bp == curbp && (s = exec_mode_init_commands(m)) != TRUE) return s;
-	bp->b_modes[++(bp->b_nmodes)] = m;
+		for(i=0; i <= bp->b_nmodes; i++)
+			if(bp->b_modes[i] == m) return TRUE;	/* mode already set */
+		if(bp->b_nmodes >= PBMODES-1) {
+			ewprintf("Too many modes");
+			return FALSE;
+		}
+		upmodes(bp);
+		if (bp == curbp && (s = exec_mode_init_commands(m)) != TRUE) return s;
+		bp->b_modes[++(bp->b_nmodes)] = m;
     } else {
 	/* fundamental is b_modes[0] and can't be unset */
-	for(i=1; i <= bp->b_nmodes && m != bp->b_modes[i]; i++) {}
-	if(i > bp->b_nmodes) return TRUE;		/* mode wasn't set */
-	for(; i < bp->b_nmodes; i++)
-	    bp->b_modes[i] = bp->b_modes[i+1];
-	bp->b_nmodes--;
-	upmodes(bp);
+		for(i=1; i <= bp->b_nmodes && m != bp->b_modes[i]; i++) {}
+		if(i > bp->b_nmodes) return TRUE;		/* mode wasn't set */
+		for(; i < bp->b_nmodes; i++)
+			bp->b_modes[i] = bp->b_modes[i+1];
+		bp->b_nmodes--;
+		upmodes(bp);
     }
     return TRUE;
 }

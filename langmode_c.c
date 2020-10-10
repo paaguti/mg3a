@@ -11,6 +11,8 @@
 /*
  * Implement an non-irritating KNF-compliant mode for editing
  * C code.
+ *
+ * paaguti: TODO: integrate comment_begin and comment_end variables
  */
 
 #include "def.h"
@@ -51,9 +53,12 @@ is_space(INT c)
 /*
  * Enable/toggle c-mode
  */
-INT
-cmode(INT f, INT n)
+extern char comment_begin[20], comment_end[20];
+
+INT cmode(INT f, INT n)
 {
+	comment_begin[0] = 0;
+	comment_end[0] = 0;
 	return changemode(curbp, f, n, "c");
 }
 

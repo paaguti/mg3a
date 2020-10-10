@@ -297,6 +297,7 @@ extern	INT	joinline();		/* Join lines			*/
 extern	INT	joinline_forward();	/* Join lines, default forward	*/ // Mg3a extension
 extern	INT	insert_tab();		/* Insert soft/hard tab		*/
 extern	INT	insert_tab_8();		/* Insert tab of size 8		*/
+extern  INT comment_line();      /* comment line */
 
 /*
  * Defined by "region.c".
@@ -644,8 +645,8 @@ static	PF	metami[] = {
 	digit_argument, /* 7 */
 	digit_argument, /* 8 */
 	digit_argument, /* 9 */
-	evalexpr,	/* : */
-	rescan,		/* ; */
+	evalexpr,	    /* : */
+	comment_line,	/* ; */
 	gotobob,	/* < */
 	rescan,		/* = */
 	gotoeob,	/* > */
