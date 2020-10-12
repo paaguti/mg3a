@@ -1415,14 +1415,33 @@ setindent(INT col)
 	return TRUE;
 }
 
+INT set_comment(void)
+{
+	ewprintf("comment delimiter(s) not defined!");
+	return FALSE;
+}
+
+INT comment_region(REGION *rp)
+{
+	ewprintf("TODO: comment-region");
+	return FALSE;
+}
+
 INT comment_line(INT f, INT n)
 /* Version 0.1: if there is a comment_begin, insert it and then try to insert a comment_end
    ^U makes comment from point to end of line
  */
-
 {
+	INT s;
+	REGION region;
+
+	if (strlen (comment_begin) == 0) return set_comment();
+	if (curbp->b_flag & BFREADONLY) return readonly();
+
+	if ((s = getregion(&region)) == TRUE)
+		return comment_region(&region);
+
 	/* ewprintf("comment-line(%d,%d)", f,n); */
-	if (strlen (comment_begin) == 0) return FALSE;
 	if (f==0)
 		gotobol(TRUE, 1);
 	linsert_str(1, comment_begin, strlen(comment_begin));
