@@ -480,15 +480,32 @@ isetmark()
 	curwp->w_marko = curwp->w_doto;
 }
 
+/*
+ * Reset mark
+ */
 
+void iresetmark()
+{
+	curwp->w_markp = NULL;
+	curwp->w_marko = -1;
+}
 /*
  * Set the mark in the current window to the value of dot. A message
  * is written to the echo line. (ewprintf knows about macros)
+ * paaguti:
+ *   If the current dot is on the mark, reset the mark
  */
 
 INT
 setmark(INT f, INT n)
 {
+	if (curwp->w_markp == curwp->w_dotp) {
+		if (curwp->w_marko == curwp->w_doto) {
+			iresetmark();
+			ewprintf ("Mark reset");
+			return TRUE;
+		}
+	}
 	isetmark();
 	ewprintf("Mark set");
 	return TRUE;
