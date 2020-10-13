@@ -1421,7 +1421,7 @@ INT set_comment(void)
 	return FALSE;
 }
 
-INT comment_region(REGION *rp)
+INT comment_region()
 {
 	ewprintf("TODO: comment-region");
 	return FALSE;
@@ -1432,15 +1432,16 @@ INT comment_line(INT f, INT n)
    ^U makes comment from point to end of line
  */
 {
-	INT s;
-	REGION region;
 
 	if (strlen (comment_begin) == 0) return set_comment();
-	if (curbp->b_flag & BFREADONLY) return readonly();
+	if (curwp->w_bufp->b_flag & BFREADONLY) return readonly();
 
-	if ((s = getregion(&region)) == TRUE)
-		return comment_region(&region);
-
+	if (curwp->w_markp != NULL) {
+		if (curwp->w_dotp != curwp->w_markp)
+			return comment_region();
+		if (curwp->w_doto != curwp->w_marko)
+			return comment_region();
+	}
 	/* ewprintf("comment-line(%d,%d)", f,n); */
 	if (f==0)
 		gotobol(TRUE, 1);
