@@ -221,6 +221,7 @@ extern	INT	list_macros();		/* List named macros		*/
 /*
  * Defined by "main.c".
  */
+extern	INT	keyboard_quit();		/* Abort out of things		*/
 extern	INT	ctrlg();		/* Abort out of things		*/
 extern	INT	quit();			/* Quit, asking to save files	*/
 extern	INT	hardquit();		/* Quit the editor immediately	*/
@@ -718,7 +719,7 @@ static	PF	fund_at[] = {
 	forwdel,	/* ^D */
 	gotoeol,	/* ^E */
 	forwchar,	/* ^F */
-	ctrlg,		/* ^G */
+	keyboard_quit,		/* ^G */
 	prefix,		/* ^H */
 };
 
@@ -1898,7 +1899,7 @@ const FUNCTNAMES functnames[] = {
 	{joinline,	"join-line", 0},
 	{joinline_forward,	"join-line-forward", 0},	// Mg3a extension
 	{justone,	"just-one-space", 0},
-	{ctrlg,		"keyboard-quit", 0},
+	{keyboard_quit,		"keyboard-quit", 0},
 	{killbuffer,	"kill-buffer", 0},
 	{killbuffer_andwindow, "kill-buffer-and-window", 0},
 	{killbuffer_quickly, "kill-buffer-quickly", 0},

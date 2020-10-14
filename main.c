@@ -24,7 +24,7 @@ static void	edinit(void);
 void reset_comment(void);
 
 INT	gotoline(INT f, INT n);
-
+void iresetmark(void);
 
 static int
 usage(char *progname)
@@ -327,11 +327,21 @@ save_and_exit(INT f, INT n)
 
 
 /*
+ * paaguti: in Emacs, Ctrl-G clears the mark!
+ */
+
+INT keyboard_quit(INT f, INT n)
+{
+  ewprintf("Clearing...");
+  iresetmark();
+  return TRUE;
+}
+
+/*
  * User abort. Should be called by any input routine that sees a C-g
  * to abort whatever C-g is aborting these days. Currently does
  * nothing.
  */
-
 INT
 ctrlg(INT f, INT n)
 {
