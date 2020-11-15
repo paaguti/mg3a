@@ -1,3 +1,8 @@
+mg3a (201115-1) unstable; urgency=low
+
+  * Add make-mode
+
+ -- Pedro A. Aranda <paag@gmail.com>  Sun, 15 Nov 2020 09:11:57 +0100
 mg3a (201010-1) unstable; urgency=low
 
   * Fix handling string variables
