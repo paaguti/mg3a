@@ -83,6 +83,14 @@ AC_ARG_ENABLE([pythonmode],
 AS_IF([ test "x$enable_pythonmode" == "xyes"],
 		[AM_CPPFLAGS="$AM_CPPFLAGS -DLANGMODE_PYTHON"],[true])
 
+AC_ARG_ENABLE([makemode],
+   AS_HELP_STRING([--enable-makemode],
+	    [ Enable Makefile mode @<:@default=yes@:>@ ])],
+   [enable_makemode="${enableval:-yes}"],
+   [enable_makemode=yes])
+AS_IF([ test "x$enable_makemode" == "xyes"],
+		[AM_CPPFLAGS="$AM_CPPFLAGS -DLANGMODE_MAKE"],[true])
+
 AC_ARG_ENABLE([cmode],
     AS_HELP_STRING([--enable-cmode],
 		[ Enable old C mode @<:@default=no@:>@ ])],

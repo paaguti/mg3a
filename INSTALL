@@ -1,1 +1,113 @@
-/usr/share/automake-1.16/INSTALL
+diff --git a/INSTALL b/INSTALL
+index e3f22c0..387b1fc 120000
+--- a/INSTALL
++++ b/INSTALL
+@@ -1 +1 @@
+-/usr/share/automake-1.16/INSTALL
+\ No newline at end of file
++/usr/local/share/automake-1.16/INSTALL
+\ No newline at end of file
+diff --git a/Makefile.am b/Makefile.am
+index e4ffca4..56bc017 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -6,7 +6,7 @@ SRCS	= basic.c dir.c dired.c file.c line.c match.c paragraph.c \
+ 	  random.c region.c search.c version.c window.c word.c \
+ 	  buffer.c display.c echo.c extend.c help.c kbd.c keymap.c \
+ 	  macro.c main.c modes.c ucs.c util.c variables.c width.c \
+-	  langmode_c.c langmode_python.c langmode_clike.c \
++	  langmode_c.c langmode_python.c langmode_make.c langmode_clike.c \
+ 	  ucsnames.c undo.c
+ 
+ OINCS =	ttydef.h sysdef.h chrdef.h cpextern.h
+diff --git a/configure.ac b/configure.ac
+index 283b834..548628b 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -83,6 +83,14 @@ AC_ARG_ENABLE([pythonmode],
+ AS_IF([ test "x$enable_pythonmode" == "xyes"],
+ 		[AM_CPPFLAGS="$AM_CPPFLAGS -DLANGMODE_PYTHON"],[true])
+ 
++AC_ARG_ENABLE([makemode],
++   AS_HELP_STRING([--enable-makemode],
++	    [ Enable Makefile mode @<:@default=yes@:>@ ])],
++   [enable_makemode="${enableval:-yes}"],
++   [enable_makemode=yes])
++AS_IF([ test "x$enable_makemode" == "xyes"],
++		[AM_CPPFLAGS="$AM_CPPFLAGS -DLANGMODE_MAKE"],[true])
++
+ AC_ARG_ENABLE([cmode],
+     AS_HELP_STRING([--enable-cmode],
+ 		[ Enable old C mode @<:@default=no@:>@ ])],
+diff --git a/def.h b/def.h
+index d051d2d..a7aa98f 100644
+--- a/def.h
++++ b/def.h
+@@ -12,6 +12,7 @@
+ #define SEARCHALL
+ #define LANGMODE_C
+ #define LANGMODE_PYTHON
++#define LANGMODE_MAKE
+ #define LANGMODE_CLIKE
+ #define UCSNAMES
+ #define USER_MODES
+@@ -82,7 +83,7 @@
+ #define HELP_RET
+ #endif
+ 
+-#if defined(LANGMODE_CLIKE) || defined(LANGMODE_PYTHON) || defined(USER_MODES)
++#if defined(LANGMODE_CLIKE) || defined(LANGMODE_PYTHON) || defined(LANGMODE_MAKE) || defined(USER_MODES)
+ #define LOCAL_SET_MODE
+ #else
+ #undef LOCAL_SET_MODE
+diff --git a/keymap.c b/keymap.c
+index a930f8d..1fb3fea 100644
+--- a/keymap.c
++++ b/keymap.c
+@@ -188,6 +188,9 @@ extern	INT	clike_mode();			/* Clike mode switch		*/
+ extern	INT	clike_showmatch();		/* Clike blink-and-insert	*/
+ #endif
+ 
++#ifdef LANGMODE_MAKE
++extern	INT	makemode();		/* Makefile mode switch		*/
++#endif
+ #ifdef LANGMODE_PYTHON
+ /*
+  * defined by "langmode_python.c"
+@@ -1016,7 +1019,16 @@ static struct KEYMAPE (1) pythonmap = {
+ 	    { CCHR('M'), CCHR('M'), pymode_ret,  NULL },
+ 	}
+ };
++#endif
+ 
++#ifdef LANGMODE_MAKE
++static struct KEYMAPE (1) makemap = {
++	0,
++	0,
++	rescan,
++	{
++	}
++};
+ #endif
+ 
+ #ifdef LANGMODE_CLIKE
+@@ -1137,6 +1149,9 @@ static MAPS	map_table_static[] = {					// Tag:maps
+ #ifdef LANGMODE_PYTHON
+ 	{(KEYMAP *)&pythonmap,  "python", 0, "local-set-tabs 4 1 1"},
+ #endif
++#ifdef LANGMODE_MAKE
++	{(KEYMAP *)&makemap,    "make", 0, NULL},
++#endif
+ #ifdef LANGMODE_CLIKE
+ 	{(KEYMAP *)&clikemap,	"clike", 0,	NULL},
+ 	{(KEYMAP *)&stdcmap,	"stdc",	0,	"lv clike-lang 1"},
+@@ -1956,6 +1971,9 @@ const FUNCTNAMES functnames[] = {
+ 	{localunsetvar,	"local-unset-variable", 0},
+ 	{localsetvar,	"lv", FUNC_ALIAS},
+ 	{makebkfile,	"make-backup-files", 0},
++#ifdef LANGMODE_MAKE
++	{makemode,	"make-mode", 0},
++#endif
+ 	{markpara,	"mark-paragraph", 0},
+ 	{markwholebuffer, "mark-whole-buffer", 0},
+ 	{message,	"message", 0},

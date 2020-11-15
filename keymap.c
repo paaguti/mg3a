@@ -188,6 +188,9 @@ extern	INT	clike_mode();			/* Clike mode switch		*/
 extern	INT	clike_showmatch();		/* Clike blink-and-insert	*/
 #endif
 
+#ifdef LANGMODE_MAKE
+extern	INT	makemode();		/* Makefile mode switch		*/
+#endif
 #ifdef LANGMODE_PYTHON
 /*
  * defined by "langmode_python.c"
@@ -1017,7 +1020,16 @@ static struct KEYMAPE (1) pythonmap = {
 	    { CCHR('M'), CCHR('M'), pymode_ret,  NULL },
 	}
 };
+#endif
 
+#ifdef LANGMODE_MAKE
+static struct KEYMAPE (1) makemap = {
+	0,
+	0,
+	rescan,
+	{
+	}
+};
 #endif
 
 #ifdef LANGMODE_CLIKE
@@ -1137,6 +1149,9 @@ static MAPS	map_table_static[] = {					// Tag:maps
 #endif
 #ifdef LANGMODE_PYTHON
 	{(KEYMAP *)&pythonmap,  "python", 0, "local-set-tabs 4 1 1"},
+#endif
+#ifdef LANGMODE_MAKE
+	{(KEYMAP *)&makemap,    "make", 0, NULL},
 #endif
 #ifdef LANGMODE_CLIKE
 	{(KEYMAP *)&clikemap,	"clike", 0,	NULL},
@@ -1798,6 +1813,7 @@ const FUNCTNAMES functnames[] = {
 	{clike_newline_and_indent,	"clike-newline-and-indent", 0},
 	{clike_tab_or_indent,		"clike-tab-or-indent", 0},
 #endif
+	{comment_line, "comment-line", 0},
 #ifdef USER_MODES
 	{copy_mode,	"copy-mode", 0},
 #endif
@@ -1957,6 +1973,9 @@ const FUNCTNAMES functnames[] = {
 	{localunsetvar,	"local-unset-variable", 0},
 	{localsetvar,	"lv", FUNC_ALIAS},
 	{makebkfile,	"make-backup-files", 0},
+#ifdef LANGMODE_MAKE
+	{makemode,	"make-mode", 0},
+#endif
 	{markpara,	"mark-paragraph", 0},
 	{markwholebuffer, "mark-whole-buffer", 0},
 	{message,	"message", 0},

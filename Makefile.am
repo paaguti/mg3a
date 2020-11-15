@@ -6,7 +6,7 @@ SRCS	= basic.c dir.c dired.c file.c line.c match.c paragraph.c \
 	  random.c region.c search.c version.c window.c word.c \
 	  buffer.c display.c echo.c extend.c help.c kbd.c keymap.c \
 	  macro.c main.c modes.c ucs.c util.c variables.c width.c \
-	  langmode_c.c langmode_python.c langmode_clike.c \
+	  langmode_c.c langmode_python.c langmode_make.c langmode_clike.c \
 	  ucsnames.c undo.c
 
 OINCS =	ttydef.h sysdef.h chrdef.h cpextern.h

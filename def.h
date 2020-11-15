@@ -12,6 +12,7 @@
 #define SEARCHALL
 #define LANGMODE_C
 #define LANGMODE_PYTHON
+#define LANGMODE_MAKE
 #define LANGMODE_CLIKE
 #define UCSNAMES
 #define USER_MODES
@@ -82,7 +83,7 @@
 #define HELP_RET
 #endif
 
-#if defined(LANGMODE_CLIKE) || defined(LANGMODE_PYTHON) || defined(USER_MODES)
+#if defined(LANGMODE_CLIKE) || defined(LANGMODE_PYTHON) || defined(LANGMODE_MAKE) || defined(USER_MODES)
 #define LOCAL_SET_MODE
 #else
 #undef LOCAL_SET_MODE
