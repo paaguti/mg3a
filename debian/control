@@ -2,7 +2,7 @@ Source: mg3a
 Section: editors
 Priority: optional
 Maintainer: Pedro A. Aranda <paaguti@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), libncursesw5 (>= 6.0)
+Build-Depends: debhelper (>= 8.0.0), libncursesw6 (>= 6.0)
 Standards-Version: 3.9.4
 Homepage: http://www.bengtl.net/files/mg3a
 #Vcs-Git: git://git.debian.org/collab-maint/mg3a.git
