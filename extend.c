@@ -1265,22 +1265,46 @@ skipwhite(char *s)
  * than after it.
  */
 
+static inline
+char *skip_character(char *s)
+{
+	char next = *s;
+	while (1) {
+		s++;
+		if (*s == next) return ++s; /* return after the opening hyphen */
+		if (*s == '\0') return s;	/* Whoops, unterminated string */
+	}
+}
+
 static char *
 parsetoken(char *s)
 {
+#if 0
 	if (*s != '"') {
 		while (*s && *s!=' ' && *s!='\t' && *s!=')' && *s!='(' && *s != ';') s++;
 		return s;
 	} else {
 		// *s points to a '"'. The intent is to scan the string and
 		// return a pointer to a point after it.
+
 		while (1) {
 			s++;
 			if (*s == '"') return ++s;
-	    		if (*s == '\\') s++;
+			if (*s == '\\') s++; /* Why? */
 			if (*s == '\0') return s;
 		}
 	}
+#else
+	if (*s == '"')
+		// *s points to a '"'. The intent is to scan the string and
+		// return a pointer to a point after it.
+		return skip_character(s);
+
+	// Skip over to end of line nor next whitespace, parenthesis or colon
+	while ((*s != '\0') && (strchr("\t ();",*s) == NULL))
+		s++;
+	return s;
+#endif
 }
 
 
