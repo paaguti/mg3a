@@ -44,8 +44,6 @@ extern INT clike_lang;
 extern INT clike_style;
 #endif
 
-extern char comment_begin[20], comment_end[20];
-
 typedef const struct {char *name; char vtype; union{INT *value; char *svalue[20];};} var_entry;
 
 static const var_entry variables[] = {
@@ -97,9 +95,6 @@ static const var_entry variables[] = {
 	{"emacs-compat",	'i', &emacs_compat},
 	{"",			0, NULL},
 	{"shell-command-limit", 'i', &shell_command_limit},
-	{"",			0, NULL},
-	{ "comment-begin", 's', .svalue = &comment_begin[0]},
-	{ "comment-end", 's', .svalue = &comment_end[0]},
 #if defined(LANGMODE_C) || defined(LANGMODE_CLIKE)
 	{"",			0, NULL},
 	{"# Language mode variables", 0, NULL},
@@ -145,8 +140,34 @@ static char *local_variables[] = {
 	NULL
 };
 
-const INT localvars = (sizeof(local_variables)/sizeof(char *) - 1);
+static char *local_svariables[] = {
+	"comment-begin",
+	"comment-end",
+	NULL
+};
 
+const INT localvars = (sizeof(local_variables)/sizeof(char *) - 1);
+const INT localsvars = (sizeof(local_svariables)/sizeof(char *) - 1);
+
+static char **local_var_complete;
+
+/* Call this from main() to initialise local variable completion
+ * This is basically concat the list of integer and string local variable names
+ */
+
+void variable_completion_init(void) {
+	int complete_size = localvars+localsvars+1;
+	int i;
+	/* ALlocate the list */
+	local_var_complete = (char **)calloc(complete_size+1, sizeof(char *));
+	/* copy the integer variable names */
+	for (i = 0; local_variables[i] != NULL; i++)
+		local_var_complete[i] = local_variables[i];
+	/* copy the string variable names */
+	for (; local_svariables[i-localvars]; i++)
+		local_var_complete[i] = local_svariables[i-localvars];
+
+}
 /*
  * A separator line or comment in the global variable list
  */
@@ -233,7 +254,16 @@ listvars(INT f, INT n)
 	haslocal = (f & FFARG);
 
 	for (i = 0; i < localvars; i++) {
-		if (curbp->localvar.var[i] != MININT) haslocal = 1;
+		if (curbp->localvar.var[i] != MININT) {
+			haslocal = 1;
+			break;
+		}
+	}
+	for (i = 0; i < localsvars; i++) {
+		if (curbp->localsvar.var[i] != NULL) {
+			haslocal = 1;
+			break;
+		}
 	}
 
 	if (haslocal) {
@@ -256,6 +286,15 @@ listvars(INT f, INT n)
 					"(unset)");
 				if (addline(bp, line) == FALSE) return FALSE;
 			}
+		}
+		for (i = 0; i < localsvars; i++) {
+			char *val = "";
+			if (curbp -> localsvar.var[i] != NULL)
+				val = curbp->localsvar.var[i];
+			if ((f & FFARG) || (curbp->localsvar.var[i] != NULL))
+				sprintf(line," %-24s\"%s\"",
+						local_svariables[i], val);
+			if (addline(bp, line) == FALSE) return FALSE;
 		}
 		if (addline(bp, "") == FALSE) return FALSE;
 	}
@@ -317,9 +356,10 @@ INT
 localsetvar(INT f, INT n)
 {
 	INT s;
-	char varname[VARLEN], numstring[20];
+	char varname[VARLEN], val_value[20];
 	INT num;
 	char **p;
+	INT is_string = 0;
 
 	if ((s = eread("Local Set Variable: ",
 		varname, sizeof(varname), EFLOCALVAR)) != TRUE) return s;
@@ -329,11 +369,21 @@ localsetvar(INT f, INT n)
 	}
 
 	if (*p == NULL) {
-		ewprintf("No such local variable");
-		return FALSE;
+		/* Retry with the local string variables */
+		for (p = local_svariables; *p; p++) {
+			if (strcmp(varname, *p) == 0) {
+				is_string = 1;	/* found, signal it is a string variable! */
+				break;
+			}
+		}
+		/* bad luck! */
+		if (*p == NULL) {
+			ewprintf("No such local variable");
+			return FALSE;
+		}
 	}
 
-	s = ereply("Local Set %s to: ", numstring, sizeof(numstring), varname);
+	s = ereply("Local Set %s to: ", val_value, sizeof(val_value), varname);
 
 	if (s == ABORT) {
 		return s;
@@ -342,12 +392,21 @@ localsetvar(INT f, INT n)
 		return FALSE;
 	}
 
-	if (!getINT(numstring, &num, 1)) return FALSE;
+	if (is_string == 0) {
+		/* This is a number, convert and store */
+		if (!getINT(val_value, &num, 1)) return FALSE;
 
-	curbp->localvar.var[p - local_variables] = num;
-
-	ewprintf("Local variable %s set to %d", *p, num);
-
+		curbp->localvar.var[p - local_variables] = num;
+		ewprintf("Local variable %s set to %ld", *p, num);
+	} else{
+		INT voffs = p - local_svariables;
+		/* Clean up any previous value; */
+		if (curbp->localsvar.var[voffs] != NULL)
+			free(curbp->localsvar.var[voffs]);
+		/* store a copy */
+		curbp->localsvar.var[voffs] = strdup(val_value);
+		ewprintf("Local variable %s set to '%s'", *p, curbp->localsvar.var[voffs]);
+	}
 	return TRUE;
 }
 
@@ -392,7 +451,8 @@ getnext_localvarname(INT first)
 {
 	static char **p = NULL;
 
-	if (first) p = local_variables;
+	/* if (first) p = local_variables; */
+	if (first) p = local_var_complete;
 	else if (!*p)  return NULL;
 	else p++;
 

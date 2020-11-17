@@ -1,0 +1,70 @@
+;;
+;; General keys and variables
+;;
+(global-set-key "\ez"    "save-buffers-kill-emacs 1")
+(global-set-key "\e\^?"  'backward-kill-word)
+(global-set-key "\^h"    'delete-backward-char)
+(global-set-key "\e\^h"  'backward-kill-word)
+(global-set-key "\e "    'set-mark-command)
+(global-set-key "\eg"    'goto-line)
+(global-set-key "\ep"    'fill-paragraph)
+(global-set-key "\esa"   'search-again)
+(global-set-key "\ess"   'search-all-forward)
+(global-set-key "\esr"   'search-all-backward)
+(global-set-key "\esf"   'search-forward)
+(global-set-key "\esb"   'search-backward)
+(global-set-key "\esF"   'isearch-forward)
+(global-set-key "\esB"   'isearch-backward)
+;
+; Sun, 26 Apr 2020 07:04:39 +0000
+;
+(global-set-key "\e[5~"  'scroll-down)
+(global-set-key "\e[6~"  'scroll-up)
+;
+; Tue, 04 Apr 2017 15:04:44 +0200
+;
+(global-set-key "\e\^d"  "yank-process \"LC_ALL=C date '+%a, %d %b %Y %H:%m:%S %z'\"")
+
+(set-default-mode "lf")
+(set-variable "blink-wait" 0)
+
+;
+; fill-options for filling block comments in C, and use hard tabs with
+; auto-cleanup.
+;
+create-macro "myprog" "lv fill-options 9; local-set-tabs 8 0"
+
+;;
+;; LaTEX with filling
+;;
+(set-variable "fill-column" 72)
+(auto-execute *.tex 'auto-fill-mode)
+;;
+;; Explicitly NO backups
+;; Sun, 07 Jun 2020 08:06:35 +0200
+;;
+(set-variable "make-backup" 0)
+
+;;
+;; Python
+;;
+shebang "python"
+auto-execute "*.py" "python-mode"
+;;
+;; for scapy development
+;;
+;;auto-execute "*.uts" "python-mode"
+;;
+;; GNU make
+;; TODO: why not the last space ???
+shebang "make"
+auto-execute "Makefile" "make-mode"
+auto-execute "GNUMakefile" "make-mode"
+auto-execute "*.mak" "make-mode; lv comment-begin '## '"
+
+;
+; C mode
+;
+auto-execute "*.[ch]" "myprog; local-set-mode stdc; lv clike-style 4; lv comment-begin '// '; local-set-tabs 2 1 1"
+;; auto-execute "*.c" "myprog; local-set-mode stdc; lv clike-style 4; local-set-tabs 2 1 1"
+

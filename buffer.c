@@ -759,6 +759,11 @@ resetbuffer(BUFFER *bp)
 		bp->localvar.var[i] = MININT;
 	}
 
+	for (i = 0; i < localsvars; i++) {
+		if (bp -> localsvar.var[i] != NULL)
+			free (bp->localsvar.var[i]);
+			bp->localsvar.var[i] = NULL;
+	}
 	bp->localmodename[0] = 0;
 
 	if (strcmp(bp->b_bname, "*scratch*") == 0 && bp->b_fname[0] == 0) {

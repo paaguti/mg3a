@@ -9,7 +9,7 @@
 #include	"def.h"
 #include	"macro.h"
 
-char comment_begin[20], comment_end[20];
+/* char comment_begin[20], comment_end[20]; */
 
 INT	backchar(INT f, INT n);
 INT	forwchar(INT f, INT n);
@@ -1432,9 +1432,12 @@ INT comment_line(INT f, INT n)
    ^U makes comment from point to end of line
  */
 {
+	char *comment_begin = curwp->w_bufp->localsvar.v.comment_begin;
+	char *comment_end   = curwp->w_bufp->localsvar.v.comment_end;
 
-	if (strlen (comment_begin) == 0) return set_comment();
 	if (curwp->w_bufp->b_flag & BFREADONLY) return readonly();
+	if ((comment_begin == NULL) || (strlen(comment_begin) == 0)) return set_comment();
+	/* if (strlen (comment_begin) == 0) return set_comment(); */
 
 	if (curwp->w_markp != NULL) {
 		if (curwp->w_dotp != curwp->w_markp)
@@ -1442,18 +1445,17 @@ INT comment_line(INT f, INT n)
 		if (curwp->w_doto != curwp->w_marko)
 			return comment_region();
 	}
-	/* ewprintf("comment-line(%d,%d)", f,n); */
 	if (f==0)
 		gotobol(TRUE, 1);
 	linsert_str(1, comment_begin, strlen(comment_begin));
-	if (strlen (comment_end) == 0) return TRUE;
+/*	ewprintf("comment-line: comment-begin = %s",comment_begin); */
+
+        if ((comment_end == NULL) || (strlen (comment_end) == 0))
+		return TRUE;
+
 	gotoeol(TRUE,1);
 	linsert_str(1, comment_end, strlen(comment_end));
-	return TRUE;
-}
+/*	ewprintf("comment-end: comment-end = %s",comment_end); */
 
-extern void reset_comment(void)
-{
-	comment_begin[0] = 0;
-	comment_end[0] = 0;
+        return TRUE;
 }

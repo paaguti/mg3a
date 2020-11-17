@@ -21,7 +21,6 @@ INT	inhibit_startup = 0;		/* Inhibit startup files	*/
 
 extern char	version[];
 static void	edinit(void);
-void reset_comment(void);
 
 INT	gotoline(INT f, INT n);
 void iresetmark(void);
@@ -221,7 +220,8 @@ edinit()
 	wp->w_force = 0;
 	wp->w_flag  = WFMODE|WFHARD;		/* Full.		*/
 	wp->w_dotpos = 0;
-	reset_comment();
+
+	variable_completion_init();
 }
 
 

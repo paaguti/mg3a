@@ -1559,13 +1559,9 @@ clike_tab_or_indent(INT f, INT n)
 /*
  * "clike" mode switch.
  */
-extern char comment_begin[20], comment_end[20];
-
 INT
 clike_mode(INT f, INT n)
 {
-	comment_begin[0] = 0;
-	comment_end[0] = 0;
 	return changemode(curbp, f, n, "clike");
 }
 

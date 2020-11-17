@@ -44,6 +44,13 @@ changemode(BUFFER *bp, INT f, INT n, char *mode)
 			return FALSE;
 		}
 		upmodes(bp);
+		/* TODO: this is a terrible hack!*/
+		bp->localsvar.v.comment_begin = NULL;
+		bp->localsvar.v.comment_end = NULL;
+		if (name_mode("python") == m || name_mode("make") == m) {
+			bp->localsvar.v.comment_begin = strdup("# ");
+		}
+		/*END HACK*/
 		if (bp == curbp && (s = exec_mode_init_commands(m)) != TRUE) return s;
 		bp->b_modes[++(bp->b_nmodes)] = m;
     } else {
