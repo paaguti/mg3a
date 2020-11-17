@@ -1448,11 +1448,14 @@ INT comment_line(INT f, INT n)
 	if (f==0)
 		gotobol(TRUE, 1);
 	linsert_str(1, comment_begin, strlen(comment_begin));
-	ewprintf("comment-line: comment-begin = %s",comment_begin);
-	if ((comment_end == NULL) || (strlen (comment_end) == 0))
+/*	ewprintf("comment-line: comment-begin = %s",comment_begin); */
+
+        if ((comment_end == NULL) || (strlen (comment_end) == 0))
 		return TRUE;
-	ewprintf("comment-end: comment-end = %s",comment_end);
+
 	gotoeol(TRUE,1);
 	linsert_str(1, comment_end, strlen(comment_end));
-	return TRUE;
+/*	ewprintf("comment-end: comment-end = %s",comment_end); */
+
+        return TRUE;
 }
