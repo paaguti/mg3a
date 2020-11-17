@@ -968,6 +968,7 @@ int	position(size_t to_pos);
 void	endofpreviousline(void);
 
 /* variables.c */
+void variable_completion_init(void);
 
 char	*getnext_varname(INT first);
 char	*getnext_localvarname(INT first);

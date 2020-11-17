@@ -220,6 +220,8 @@ edinit()
 	wp->w_force = 0;
 	wp->w_flag  = WFMODE|WFHARD;		/* Full.		*/
 	wp->w_dotpos = 0;
+
+	variable_completion_init();
 }
 
 
