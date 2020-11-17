@@ -44,8 +44,6 @@ extern INT clike_lang;
 extern INT clike_style;
 #endif
 
-extern char comment_begin[20], comment_end[20];
-
 typedef const struct {char *name; char vtype; union{INT *value; char *svalue[20];};} var_entry;
 
 static const var_entry variables[] = {
@@ -97,9 +95,6 @@ static const var_entry variables[] = {
 	{"emacs-compat",	'i', &emacs_compat},
 	{"",			0, NULL},
 	{"shell-command-limit", 'i', &shell_command_limit},
-	{"",			0, NULL},
-	{ "comment-begin", 's', .svalue = &comment_begin[0]},
-	{ "comment-end", 's', .svalue = &comment_end[0]},
 #if defined(LANGMODE_C) || defined(LANGMODE_CLIKE)
 	{"",			0, NULL},
 	{"# Language mode variables", 0, NULL},
@@ -145,7 +140,14 @@ static char *local_variables[] = {
 	NULL
 };
 
+static char *local_svariables[] = {
+	"comment-begin",
+	"comment-end",
+	NULL
+};
+
 const INT localvars = (sizeof(local_variables)/sizeof(char *) - 1);
+const INT localsvars = (sizeof(local_svariables)/sizeof(char *) - 1);
 
 /*
  * A separator line or comment in the global variable list
@@ -233,7 +235,16 @@ listvars(INT f, INT n)
 	haslocal = (f & FFARG);
 
 	for (i = 0; i < localvars; i++) {
-		if (curbp->localvar.var[i] != MININT) haslocal = 1;
+		if (curbp->localvar.var[i] != MININT) {
+			haslocal = 1;
+			break;
+		}
+	}
+	for (i = 0; i < localsvars; i++) {
+		if (curbp->localsvar.var[i] != NULL) {
+			haslocal = 1;
+			break;
+		}
 	}
 
 	if (haslocal) {
@@ -256,6 +267,15 @@ listvars(INT f, INT n)
 					"(unset)");
 				if (addline(bp, line) == FALSE) return FALSE;
 			}
+		}
+		for (i = 0; i < localsvars; i++) {
+			char *val = "";
+			if (curbp -> localsvar.var[i] != NULL)
+				val = curbp->localsvar.var[i];
+			if ((f & FFARG) || (curbp->localsvar.var[i] != NULL))
+				sprintf(line," %-24s\"%s\"",
+						local_svariables[i], val);
+			if (addline(bp, line) == FALSE) return FALSE;
 		}
 		if (addline(bp, "") == FALSE) return FALSE;
 	}

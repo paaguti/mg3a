@@ -80,13 +80,10 @@ getpyindent(LINE *lp)
 /*
  * Enable/toggle python-mode
  */
-extern char comment_begin[20], comment_end[20];
 
 INT
 pymode(INT f, INT n)
 {
-	strncpy(comment_begin, "# ", 19);
-	comment_end[0] = '\0';
 	return changemode(curbp, f, n, "python");
 }
 

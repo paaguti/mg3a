@@ -146,6 +146,7 @@ typedef INT	MODE;			/* Type of a mode		*/
 #define MAXSTRKEY 8			/* Max length of the string	*/
 					/* display of a key: U+xxxxxx.	*/
 #define MAXLOCALVAR 10			/* Max number of local variables */
+#define MAXLOCALSTRING 2		/* Max number of local string variables */
 #define LOCALMODELEN 256		/* Size of local mode name	*/
 #define VARLEN	32			/* Length of a variable name	*/
 #define CHARSETLEN 20			/* Length of a charset name	*/
@@ -487,6 +488,13 @@ typedef struct	BUFFER {
 #endif
 		} v;
 	} localvar;
+	union {
+		char *var[MAXLOCALSTRING];
+		struct {
+			char *comment_begin;
+			char *comment_end;
+		} v;
+	} localsvar;
 	char	localmodename[LOCALMODELEN]; /* Local mode name		*/
 	char	b_fname[NFILEN];	/* File name			*/
 }	BUFFER;
@@ -610,6 +618,7 @@ extern	INT	tabs_with_spaces;
 extern	INT	tab_options;
 extern	INT	kill_whole_lines;
 extern	const INT	localvars;
+extern	const INT	localsvars;
 extern	INT	defb_nmodes;
 extern	MODE	defb_modes[PBMODES];
 extern	INT	defb_flag;
