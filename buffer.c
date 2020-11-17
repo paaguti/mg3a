@@ -761,9 +761,11 @@ resetbuffer(BUFFER *bp)
 
 	for (i = 0; i < localsvars; i++) {
 		/*
-		  if (bp -> localsvar.var[i] != NULL)
-		      free (bp->localsvar.var[i]);
-		*/
+		 * The points are NULL if not set by user
+		 * thanks to calloc when allocating the BUFFER structure
+		 */
+		if (bp -> localsvar.var[i] != NULL)
+			free (bp->localsvar.var[i]);
 		bp->localsvar.var[i] = NULL;
 	}
 	bp->localmodename[0] = 0;

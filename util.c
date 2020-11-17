@@ -732,7 +732,9 @@ malloc_msg(size_t size)
 {
 	void *p;
 
-	if ((p = malloc(size)) == NULL) return outofmem(size);
+	/* use calloc to set points to NULL by default */
+	/* if ((p = malloc(size)) == NULL) return outofmem(size); */
+	if ((p = calloc(1,size)) == NULL) return outofmem(size);
 
 	return p;
 }
