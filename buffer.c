@@ -760,9 +760,11 @@ resetbuffer(BUFFER *bp)
 	}
 
 	for (i = 0; i < localsvars; i++) {
-		if (bp -> localsvar.var[i] != NULL)
-			free (bp->localsvar.var[i]);
-			bp->localsvar.var[i] = NULL;
+		/*
+		  if (bp -> localsvar.var[i] != NULL)
+		      free (bp->localsvar.var[i]);
+		*/
+		bp->localsvar.var[i] = NULL;
 	}
 	bp->localmodename[0] = 0;
 
