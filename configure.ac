@@ -205,5 +205,5 @@ AC_ARG_ENABLE([maintainer-mode],
     [enable_maintainer_mode=no])
 
 AC_SUBST([AM_CPPFLAGS])
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile bl/Makefile])
 AC_OUTPUT
