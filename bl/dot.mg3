@@ -54,14 +54,28 @@ auto-execute "*.py" "python-mode"
 ;; for scapy development
 ;;
 ;;auto-execute "*.uts" "python-mode"
+
 ;;
 ;; GNU make
-;; TODO: why not the last space ???
-shebang "make"
-auto-execute "Makefile" "make-mode"
-auto-execute "GNUMakefile" "make-mode"
-auto-execute "*.mak" "make-mode; lv comment-begin '## '"
+;;
+;;
+;; This is when you compile with make-mode
+;;
+;; auto-execute "Makefile" "make-mode"
+;; auto-execute "GNUMakefile" "make-mode"
+;; auto-execute "*.mak" "make-mode; lv comment-begin \"## \""
+;;
+;; which only does this: so what is the merit of it?
+;;
+auto-execute "Makefile" "lv comment-begin \"# \""
+auto-execute "GNUMakefile" "lv comment-begin \"# \""
+auto-execute "*.mak" "lv comment-begin \"# \""
 
+
+shebang "bash"
+auto-execute "*.sh" "lv comment-begin \"# \"; local-set-tabs 2 1 1"
+auto-execute ".bash_aliases" "lv comment-begin \"# \"; local-set-tabs 2 1 1"
+auto-execute ".bashrc" "lv comment-begin \"# \"; local-set-tabs 2 1 1"
 ;
 ; C mode
 ;
