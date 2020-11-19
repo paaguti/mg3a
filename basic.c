@@ -500,15 +500,14 @@ void iresetmark()
 INT
 setmark(INT f, INT n)
 {
-	if (((curwp->w_markp == curwp->w_dotp) && (curwp->w_marko == curwp->w_doto)) ||
-		(f & FFARG))
+	if ((curwp->w_markp == curwp->w_dotp) && (curwp->w_marko == curwp->w_doto))
 	{
 		iresetmark();
 		ewprintf ("Mark reset");
-		return TRUE;
+	} else {
+		isetmark();
+		ewprintf("Mark set");
 	}
-	isetmark();
-	ewprintf("Mark set");
 	return TRUE;
 }
 
