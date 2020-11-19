@@ -1433,12 +1433,12 @@ INT comment_line(INT f, INT n)
 	if ((comment_begin == NULL) || (strlen(comment_begin) == 0)) return set_comment();
 
 	if (curwp->w_markp != NULL) {
+		/*
+		 * paaguti: if mark and dot are on the same line we can do comment-line
+		 */
 		if (curwp->w_dotp != curwp->w_markp)
 			return comment_region(f,n);
 	}
-	/*
-	 * paaguti: if mark and dot are on the same line we can do comment-line
-	 */
 	if (f==0)
 		gotobol(TRUE, 1);
 	linsert_str(1, comment_begin, strlen(comment_begin));
@@ -1452,4 +1452,15 @@ INT comment_line(INT f, INT n)
 /*	ewprintf("comment-end: comment-end = %s",comment_end); */
 
 	return TRUE;
+}
+
+/*
+ * paaguti, comment all lines between the line with the mark and the line with the dot
+ *
+ * TODO
+ */
+INT comment_region(INT f, INT n)
+{
+	ewprintf("TODO: comment-region");
+	return FALSE;
 }

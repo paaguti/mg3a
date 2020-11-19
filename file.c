@@ -418,7 +418,7 @@ readin(char *fname)
 			wp->w_dotp   = wp->w_linep = lforw(curbp->b_linep);
 			wp->w_doto   = 0;
 			wp->w_markp  = NULL;
-			wp->w_marko  = 0;
+			wp->w_marko  = -1;
 			wp->w_dotpos = 0;
 		}
 	}
