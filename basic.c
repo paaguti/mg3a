@@ -494,23 +494,23 @@ void iresetmark()
  * is written to the echo line. (ewprintf knows about macros)
  * paaguti:
  *   If the current dot is on the mark, reset the mark
+ *   reste mark when supplying an argument
  */
 
 INT
 setmark(INT f, INT n)
 {
-	if (curwp->w_markp == curwp->w_dotp) {
-		if (curwp->w_marko == curwp->w_doto) {
-			iresetmark();
-			ewprintf ("Mark reset");
-			return TRUE;
-		}
+	if (((curwp->w_markp == curwp->w_dotp) && (curwp->w_marko == curwp->w_doto)) ||
+		(f & FFARG))
+	{
+		iresetmark();
+		ewprintf ("Mark reset");
+		return TRUE;
 	}
 	isetmark();
 	ewprintf("Mark set");
 	return TRUE;
 }
-
 
 /*
  * Mg3a: Mark whole buffer, like in Emacs. The region will have a
