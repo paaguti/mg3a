@@ -831,7 +831,7 @@ INT	inserttabs(INT n);
 /* region.c */
 INT	getregion_mark(REGION *rp, LINE *markp, INT marko);
 INT	getregion(REGION *rp);
-
+INT comment_region(INT f, INT n);
 /* search.c */
 
 #ifdef SEARCHSIMPLE

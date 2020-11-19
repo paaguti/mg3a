@@ -1421,12 +1421,6 @@ INT set_comment(void)
 	return FALSE;
 }
 
-INT comment_region()
-{
-	ewprintf("TODO: comment-region");
-	return FALSE;
-}
-
 INT comment_line(INT f, INT n)
 /* Version 0.1: if there is a comment_begin, insert it and then try to insert a comment_end
    ^U makes comment from point to end of line
@@ -1437,25 +1431,25 @@ INT comment_line(INT f, INT n)
 
 	if (curwp->w_bufp->b_flag & BFREADONLY) return readonly();
 	if ((comment_begin == NULL) || (strlen(comment_begin) == 0)) return set_comment();
-	/* if (strlen (comment_begin) == 0) return set_comment(); */
 
 	if (curwp->w_markp != NULL) {
 		if (curwp->w_dotp != curwp->w_markp)
-			return comment_region();
-		if (curwp->w_doto != curwp->w_marko)
-			return comment_region();
+			return comment_region(f,n);
 	}
+	/*
+	 * paaguti: if mark and dot are on the same line we can do comment-line
+	 */
 	if (f==0)
 		gotobol(TRUE, 1);
 	linsert_str(1, comment_begin, strlen(comment_begin));
 /*	ewprintf("comment-line: comment-begin = %s",comment_begin); */
 
-        if ((comment_end == NULL) || (strlen (comment_end) == 0))
+	if ((comment_end == NULL) || (strlen (comment_end) == 0))
 		return TRUE;
 
 	gotoeol(TRUE,1);
 	linsert_str(1, comment_end, strlen(comment_end));
 /*	ewprintf("comment-end: comment-end = %s",comment_end); */
 
-        return TRUE;
+	return TRUE;
 }
