@@ -272,9 +272,10 @@ starts with "cygwin", and "termdoesonlybmp" is set to 1.
 
 Local variables:
 
-Some variables can be set locally per-buffer. They are "fill-column",
-"fill-options", "make-backup", "soft-tab-size", "tab-options", "tabs-
-with-spaces" and "trim-whitespace".
+Some variables can be set locally per-buffer. Integer local variables are
+"fill-column", "fill-options", "make-backup", "soft-tab-size", "tab-options", 
+"tabs-with-spaces" and "trim-whitespace". String local variables are
+"comment-begin" and "comment-end"
 
 "local-set-variable"		- Sets a local variable to an (integer) value. A short
 				  form alias is "lv".
@@ -425,12 +426,15 @@ Commands from GNU Emacs that were not in Mg2a:
   toggle-read-only			(^X ^Q)
   transpose-paragraphs
   transpose-words			(ESC t)
+  comment-line                          (ESC ;)
 
 The syntax is different but "ignore-errors" ignores the errors of one
 command on the same line. "nil" has a use as the command to undefine a
 key using "define-key". "transpose-words" and "transpose-paragraphs"
 transpose only adjacent items.
-
+"comment-line" needs, at least "comment-begin" to be defined. Called without
+arguments, "comment-line" will comment the *WHOLE* line. called with a non-zero
+argument, "comment-line" will comment from the point to the end of line.
 
 Commands neither from GNU Emacs nor other Mg:s:
 

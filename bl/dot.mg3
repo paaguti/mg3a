@@ -21,6 +21,11 @@
 (global-set-key "\e[5~"  'scroll-down)
 (global-set-key "\e[6~"  'scroll-up)
 ;
+; Fri, 20 Nov 2020 07:11:28 +0100
+;
+(global-set-key "\^x;"   "comment-line 1")
+
+;
 ; Tue, 04 Apr 2017 15:04:44 +0200
 ;
 (global-set-key "\e\^d"  "yank-process \"LC_ALL=C date '+%a, %d %b %Y %H:%m:%S %z'\"")

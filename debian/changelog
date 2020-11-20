@@ -1,3 +1,11 @@
+mg3a (201120-1) unstable; urgency=low
+
+  * Make make-mode non-default in compilation
+  * Postpone comment-region 
+  * Document comment-line, comment-begin and comment-end
+  * Add latest dot.mg3 to examples
+
+ -- Pedro A. Aranda <paag@gmail.com>  Fri, 20 Nov 2020 07:11:57 +0100
 mg3a (201117-1) unstable; urgency=low
 
   * Make comment delimiters buffer local
