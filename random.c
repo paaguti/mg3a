@@ -9,8 +9,6 @@
 #include	"def.h"
 #include	"macro.h"
 
-/* char comment_begin[20], comment_end[20]; */
-
 INT	backchar(INT f, INT n);
 INT	forwchar(INT f, INT n);
 INT	delwhite(INT f, INT n);
@@ -1432,6 +1430,7 @@ INT comment_line(INT f, INT n)
 	if (curwp->w_bufp->b_flag & BFREADONLY) return readonly();
 	if ((comment_begin == NULL) || (strlen(comment_begin) == 0)) return set_comment();
 
+#if 0
 	if (curwp->w_markp != NULL) {
 		/*
 		 * paaguti: if mark and dot are on the same line we can do comment-line
@@ -1439,6 +1438,7 @@ INT comment_line(INT f, INT n)
 		if (curwp->w_dotp != curwp->w_markp)
 			return comment_region(f,n);
 	}
+#endif
 	if (f==0)
 		gotobol(TRUE, 1);
 	linsert_str(1, comment_begin, strlen(comment_begin));
@@ -1452,15 +1452,4 @@ INT comment_line(INT f, INT n)
 /*	ewprintf("comment-end: comment-end = %s",comment_end); */
 
 	return TRUE;
-}
-
-/*
- * paaguti, comment all lines between the line with the mark and the line with the dot
- *
- * TODO
- */
-INT comment_region(INT f, INT n)
-{
-	ewprintf("TODO: comment-region");
-	return FALSE;
 }
