@@ -613,9 +613,15 @@ INT
 mousemsg(void)
 {
 	/* We need to read three more characters */
-	char mreport[3];
+	unsigned char mreport[3];
 	for (int i=0; i<3; i++)
 		mreport[i] = getkey(FALSE);
-	ewprintf("Mouse event: %d %d %d", mreport[0], mreport[1], mreport[2]);
+	if (mreport[0] != 32) {
+		/* accept right clicks only FTMB */
+		return FALSE;
+	}
+	/* ewprintf("Mouse event: %d %d %d", mreport[0], mreport[1], mreport[2]); */
+	ewprintf("Mouse event: at %d %d", mreport[1]-32, mreport[2]-32);
+	return TRUE;
 }
 #endif
