@@ -630,7 +630,8 @@ mousemsg(void)
 			 */
 			curwp = wp;
 			curbp = wp->w_bufp;
-			return showbuffer(curbp, curwp);
+			/* return showbuffer(curbp, curwp); */
+			return TRUE;
 		}
 	}
 	return FALSE;
