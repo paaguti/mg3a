@@ -8,6 +8,7 @@
 
 #include <langinfo.h>
 #include <signal.h>
+#include <stdarg.h>
 
 #define BEL	0x07			/* BEL character.		*/
 
@@ -16,6 +17,7 @@ char		*tgoto(char *, int, int);
 int		setupterm(char *, int, int *);
 int		tputs(const char *, int, int (*)(int));
 
+static void ttputsf(char *format, ...);
 
 char	*CM,			/* cursor move				*/
 	*CE,			/* clear to end of line			*/
@@ -320,4 +322,28 @@ ttresize()
 
 	if (ncol < 1)
 		ncol = 1;
+}
+
+/*
+ * mode  0 => disable mouse reporting
+ *       1 => enable mouse reporting
+ */
+void
+mouse_mode(int mode)
+{
+#ifdef MOUSE
+  ttputsf("\e[?9%c", (mode == 1) ? 'h' : 'l');  // Enable/Disable mouse report
+#endif
+}
+
+static void
+ttputsf(char *format, ...)
+{
+  char localbuf[256];
+  va_list valist;
+  va_start (valist,format);
+  vsnprintf(localbuf,255,format,valist);
+  va_end(valist);
+  for (int i=0; localbuf[i]; i++)
+    ittputc(localbuf[i]);
 }
