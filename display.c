@@ -6,6 +6,7 @@
 
 #include	"def.h"
 #include	"kbd.h"
+#include        <stdarg.h>
 
 #ifdef UTF8
 #include "cpall.h"
@@ -23,7 +24,7 @@ INT	ttcol	= HUGE;			/* Physical cursor column.	*/
 
 static void 	modeline(WINDOW *wp);
 static void 	ttputs(char *str);
-
+static void     ttputsf(char *fmt,...);
 
 /*
  * Mg3a: Set up the terminal's I/O-channel and init the terminal
@@ -1030,6 +1031,17 @@ modeline(WINDOW *wp)
 	ttcolor(CTEXT);
 }
 
+/*
+ * mode  0 => disable mouse reporting
+ *       1 => enable mouse reporting
+ */
+void
+mouse_mode(int mode)
+{
+#ifdef MOUSE
+  ttputsf("\e[?9%c", (mode == 1) ? 'h' : 'l');  // Enable/Disable mouse report
+#endif
+}
 
 /*
  * Mg3a: Output a string of characters for the modeline in the charset
@@ -1059,4 +1071,15 @@ ttputs(char *s)
 
 		ttcol += w;
 	}
+}
+
+static void
+ttputsf(char *format, ...)
+{
+  char localbuf[256];
+  va_list valist;
+  va_start (valist,format);
+  vsnprintf(localbuf,255,format,valist);
+  ttputs(localbuf);
+  va_end(valist);
 }

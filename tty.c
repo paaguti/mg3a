@@ -59,7 +59,6 @@ winchange(int dummy)
 	winchanged = 1;
 }
 
-
 /*
  * Initialize the terminal when the editor gets started up.
  *
@@ -77,6 +76,7 @@ ttinit()
 
 	if (inited) {
 		// Comes here after resuming
+                mouse_mode(1);
 		if (TI && *TI) putpad(TI, 1);	/* init the term */
 		if (KS && *KS) putpad(KS, 1);	/* turn on keypad	*/
 		refresh(0, 1);			/* Check for size, and set up to repaint */
@@ -108,6 +108,7 @@ ttinit()
 	CS = tgetstr("cs", NULL);	/* set scrolling region */
 	KS = tgetstr("ks", NULL);	/* keypad start, keypad end	*/
 	KE = tgetstr("ke", NULL);
+	mouse_mode (1);
 
 #ifdef UTF8
 	termcharset = nametocharset(nl_langinfo(CODESET), CHARSETALL);
@@ -129,7 +130,6 @@ ttinit()
 #if LF_DEFAULT
 	defb_flag |= BFUNIXLF;
 #endif
-
 	if(CM == NULL)
 	    panic("This terminal is too stupid to run Mg", 0);
 
@@ -162,6 +162,7 @@ ttinit()
 void
 tttidy()
 {
+	mouse_mode(0);                  /* turn off mouse                   */
 	if (KE && *KE) putpad(KE, 1);	/* turn off keypad		    */
 	if (TE && *TE) putpad(TE, 1);	/* set the term back to normal mode */
 }
@@ -320,4 +321,3 @@ ttresize()
 	if (ncol < 1)
 		ncol = 1;
 }
-

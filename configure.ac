@@ -74,6 +74,13 @@ AC_ARG_ENABLE([slow],
 AS_IF([ test "x$enable_slow" == "xyes" ],
 		[AM_CPPFLAGS="$AM_CPPFLAGS -DSLOW"],[true])
 
+AC_ARG_ENABLE([mouse],
+   AS_HELP_STRING([--enable-mouse],
+      [ Enable mouse@<:@default=no@:>@ ])],
+   [enable_mouse="${enableval:-yes}"],
+   [enable_mouse=yes])
+AS_IF([ test "x$enable_mouse" == "xyes" ],
+		[AM_CPPFLAGS="$AM_CPPFLAGS -DMOUSE"],[true])
 
 AC_ARG_ENABLE([pythonmode],
    AS_HELP_STRING([--enable-pythonmode],

@@ -16,6 +16,7 @@ INT	backpage(INT f, INT n);
 INT	nextwind(INT f, INT n);
 INT	endvisualline(INT f, INT n);
 
+extern	INT	getkey(INT);		/* 	*/
 
 /*
  * Go to beginning of line.
@@ -603,3 +604,18 @@ gotoline(INT f, INT n)
 	adjustpos3(clp, 0, pos);
 	return TRUE;
 }
+
+#ifdef MOUSE
+/*
+ * Respond to mouse messages
+ */
+INT
+mousemsg(void)
+{
+	/* We need to read three more characters */
+	char mreport[3];
+	for (int i=0; i<3; i++)
+		mreport[i] = getkey(FALSE);
+	ewprintf("Mouse event: %d %d %d", mreport[0], mreport[1], mreport[2]);
+}
+#endif
