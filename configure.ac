@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([mg3a],[20201120],[paaguti@gmail.com])
+AC_INIT([mg3a],[20201122],[paaguti@gmail.com])
 AM_INIT_AUTOMAKE
 dnl AC_CONFIG_SRCDIR([display.c])
 AC_CONFIG_HEADERS([config.h])
@@ -74,6 +74,13 @@ AC_ARG_ENABLE([slow],
 AS_IF([ test "x$enable_slow" == "xyes" ],
 		[AM_CPPFLAGS="$AM_CPPFLAGS -DSLOW"],[true])
 
+AC_ARG_ENABLE([mouse],
+   AS_HELP_STRING([--enable-mouse],
+      [ Enable mouse@<:@default=no@:>@ ])],
+   [enable_mouse="${enableval:-yes}"],
+   [enable_mouse=yes])
+AS_IF([ test "x$enable_mouse" == "xyes" ],
+		[AM_CPPFLAGS="$AM_CPPFLAGS -DMOUSE"],[true])
 
 AC_ARG_ENABLE([pythonmode],
    AS_HELP_STRING([--enable-pythonmode],

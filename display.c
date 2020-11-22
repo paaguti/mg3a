@@ -23,7 +23,7 @@ INT	ttcol	= HUGE;			/* Physical cursor column.	*/
 
 static void 	modeline(WINDOW *wp);
 static void 	ttputs(char *str);
-
+static void     ttputsf(char *fmt,...);
 
 /*
  * Mg3a: Set up the terminal's I/O-channel and init the terminal

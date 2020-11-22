@@ -8,6 +8,7 @@
 
 #include <langinfo.h>
 #include <signal.h>
+#include <stdarg.h>
 
 #define BEL	0x07			/* BEL character.		*/
 
@@ -16,6 +17,7 @@ char		*tgoto(char *, int, int);
 int		setupterm(char *, int, int *);
 int		tputs(const char *, int, int (*)(int));
 
+static void ttputsf(char *format, ...);
 
 char	*CM,			/* cursor move				*/
 	*CE,			/* clear to end of line			*/
@@ -59,7 +61,6 @@ winchange(int dummy)
 	winchanged = 1;
 }
 
-
 /*
  * Initialize the terminal when the editor gets started up.
  *
@@ -77,6 +78,7 @@ ttinit()
 
 	if (inited) {
 		// Comes here after resuming
+                mouse_mode(1);
 		if (TI && *TI) putpad(TI, 1);	/* init the term */
 		if (KS && *KS) putpad(KS, 1);	/* turn on keypad	*/
 		refresh(0, 1);			/* Check for size, and set up to repaint */
@@ -108,6 +110,7 @@ ttinit()
 	CS = tgetstr("cs", NULL);	/* set scrolling region */
 	KS = tgetstr("ks", NULL);	/* keypad start, keypad end	*/
 	KE = tgetstr("ke", NULL);
+	mouse_mode (1);
 
 #ifdef UTF8
 	termcharset = nametocharset(nl_langinfo(CODESET), CHARSETALL);
@@ -129,7 +132,6 @@ ttinit()
 #if LF_DEFAULT
 	defb_flag |= BFUNIXLF;
 #endif
-
 	if(CM == NULL)
 	    panic("This terminal is too stupid to run Mg", 0);
 
@@ -162,6 +164,7 @@ ttinit()
 void
 tttidy()
 {
+	mouse_mode(0);                  /* turn off mouse                   */
 	if (KE && *KE) putpad(KE, 1);	/* turn off keypad		    */
 	if (TE && *TE) putpad(TE, 1);	/* set the term back to normal mode */
 }
@@ -321,3 +324,26 @@ ttresize()
 		ncol = 1;
 }
 
+/*
+ * mode  0 => disable mouse reporting
+ *       1 => enable mouse reporting
+ */
+void
+mouse_mode(int mode)
+{
+#ifdef MOUSE
+  ttputsf("\e[?9%c", (mode == 1) ? 'h' : 'l');  // Enable/Disable mouse report
+#endif
+}
+
+static void
+ttputsf(char *format, ...)
+{
+  char localbuf[256];
+  va_list valist;
+  va_start (valist,format);
+  vsnprintf(localbuf,255,format,valist);
+  va_end(valist);
+  for (int i=0; localbuf[i]; i++)
+    ittputc(localbuf[i]);
+}

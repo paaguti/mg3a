@@ -16,6 +16,7 @@ INT	backpage(INT f, INT n);
 INT	nextwind(INT f, INT n);
 INT	endvisualline(INT f, INT n);
 
+extern	INT	getkey(INT);		/* 	*/
 
 /*
  * Go to beginning of line.
@@ -603,3 +604,35 @@ gotoline(INT f, INT n)
 	adjustpos3(clp, 0, pos);
 	return TRUE;
 }
+
+#ifdef MOUSE
+/*
+ * Respond to mouse messages
+ */
+INT
+mousemsg(void)
+{
+	/* We need to read three more characters */
+	unsigned char mreport[3];
+	for (int i=0; i<3; i++)
+		mreport[i] = getkey(FALSE);
+	if (mreport[0] != 32) {
+		/* accept right clicks only FTMB */
+		return FALSE;
+	}
+	INT x=mreport[1]-32, y=mreport[2]-32;
+	for (WINDOW *wp = wheadp; wp; wp = wp->w_wndp) {
+		INT wline = y - wp->w_toprow;
+		if ((y >= wp->w_toprow+1) && (wline <= wp->w_ntrows)) {
+			/*
+			 * Here is where we want to move to cursor
+			 * Initially "just" get the buffer you clicked on and activate it
+			 */
+			curwp = wp;
+			curbp = wp->w_bufp;
+			return showbuffer(curbp, curwp);
+		}
+	}
+	return FALSE;
+}
+#endif

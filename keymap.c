@@ -34,6 +34,9 @@ extern	INT	gotoline();		/* Go to a specified line.	*/
 extern	INT	forw1page();		/* move forward by lines	*/
 extern	INT	back1page();		/* move back by lines		*/
 
+#ifdef MOUSE
+extern INT mousemsg();
+#endif
 /*
  * Defined by "buffer.c".
  */
@@ -439,6 +442,17 @@ static 	PF	metalbA[] = {	/* <ESC>[ */
 	forwline,	/* B */
 	forwchar,	/* C */
 	backchar,	/* D */
+#ifdef MOUSE
+	rescan,     /* E */
+	rescan,     /* F */
+	rescan,     /* G */
+	rescan,     /* H */
+	rescan,     /* I */
+	rescan,     /* J */
+	rescan,     /* K */
+	rescan,     /* L */
+	mousemsg,   /* M */
+#endif
 };
 
 static 	PF	metaOA[] = {	/* <ESC>O */
@@ -453,7 +467,7 @@ static struct KEYMAPE(1) metalbmap = {
 	1,
 	rescan,
 	{
-		{'A',	'D',	metalbA,	NULL},
+		{'A',	'M',	metalbA,	NULL},
 	}
 };
 
