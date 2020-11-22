@@ -1,3 +1,10 @@
+mg3a (201122-1) unstable; urgency=low
+
+  * Try to activate mouse
+  * click to select window
+  * TODO: click to mve cursor
+
+ -- Pedro A. Aranda <paag@gmail.com>  Sun, 22 Nov 2020 12:11:52 +0100
 mg3a (201120-1) unstable; urgency=low
 
   * Make make-mode non-default in compilation
