@@ -677,7 +677,14 @@ INT	getfulloffset(WINDOW *wp, LINE *lp, INT column);
 void	invalidatecache(void);
 void	reframe_window(WINDOW *wp);
 void	update(void);
-void mouse_mode(int);
+
+#ifdef  MOUSE
+void    mouse_mode(INT);
+#else
+inline  void mouse_mode(INT mode)
+{
+}
+#endif
 
 /* echo.c */
 

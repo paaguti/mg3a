@@ -467,7 +467,11 @@ static struct KEYMAPE(1) metalbmap = {
 	1,
 	rescan,
 	{
+#ifdef MOUSE
 		{'A',	'M',	metalbA,	NULL},
+#else
+		{'A',	'D',	metalbA,	NULL},
+#endif
 	}
 };
 

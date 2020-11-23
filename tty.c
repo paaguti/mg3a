@@ -17,7 +17,9 @@ char		*tgoto(char *, int, int);
 int		setupterm(char *, int, int *);
 int		tputs(const char *, int, int (*)(int));
 
+#ifdef MOUSE
 static void ttputsf(char *format, ...);
+#endif
 
 char	*CM,			/* cursor move				*/
 	*CE,			/* clear to end of line			*/
@@ -328,12 +330,11 @@ ttresize()
  * mode  0 => disable mouse reporting
  *       1 => enable mouse reporting
  */
-void
-mouse_mode(int mode)
-{
 #ifdef MOUSE
+static void
+mouse_mode(INT mode)
+{
   ttputsf("\e[?9%c", (mode == 1) ? 'h' : 'l');  // Enable/Disable mouse report
-#endif
 }
 
 static void
@@ -347,3 +348,4 @@ ttputsf(char *format, ...)
   for (int i=0; localbuf[i]; i++)
     ittputc(localbuf[i]);
 }
+#endif
