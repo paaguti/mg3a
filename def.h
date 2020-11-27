@@ -678,11 +678,8 @@ void	invalidatecache(void);
 void	reframe_window(WINDOW *wp);
 void	update(void);
 
-#ifdef  MOUSE
-void    mouse_mode(INT);
-#else
-inline  void mouse_mode(INT mode)
-{
+#ifndef  MOUSE
+inline  static void mouse_mode(INT mode) {
 }
 #endif
 
