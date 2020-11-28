@@ -1,4 +1,11 @@
 Changelog, in reverse date order. Files are named yymmdd.
+201128:
+Implement xterm mouse mode
+  Scroll up and down with wheel
+  Click to new cursor position
+Make comment-begin and comment-end *local*
+Remove default comment string from Python mode
+Add bl directory in autoconf
 
 20201010:
 
