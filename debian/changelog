@@ -1,3 +1,10 @@
+mg3a (201128-1) unstable; urgency=low
+
+  * Switch to \e[1000[hl] for mouse on/off
+  * Add scrolling with mouse wheel
+  * Still TODO: click to move cursor
+
+ -- Pedro A. Aranda <paag@gmail.com>  Sat, 28 Nov 2020 13:11:25 +0100
 mg3a (201122-1) unstable; urgency=low
 
   * Try to activate mouse
