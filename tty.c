@@ -18,6 +18,7 @@ int		setupterm(char *, int, int *);
 int		tputs(const char *, int, int (*)(int));
 
 #ifdef MOUSE
+static void mouse_mode(INT);
 static void ttputsf(char *format, ...);
 #endif
 
@@ -334,7 +335,7 @@ ttresize()
 static void
 mouse_mode(INT mode)
 {
-  ttputsf("\e[?9%c", (mode == 1) ? 'h' : 'l');  // Enable/Disable mouse report
+  ttputsf("\e[?1000%c", (mode == 1) ? 'h' : 'l');  // Enable/Disable mouse report
 }
 
 static void
