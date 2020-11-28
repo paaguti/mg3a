@@ -35,7 +35,7 @@ extern	INT	forw1page();		/* move forward by lines	*/
 extern	INT	back1page();		/* move back by lines		*/
 
 #ifdef MOUSE
-extern INT mousemsg();
+extern INT mousemsg(INT, INT);
 #endif
 /*
  * Defined by "buffer.c".
