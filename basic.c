@@ -639,7 +639,22 @@ mousemsg(INT f, INT n)
 				 */
 				curwp = wp;
 				curbp = wp->w_bufp;
-				/* return showbuffer(curbp, curwp); */
+				LINE* newlp = curwp -> w_linep;
+				for (int tline = wp->w_toprow+1; tline < y; tline++) {
+					if (newlp == curbp->b_linep)
+						break;
+					newlp = lforw(newlp);
+				}
+				curwp -> w_dotp = newlp;
+				curwp -> w_doto = 0; /* gotobol() */
+				while (getcolumn(curwp, curwp->w_dotp, curwp->w_doto) < x-1) {
+					if (curwp->w_doto == llength(curwp->w_dotp)) /* EOL */
+						break;
+					/* from forwchar() */
+					adjustpos(curwp->w_dotp, ucs_forward(curbp->charset, curwp->w_dotp, curwp->w_doto));
+				}
+				/* return showbuffer(curbp, curwp);
+				   return TRUE;*/
 				return refresh(0,1);
 			}
 		}
