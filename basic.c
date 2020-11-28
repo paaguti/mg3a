@@ -617,11 +617,13 @@ mousemsg(INT f, INT n)
 	for (int i=0; i<3; i++)
 		mreport[i] = getkey(FALSE);
 #if 0
+        /* debug mouse sequences */
 	BUFFER *scratch  = bfind("*scratch*", TRUE);
 	if (scratch != NULL) {
 		char bline[128];
 		sprintf(bline,"mouse: 0x%02x 0x%02x 0x%02x", mreport[0],mreport[1],mreport[2]);
 		addline(scratch, bline);
+                refresh(0,1);
 	}
 #endif
 	if ((mreport[0] & 0xfe) == 0x60) {
