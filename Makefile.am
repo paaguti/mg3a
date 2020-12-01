@@ -17,7 +17,7 @@ bin_PROGRAMS = mg
 
 docdir = $(datadir)/doc/@PACKAGE@
 doc_DATA = README README.debian README.programmer README.ucsnames \
-	README.auto-execute README.dired README.python-mode README.undo \
+	README.auto-execute README.dired README.mg3 README.python-mode README.undo \
 	README.bindings README.fill-paragraph README.reference README.user_macros \
 	README.bsd README.md README.shell-command README.user_modes \
 	README.clike-mode README.misc README.todo

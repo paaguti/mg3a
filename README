@@ -1,0 +1,12 @@
+This is mg3a, a MicroGNUEmacs clone. The original work was by Bengt Larsson.
+Once the original source became unavailable and the author out of reach,
+I decided to continue with the editor and make it publicly available
+through github.
+The first commit in github is Bengt Larsson's original code.
+Anything after that is my work.
+
+Currently mg3a is tested and developed both on Linux and macOS.
+I use my own fork for the Rudix package manager to compile and
+install it on my macOS machines. Linux development is done on a
+stock Ubuntu 20.04 machine and tested on several Debian and Ubuntu
+deplyments.
