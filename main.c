@@ -276,7 +276,7 @@ quit(INT f, INT n)
 
 	if (inmacro) {
 		if (anycb(1) != FALSE) {
-			return emessage(FALSE, "Some buffers failed to be written; not exiting");
+			return emessage(FALSE, "Some buffers could not be saved; not exiting");
 		}
 
 		vttidy();
@@ -293,7 +293,7 @@ quit(INT f, INT n)
 	if ((s = anycb(saveall)) == ABORT) return ABORT;
 
 	if (s == FALSE
-	|| eyesno("Some modified buffers exist, really exit") == TRUE) {
+	|| eyesno("Modified buffers exist, really exit") == TRUE) {
 		vttidy();
 		exit(GOOD);
 	}
