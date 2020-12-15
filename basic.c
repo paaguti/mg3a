@@ -17,7 +17,7 @@ INT	nextwind(INT f, INT n);
 INT	endvisualline(INT f, INT n);
 
 extern	INT	getkey(INT);		/* 	*/
-
+extern  INT     refresh(INT,INT);       /* window.c */
 /*
  * Go to beginning of line.
  */
@@ -610,28 +610,53 @@ gotoline(INT f, INT n)
  * Respond to mouse messages
  */
 INT
-mousemsg(void)
+mousemsg(INT f, INT n)
 {
 	/* We need to read three more characters */
 	unsigned char mreport[3];
 	for (int i=0; i<3; i++)
 		mreport[i] = getkey(FALSE);
-	if (mreport[0] != 32) {
-		/* accept right clicks only FTMB */
-		return FALSE;
+#if 0
+        /* debug mouse sequences */
+	BUFFER *scratch  = bfind("*scratch*", TRUE);
+	if (scratch != NULL) {
+		char bline[128];
+		sprintf(bline,"mouse: 0x%02x 0x%02x 0x%02x", mreport[0],mreport[1],mreport[2]);
+		addline(scratch, bline);
+                refresh(0,1);
 	}
-	INT x=mreport[1]-32, y=mreport[2]-32;
-	for (WINDOW *wp = wheadp; wp; wp = wp->w_wndp) {
-		INT wline = y - wp->w_toprow;
-		if ((y >= wp->w_toprow+1) && (wline <= wp->w_ntrows)) {
-			/*
-			 * Here is where we want to move to cursor
-			 * Initially "just" get the buffer you clicked on and activate it
-			 */
-			curwp = wp;
-			curbp = wp->w_bufp;
-			/* return showbuffer(curbp, curwp); */
-			return TRUE;
+#endif
+	if ((mreport[0] & 0xfe) == 0x60) {
+		return forwline(0, 1 - 2*(mreport[0] & 0x01));
+	} else if (mreport[0] == 0x20) {
+		INT x=mreport[1]-32, y=mreport[2]-32;
+		for (WINDOW *wp = wheadp; wp; wp = wp->w_wndp) {
+			INT wline = y - wp->w_toprow;
+			if ((y >= wp->w_toprow+1) && (wline <= wp->w_ntrows)) {
+				/*
+				 * Here is where we want to move to cursor
+				 * Initially "just" get the buffer you clicked on and activate it
+				 */
+				curwp = wp;
+				curbp = wp->w_bufp;
+				LINE* newlp = curwp -> w_linep;
+				for (int tline = wp->w_toprow+1; tline < y; tline++) {
+					if (newlp == curbp->b_linep)
+						break;
+					newlp = lforw(newlp);
+				}
+				curwp -> w_dotp = newlp;
+				curwp -> w_doto = 0; /* gotobol() */
+				while (getcolumn(curwp, curwp->w_dotp, curwp->w_doto) < x-1) {
+					if (curwp->w_doto == llength(curwp->w_dotp)) /* EOL */
+						break;
+					/* from forwchar() */
+					adjustpos(curwp->w_dotp, ucs_forward(curbp->charset, curwp->w_dotp, curwp->w_doto));
+				}
+				/* return showbuffer(curbp, curwp);
+				   return TRUE;*/
+				return refresh(0,1);
+			}
 		}
 	}
 	return FALSE;

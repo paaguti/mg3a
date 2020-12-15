@@ -1,21 +1,18 @@
-include ../../Library/Unix.mk
+include ../../Library/GNU.mk
+#BuildDepends += /usr/local/bin/ncursesw6-config
 
 Title=		MG3a
 Name=		mg3a
-Version=	190113
+Version=	20201201
 Site=		https://github.com/paaguti
 Source=		https://github.com/paaguti/$(Name)/archive/$(Version).tar.gz
 License=	GPL
 
 ReadMeFile=	$(SourceDir)/README
+PatchLevel = -p1
 
-define build_hook
-cd $(BuildDir) && $(MAKE)
-endef
-
-define install_hook
-cd $(BuildDir) && $(MAKE) PREFIX="$(DestDir)/$(Prefix)" install
-cp COPYING $(BuildDir)
+define before_build_hook
+cd $(BuildDir) && ./bootstrap.sh
 endef
 
 define test_hook

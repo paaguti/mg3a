@@ -2,7 +2,7 @@ class Mg3a < Formula
   desc "Small Emacs-like editor inspired by mg with UTF8 support."
   homepage "https://gtihub.com/paaguti/mg3a/"
 
-  url "https://github.com/paaguti/mg3a/archive/190113.tar.gz"
+  url "https://github.com/paaguti/mg3a/archive/20201201.tar.gz"
 
   option "with-full",  "Include all fancy stuff (build with -DALL)"
 
@@ -10,12 +10,12 @@ class Mg3a < Formula
 
   def install
     if build.with?("full")
-      mg3aopts = %w[full]
-    else
       mg3aopts = %w[all]
     end
 
-    system "make", "LIBS=-lncurses", "COPT=-O3", "#{mg3aopts * " "}", "strip"
+    system "./bootstrap.sh"
+    system "./configure", "#{mg3aopts * " "}"
+    system "make"
     bin.install "mg"
     doc.install Dir["bl/dot.*"]
     doc.install Dir["README*"]

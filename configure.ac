@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([mg3a],[20201122],[paaguti@gmail.com])
+AC_INIT([mg3a],[20201201],[paaguti@gmail.com])
 AM_INIT_AUTOMAKE
 dnl AC_CONFIG_SRCDIR([display.c])
 AC_CONFIG_HEADERS([config.h])
@@ -212,5 +212,5 @@ AC_ARG_ENABLE([maintainer-mode],
     [enable_maintainer_mode=no])
 
 AC_SUBST([AM_CPPFLAGS])
-AC_CONFIG_FILES([Makefile bl/Makefile])
+AC_CONFIG_FILES([Makefile bl/Makefile orig/Makefile])
 AC_OUTPUT

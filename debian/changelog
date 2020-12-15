@@ -1,8 +1,19 @@
+mg3a (201201-1) unstable; urgency=low
+
+  * Include more docs in the packages
+
+ -- Pedro A. Aranda <paag@gmail.com>  Sat, 28 Nov 2020 13:11:25 +0100
+mg3a (201128-1) unstable; urgency=low
+
+  * Switch to \e[1000[hl] for mouse on/off
+  * Add scrolling with mouse wheel
+
+ -- Pedro A. Aranda <paag@gmail.com>  Sat, 28 Nov 2020 13:11:25 +0100
 mg3a (201122-1) unstable; urgency=low
 
   * Try to activate mouse
   * click to select window
-  * TODO: click to mve cursor
+  * TODO: click to move cursor
 
  -- Pedro A. Aranda <paag@gmail.com>  Sun, 22 Nov 2020 12:11:52 +0100
 mg3a (201120-1) unstable; urgency=low
