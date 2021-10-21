@@ -547,16 +547,3 @@ indent_rigidly(INT f, INT n)
 	return shiftregion(n);
 }
 #endif
-
-#if 0
-/*
- * paaguti, comment all lines between the line with the mark and the line with the dot
- *
- * TODO
- */
-INT comment_region(INT f, INT n)
-{
-	ewprintf("TODO: comment-region");
-	return FALSE;
-}
-#endif

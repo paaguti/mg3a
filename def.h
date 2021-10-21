@@ -868,6 +868,7 @@ int	waitforinput(INT milliseconds);
 int	type_ahead(void);
 void	panic(char *s, int error);
 void	setttysize(void);
+INT refresh(INT f, INT n);
 
 /* ttykbd.c */
 
