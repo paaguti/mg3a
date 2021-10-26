@@ -1419,81 +1419,42 @@ INT set_comment(void)
 	return FALSE;
 }
 
+
 INT comment_line(INT f, INT n)
 /* Version 0.1: if there is a comment_begin, insert it and then try to insert a comment_end
    ^U makes comment from point to end of line
+
+   TODO: comment region -> another function!
  */
 {
+	if (curwp->w_bufp->b_flag & BFREADONLY)
+    return readonly();
+
 	char *comment_begin = curwp->w_bufp->localsvar.v.comment_begin;
+	if ((comment_begin == NULL) || (strlen(comment_begin) == 0))
+      return set_comment();
+  comment_begin = strdup(curwp->w_bufp->localsvar.v.comment_begin);
+
 	char *comment_end   = curwp->w_bufp->localsvar.v.comment_end;
+  if ((comment_end == NULL) || (strlen(comment_end) == 0))
+      comment_end = NULL;
+  else
+      comment_end = strdup(curwp->w_bufp->localsvar.v.comment_end);
 
-	if (curwp->w_bufp->b_flag & BFREADONLY) return readonly();
-	if ((comment_begin == NULL) || (strlen(comment_begin) == 0)) return set_comment();
+  if (f == FALSE)
+      adjustpos(curwp->w_dotp, 0);
 
-	if (curwp->w_markp != NULL) {
-		/*
-		 * paaguti: if mark and dot are on the same line we can do comment-line
-		 */
-		if (curwp->w_dotp != curwp->w_markp)
-			return comment_region(f,n);
-	}
+  linsert_str(1, comment_begin, strlen(comment_begin));
 
-	if (f==0)
-		gotobol(TRUE, 1);
-	linsert_str(1, comment_begin, strlen(comment_begin));
-/*	ewprintf("comment-line: comment-begin = %s",comment_begin); */
+  if (comment_end != NULL) {
+      adjustpos(curwp->w_dotp, llength(curwp->w_dotp));
+      linsert_str(1, comment_end, strlen(comment_end));
+      free(comment_end);
+  }
 
-	if ((comment_end == NULL) || (strlen (comment_end) == 0))
-		return TRUE;
+  free(comment_begin);
 
-	gotoeol(TRUE,1);
-	linsert_str(1, comment_end, strlen(comment_end));
-/*	ewprintf("comment-end: comment-end = %s",comment_end); */
-
+  /* refresh screen */
+  refresh(FALSE, 1);
 	return TRUE;
-}
-
-/*
- * paaguti, comment all lines between the line with the mark and the line with the dot
- *
- */
-INT comment_region(INT f, INT n)
-{
-    int s;
-    REGION	region;
-    LINE *first, *last;
-
-
-    char *comment_begin = curwp->w_bufp->localsvar.v.comment_begin;
-    char *comment_end   = curwp->w_bufp->localsvar.v.comment_end;
-
-    /* if ((comment_begin == NULL) || (strlen(comment_begin) == 0)) */
-    /*     return set_comment(); */
-
-    /* if (curbp->b_flag & BFREADONLY) return readonly(); */
-    if ((s = getregion(&region)) != TRUE)
-        return (s);
-
-    if (region.r_forward) {
-        first = region.r_linep;
-        last  = region.r_endlinep;
-    } else {
-        first = region.r_endlinep;
-        last  = region.r_linep;
-    }
-    for (LINE *lp = first; lp != last; lp = lforw(lp)) {
-        curwp->w_dotp = lp;
-        // gotobol()
-        adjustpos(curwp->w_dotp, 0);
-
-        linsert_str(1, comment_begin, strlen(comment_begin));
-        if ((comment_end == NULL) || (strlen(comment_end) == 0))
-            continue;
-        // gotoeol()
-        adjustpos(curwp->w_dotp, llength(curwp->w_dotp));
-        linsert_str(1, comment_begin, strlen(comment_begin));
-    }
-    refresh(f, n);
-    ewprintf("TODO: comment-region");
-    return FALSE;
 }

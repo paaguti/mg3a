@@ -305,7 +305,6 @@ extern	INT	joinline_forward();	/* Join lines, default forward	*/ // Mg3a extensi
 extern	INT	insert_tab();		/* Insert soft/hard tab		*/
 extern	INT	insert_tab_8();		/* Insert tab of size 8		*/
 extern  INT comment_line();      /* comment line */
-
 /*
  * Defined by "region.c".
  */

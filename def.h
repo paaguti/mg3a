@@ -637,6 +637,9 @@ extern	PF	prevfunc;
 void	setgoal(void);
 INT	getgoal(LINE *lp);
 void	isetmark(void);
+void	iresetmark(void);
+INT forwline(INT f, INT n);
+INT swapmark(INT f, INT n);
 
 /* buffer.c */
 
