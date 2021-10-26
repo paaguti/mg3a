@@ -13,7 +13,6 @@ INT	backchar(INT f, INT n);
 INT	forwchar(INT f, INT n);
 INT	delwhite(INT f, INT n);
 INT	backdel(INT f, INT n);
-extern INT comment_line(INT f, INT n);
 INT gotobol(INT n, INT f);
 INT gotoeol(INT n, INT f);
 /*

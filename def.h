@@ -835,6 +835,7 @@ INT	gettabsize(BUFFER *bp);
 INT	deltrailwhite(void);
 INT	delleadwhite(void);
 INT	inserttabs(INT n);
+INT comment_line(INT f, INT n);
 
 /* region.c */
 INT	getregion_mark(REGION *rp, LINE *markp, INT marko);
