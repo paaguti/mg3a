@@ -1420,10 +1420,10 @@ INT set_comment(void)
 
 
 INT comment_line(INT f, INT n)
-/* Version 0.1: if there is a comment_begin, insert it and then try to insert a comment_end
-   ^U makes comment from point to end of line
+/* Version 0.2: if there is a comment_begin, insert it and then try to insert a comment_end
+   C-u <N> M-; comments next N lines
 
-   TODO: comment region -> another function!
+   TODO: comment from point to end of line
  */
 {
 	if (curwp->w_bufp->b_flag & BFREADONLY)
@@ -1441,7 +1441,9 @@ INT comment_line(INT f, INT n)
       comment_end = strdup(curwp->w_bufp->localsvar.v.comment_end);
 
   adjustpos(curwp->w_dotp, 0); /* goto beginning of line */
-  for (int repeat = (f == FALSE) ? 1 : n; repeat > 0; repeat --) {
+  int lines = (f == FALSE) ? 1 : n;
+
+  for (int repeat = abs(lines); repeat > 0; repeat --) {
       /* if (f == FALSE) */
 
       linsert_str(1, comment_begin, strlen(comment_begin));
@@ -1450,12 +1452,19 @@ INT comment_line(INT f, INT n)
           adjustpos(curwp->w_dotp, llength(curwp->w_dotp)); /*goto end-of-line */
           linsert_str(1, comment_end, strlen(comment_end));
       }
-      if (curwp->w_dotp == curbp->b_linep) { /* at the ond of the buffer */
-          adjustpos(curwp->w_dotp, 0); /* goto beginning of line */
-          break;
+      if (lines > 0) { /* When moving forward */
+          if (lforw(curwp->w_dotp) == curwp->w_bufp->b_linep) { /* at the end of the buffer */
+              adjustpos(curwp->w_dotp, 0); /* goto beginning of line */
+              break;
+          }
+          adjustpos(lforw(curwp->w_dotp), 0); /* goto beginning of next line */
+      } else { /* When moving backward */
+          if (lback(curwp->w_dotp) == curwp->w_bufp->b_linep) { /* at the beginning of the buffer */
+              adjustpos(curwp->w_dotp, 0); /* goto beginning of line */
+              break;
+          }
+          adjustpos(lback(curwp->w_dotp), 0); /* goto beginning of previous line */
       }
-      adjustpos(lforw(curwp->w_dotp), 0); /* goto beginning of next line */
-
   }
   if (comment_end != NULL) {
       free(comment_end);
