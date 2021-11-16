@@ -1,5 +1,14 @@
-Changelog, in reverse date order. Files are named yymmdd.
-201128:
+Changelog, in reverse date order. Files are named yyyymmdd.
+20211116:
+Implement comment-line
+  C-u <N> M-; will comment the next N lines if N is positive else it
+              will the previous N lines
+              You need to set local variable comment-begin and (optionally)
+              commend-end
+              Example: C code may be commented as in C++ with // or with /* */
+              Set the local variables when defining a mode
+
+20201128:
 Implement xterm mouse mode
   Scroll up and down with wheel
   Click to new cursor position
