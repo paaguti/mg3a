@@ -1,6 +1,6 @@
-mg3a (211021-1) unstable; urgency=low
+mg3a (211116-1) unstable; urgency=low
 
-  * Add comment-region
+  * Add comment-line
 
  -- Pedro A. Aranda <paag@gmail.com>  Thu, 21 Oct 2021 18:10:31 +0200
 mg3a (201201-1) unstable; urgency=low
