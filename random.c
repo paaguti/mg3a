@@ -1440,17 +1440,26 @@ INT comment_line(INT f, INT n)
   else
       comment_end = strdup(curwp->w_bufp->localsvar.v.comment_end);
 
-  if (f == FALSE)
-      adjustpos(curwp->w_dotp, 0);
+  adjustpos(curwp->w_dotp, 0); /* goto beginning of line */
+  for (int repeat = (f == FALSE) ? 1 : n; repeat > 0; repeat --) {
+      /* if (f == FALSE) */
 
-  linsert_str(1, comment_begin, strlen(comment_begin));
+      linsert_str(1, comment_begin, strlen(comment_begin));
 
+      if (comment_end != NULL) {
+          adjustpos(curwp->w_dotp, llength(curwp->w_dotp)); /*goto end-of-line */
+          linsert_str(1, comment_end, strlen(comment_end));
+      }
+      if (curwp->w_dotp == curbp->b_linep) { /* at the ond of the buffer */
+          adjustpos(curwp->w_dotp, 0); /* goto beginning of line */
+          break;
+      }
+      adjustpos(lforw(curwp->w_dotp), 0); /* goto beginning of next line */
+
+  }
   if (comment_end != NULL) {
-      adjustpos(curwp->w_dotp, llength(curwp->w_dotp));
-      linsert_str(1, comment_end, strlen(comment_end));
       free(comment_end);
   }
-
   free(comment_begin);
 
   /* refresh screen */
