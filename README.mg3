@@ -31,5 +31,4 @@ sys/  contains some files useful for various systems.
 Compiling with "make" creates an "mg" in the current directory. There
 is an "install" entry in the Makefile for Linux/BSD/OSX.
 
-
-Report bugs to: mg3abugs(at)bengtl.net
+## INACTIVE -- Report bugs to: mg3abugs(at)bengtl.net
