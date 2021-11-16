@@ -7,6 +7,7 @@ Implement comment-line
               commend-end
               Example: C code may be commented as in C++ with // or with /* */
               Set the local variables when defining a mode
+              see bl/dot.mg3 for examples
 
 20201128:
 Implement xterm mouse mode
