@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([mg3a],[20211021],[paaguti@gmail.com])
+AC_INIT([mg3a],[20211116],[paaguti@gmail.com])
 AM_INIT_AUTOMAKE
 dnl AC_CONFIG_SRCDIR([display.c])
 AC_CONFIG_HEADERS([config.h])
