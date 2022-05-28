@@ -5,19 +5,20 @@
 
 /* ALL turns on all options */
 #ifdef ALL
-#define DIRED
-#define PREFIXREGION
-#define CHARSDEBUG
-#define SLOW
-#define SEARCHALL
-#define LANGMODE_C
-#define LANGMODE_PYTHON
-#define LANGMODE_MAKE
-#define LANGMODE_CLIKE
-#define UCSNAMES
-#define USER_MODES
-#define USER_MACROS
-#define PIPEIN
+#define DIRED 1
+#define PREFIXREGION 1
+#define CHARSDEBUG 1
+#define SLOW 1
+#undef SEARCHALL
+#define SEARCHALL 1
+#define LANGMODE_C 1
+#define LANGMODE_PYTHON 1
+#define LANGMODE_MAKE 1
+#define LANGMODE_CLIKE 1
+#define UCSNAMES 1
+#define USER_MODES 1
+#define USER_MACROS 1
+#define PIPEIN 1
 #endif
 
 #ifdef NO_CMODE

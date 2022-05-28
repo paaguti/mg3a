@@ -1,3 +1,8 @@
+mg3a (220528-1) unstable; urgency=low
+
+  * Fix compilartion warning on SEARCHALL
+
+ -- Pedro A. Aranda <paag@gmail.com>  Sat, 28 May 2022 12:05:19 +0200
 mg3a (211116-1) unstable; urgency=low
 
   * Add comment-line
