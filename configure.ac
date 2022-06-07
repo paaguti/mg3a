@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([mg3a],[20220529],[paaguti@gmail.com])
+AC_INIT([mg3a],[20220607],[paaguti@gmail.com])
 AM_INIT_AUTOMAKE
 dnl AC_CONFIG_SRCDIR([display.c])
 AC_CONFIG_HEADERS([config.h])
@@ -48,7 +48,8 @@ AC_ARG_ENABLE([dired],
     [enable_dired="${enableval:-yes}"],
     [enable_dired=yes])
 AS_IF([ test "x$enable_dired" == "xyes" ],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DDIRED"],[true])
+   [AC_DEFINE([DIRED], [1], [Enable dired.])]
+)
 
 AC_ARG_ENABLE([pipein],
    AS_HELP_STRING([--enable-pipein],
@@ -56,7 +57,8 @@ AC_ARG_ENABLE([pipein],
    [enable_pipein=yes"${enableval:-yes}"],
    [enable_pipein=yes])
 AS_IF([ test "x$enable_pipein" == "xyes" ],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DPIPEIN"],[true])
+   [AC_DEFINE([PIPEIN], [1], [Enable input from pipe.])]
+)
 
 AC_ARG_ENABLE([prefixregion],
    AS_HELP_STRING([--enable-prefixregion],
@@ -64,7 +66,8 @@ AC_ARG_ENABLE([prefixregion],
    [enable_prefixregion="${enableval:-yes}"],
    [enable_prefixregion=yes])
 AS_IF([ test "x$enable_prefixregion" == "xyes" ],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DPREFIXREGION"],[true])
+   [AC_DEFINE([PREFIXREGION], [1], [Enable prefix region.])]
+)
 
 AC_ARG_ENABLE([slow],
    AS_HELP_STRING([--enable-slow],
@@ -72,7 +75,8 @@ AC_ARG_ENABLE([slow],
    [enable_slow="${enableval:-yes}"],
    [enable_slow=no])
 AS_IF([ test "x$enable_slow" == "xyes" ],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DSLOW"],[true])
+   [AC_DEFINE([SLOW], [1], [Enable slow terminal emulation.])]
+)
 
 AC_ARG_ENABLE([mouse],
    AS_HELP_STRING([--enable-mouse],
@@ -80,7 +84,8 @@ AC_ARG_ENABLE([mouse],
    [enable_mouse="${enableval:-yes}"],
    [enable_mouse=yes])
 AS_IF([ test "x$enable_mouse" == "xyes" ],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DMOUSE"],[true])
+   [AC_DEFINE([MOUSE], [1], [Enable mouse.])]
+)
 
 AC_ARG_ENABLE([pythonmode],
    AS_HELP_STRING([--enable-pythonmode],
@@ -88,7 +93,8 @@ AC_ARG_ENABLE([pythonmode],
    [enable_pythonmode="${enableval:-yes}"],
    [enable_pythonmode=yes])
 AS_IF([ test "x$enable_pythonmode" == "xyes"],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DLANGMODE_PYTHON"],[true])
+   [AC_DEFINE([LANGMODE_PYTHON], [1], [Enable Python mode.])]
+)
 
 AC_ARG_ENABLE([makemode],
    AS_HELP_STRING([--enable-makemode],
@@ -96,7 +102,8 @@ AC_ARG_ENABLE([makemode],
    [enable_makemode="${enableval:-yes}"],
    [enable_makemode=no])
 AS_IF([ test "x$enable_makemode" == "xyes"],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DLANGMODE_MAKE"],[true])
+   [AC_DEFINE([LANGMODE_MAKE], [1], [Enable Makefile mode.])]
+)
 
 AC_ARG_ENABLE([cmode],
     AS_HELP_STRING([--enable-cmode],
@@ -104,7 +111,8 @@ AC_ARG_ENABLE([cmode],
     [enable_cmode="${enableval:-yes}"],
     [enable_cmode=no])
 AS_IF([ test "x$enable_cmode" == "xyes"],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DLANGMODE_C"],[true])
+    [AC_DEFINE([LANGMODE_C], [1], [Enable C mode.])]
+)
 
 AC_ARG_ENABLE([clikemode],
     AS_HELP_STRING([--enable-clikemode],
@@ -112,7 +120,8 @@ AC_ARG_ENABLE([clikemode],
     [enable_clikemode="${enableval:-yes}"],
     [enable_clikemode=yes])
 AS_IF([ test "x$enable_clikemode" == "xyes"],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DLANGMODE_CLIKE"],[true])
+    [AC_DEFINE([LANGMODE_CLIKE], [1], [Enable C-like mode.])]
+)
 
 AC_ARG_ENABLE([usermodes],
     AS_HELP_STRING([--enable-usermodes],
@@ -120,7 +129,8 @@ AC_ARG_ENABLE([usermodes],
     [enable_usermodes="${enableval:-yes}"],
     [enable_usermodes=yes])
 AS_IF([ test "x$enable_usermodes" == "xyes"],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DUSER_MODES"],[true])
+    [AC_DEFINE([USER_MODES], [1], [Enable user modes.])]
+)
 
 AC_ARG_ENABLE([usermacros],
     AS_HELP_STRING([--enable-usermacros],
@@ -128,15 +138,16 @@ AC_ARG_ENABLE([usermacros],
     [enable_usermacros="${enableval:-yes}"],
     [enable_usermacros=yes])
 AS_IF([ test "x$enable_usermacros" == "xyes"],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DUSER_MACROS"],[true])
-
+    [AC_DEFINE([USER_MACROS], [1], [Enable user macros.])]
+)
 AC_ARG_ENABLE([ucsnames],
     AS_HELP_STRING([--enable-ucsnames],
         [ Enable Unicode character names @<:@default=no@:>@ ])],
     [enable_ucsnames="${enableval:-yes}"],
     [enable_ucsnames=no])
 AS_IF([ test "x$enable_ucsnames" == "xyes"],
-		[AM_CPPFLAGS="$AM_CPPFLAGS -DUCSNAMES"],[true])
+    [AC_DEFINE([UCSNAMES], [1], [Enable end search with Enter key.])]
+)
 
 AC_ARG_ENABLE([all],
     AS_HELP_STRING([--enable-all],
@@ -144,7 +155,8 @@ AC_ARG_ENABLE([all],
 	[enable_all="${enableval:-yes}"],
     [enable_all=no])
 AS_IF(
-	[test "x$enable_all" == "xyes"],[AM_CPPFLAGS="-DALL"]
+	[ test "x$enable_all" == "xyes" ],
+	[AC_DEFINE([ALL], [1], [Enable all options.])]
 )
 
 AC_ARG_ENABLE([searchall],
@@ -165,6 +177,16 @@ AC_ARG_ENABLE([searchsimple],
 AS_IF(
 	[ test "x$enable_searchsimple" == "xyes" ],
 	[AC_DEFINE([SEARCHSIMPLE], [1], [Enable simple search commands.])]
+)
+
+AC_ARG_ENABLE([searchenter],
+   AS_HELP_STRING([--enable-searchenter],
+      [ Enable end search with Enter key @<:@default=no@:>@ ])],
+   [enable_searchenter="${enableval:-yes}"],
+   [enable_searchenter=no])
+AS_IF(
+	[ test "x$enable_searchenter" == "xyes" ],
+	[AC_DEFINE([SEARCHENTER], [1], [Enable end search with Enter key.])]
 )
 
 AC_ARG_ENABLE([noobjs],
@@ -192,7 +214,6 @@ AC_ARG_ENABLE([minidired],
                    [Enable minidired @<:@default=no@:>@])],
     [enable_minidired="${enableval:-yes}"],
     [enable_minidired=no])
-
 AS_IF(
     [test "x$minidired" == "xyes"],
         [AC_DEFINE([MINIDIRED], [1], [Enable minidired mode.])]
