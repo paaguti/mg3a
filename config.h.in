@@ -1,5 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Enable all options. */
+#undef ALL
+
 /* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
    systems. This function is required for `alloca.c' support on those systems.
    */
@@ -7,6 +10,9 @@
 
 /* Define to 1 if using `alloca.c'. */
 #undef C_ALLOCA
+
+/* Enable dired. */
+#undef DIRED
 
 /* Define to 1 if you have `alloca', as a function or macro. */
 #undef HAVE_ALLOCA
@@ -158,6 +164,18 @@
 /* Define to 1 if `vfork' works. */
 #undef HAVE_WORKING_VFORK
 
+/* Enable C mode. */
+#undef LANGMODE_C
+
+/* Enable C-like mode. */
+#undef LANGMODE_CLIKE
+
+/* Enable Makefile mode. */
+#undef LANGMODE_MAKE
+
+/* Enable Python mode. */
+#undef LANGMODE_PYTHON
+
 /* Define to 1 if `lstat' dereferences a symlink specified with a trailing
    slash. */
 #undef LSTAT_FOLLOWS_SLASHED_SYMLINK
@@ -167,6 +185,9 @@
 
 /* Enable minidired mode. */
 #undef MINIDIRED
+
+/* Enable mouse. */
+#undef MOUSE
 
 /* Define to suppress .o files in dired */
 #undef NO_O
@@ -195,11 +216,23 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
+/* Enable input from pipe. */
+#undef PIPEIN
+
+/* Enable prefix region. */
+#undef PREFIXREGION
+
 /* Enable search all commands. */
 #undef SEARCHALL
 
+/* Enable end search with Enter key. */
+#undef SEARCHENTER
+
 /* Enable simple search commands. */
 #undef SEARCHSIMPLE
+
+/* Enable slow terminal emulation. */
+#undef SLOW
 
 /* If using the C implementation of alloca, define if you know the
    direction of stack growth for your system; otherwise it will be
@@ -211,6 +244,15 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
+
+/* Enable end search with Enter key. */
+#undef UCSNAMES
+
+/* Enable user macros. */
+#undef USER_MACROS
+
+/* Enable user modes. */
+#undef USER_MODES
 
 /* Version number of package */
 #undef VERSION
