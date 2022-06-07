@@ -11,6 +11,8 @@
 #define SLOW 1
 #undef SEARCHALL
 #define SEARCHALL 1
+#undef SEARCHENTER
+#define SEARCHENTER 1
 #define MOUSE 1
 #define LANGMODE_C 1
 #define LANGMODE_PYTHON 1
