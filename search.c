@@ -408,12 +408,22 @@ isearch(INT dir)
 	for (;;) {
 		update();
 		switch (c = getkey(FALSE)) {
+#ifdef SEARCHENTER
+        /*
+         * Enter key will end the search and set the mark as Esc
+         */
+		case CCHR('J'):
+#endif
 		case CCHR('['):
 			srch_lastdir = dir;
 			curwp->w_markp = clp;
 			curwp->w_marko = cbo;
 			ewprintf("Mark set");
-			if (type_ahead()) ungetkey(c);	// Escape sequence
+      /*
+       * You may want to start an Esc-sequence here
+       */
+			if ((c == CCHR(']') && (type_ahead())))
+          ungetkey(c);	// Escape sequence
 			return (TRUE);
 
 		case CCHR('G'):
@@ -484,7 +494,9 @@ isearch(INT dir)
 		case CCHR('Q'):
 			c = (char) getkey(FALSE);
 			goto  addchar;
+#ifndef SEARCHENTER
 		case CCHR('J'):
+#endif
 		case CCHR('M'):
 			if (pptr == -1) {
 				if (dir == SRCH_FORW) {
