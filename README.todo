@@ -2,10 +2,10 @@ My list of TODOs:
 
 Editing in the message buffer (at least ^A, ^E, ^K, ^D and the cursor keys)
 
-comment-line
-
 * Find the first non-blank character to place comment (at least for Python)
 
-comment-region
+comment-line/comment-region
 
 duplicate-region
+
+indent-region/unindent-region  (C-x < / C-x >)
