@@ -1,6 +1,6 @@
 AM_CFLAGS =
 AM_LDFLAGS =
-SUBDIRS = . bl orig
+SUBDIRS = .
 OSRCS	= cinfo.c fileio.c spawn.c ttyio.c tty.c ttykbd.c
 SRCS	= basic.c dir.c dired.c file.c line.c match.c paragraph.c \
 	  random.c region.c search.c version.c window.c word.c \
