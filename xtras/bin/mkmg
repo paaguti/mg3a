@@ -1,0 +1,4 @@
+#!/bin/bash
+cd ${HOME}/src
+fakeroot debian/rules clean binary
+mv ../mg3a*.deb ${HOME}/debs

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+cd /root/rpmbuild/SOURCES
+curl -OL https://github.com/paaguti/mg3a/archive/refs/tags/250111.tar.gz
+mv 250111.tar.gz mg3a-250111.tar.gz
+cd /root
+rpmbuild -bb ~/rpmbuild/SPECS/mg3a.spec

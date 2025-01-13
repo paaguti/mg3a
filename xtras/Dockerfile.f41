@@ -1,0 +1,15 @@
+FROM fedora:41
+
+# Update
+RUN dnf update -y && dnf clean all
+
+# Install build dependencies
+RUN dnf install -y gcc rpm-build rpm-devel rpmlint make \
+    coreutils diffutils patch rpmdevtools git \
+    && dnf install -y autoconf automake ncurses-devel \
+    && dnf clean all -y
+
+RUN rpmdev-setuptree
+# RUN rpmdev-newspec mg3a
+
+ENTRYPOINT ["/bin/bash"]
