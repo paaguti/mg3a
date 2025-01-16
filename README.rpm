@@ -1,0 +1,3 @@
+The `xtras` directory contains the infrastructure to create an RPM for
+installation in Fedora 41. Docker will allow you to create it, regardless of
+your base Operating System. Use `build-rpm.sh` to launch the process.
