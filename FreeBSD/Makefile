@@ -1,4 +1,4 @@
-VERSION= 250112
+VERSION= 250114
 PKG = mg-${VERSION}.pkg
 PREFIX= /usr/local
 INSTALL_DIR=${:! pwd !}/stage
