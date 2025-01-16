@@ -1,8 +1,0 @@
-name: mg3a
-version: %%VERSION%%
-origin: editors/mg3a
-comment: UTF-8 enabled mg editor
-www: https://http://github.com/paaguti/mg3a
-maintainer: paaguti@gmail.com
-prefix: %%PREFIX%%
-desc: UTF-8 enabled mg editor with additional functions
