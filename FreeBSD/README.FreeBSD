@@ -1,5 +1,0 @@
-To create a FreeBSD package, create a base directory and place 
-Makefile and manifest.in in it
-cd to this directory and
-make all clean
-to generate the FreeBSD package
