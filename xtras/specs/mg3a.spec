@@ -7,7 +7,7 @@ License:	Public Domain
 URL:		https://github.com/paaguti/mg3a
 Source0:	https://github.com/paaguti/%{name}/archive/refs/tags/%{version}.tar.gz
 
-BuildArch: x86_64 
+BuildArch: x86_64
 
 BuildRequires: make
 BuildRequires: gcc
@@ -23,7 +23,7 @@ OpenBSD system. It is compatible with Emacs because there shouldn't be any
 reason to learn more editor types than Emacs or vi.
 
 %prep
-tar --strip-components=1 -xvf ../../SOURCES/mg3a-%{version}.tar.gz
+# tar --strip-components=1 -xvf ../../SOURCES/mg3a-%{version}.tar.gz
 ./bootstrap.sh
 
 %build
