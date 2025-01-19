@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-
+# VERSION=${1:250112}
 # cd /root/rpmbuild/SOURCES
-# curl -OL https://github.com/paaguti/mg3a/archive/refs/tags/250111.tar.gz
-# mv 250111.tar.gz mg3a-250111.tar.gz
+# curl -OL https://github.com/paaguti/mg3a/archive/refs/tags/${VERSION}.tar.gz
+# mv ${VERSION}.tar.gz mg3a-${VERSION}.tar.gz
 cd /root
 rpmbuild -bb ~/rpmbuild/SPECS/mg3a.spec

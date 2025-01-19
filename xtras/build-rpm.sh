@@ -2,7 +2,7 @@
 
 [ -d rpms ] || mkdir rpms
 if [ -d src ]; then
-  cd src; git pull; cd ..
+  cd src; git clean -dfx; git pull; cd ..
 else
   git clone https://github.com/paaguti/mg3a src
 fi

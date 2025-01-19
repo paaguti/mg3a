@@ -4,7 +4,7 @@ cd $(dirname $0)
 
 
 if [ -d src ]; then
-  cd src; git pull; cd ..
+  cd src; git clean -dfx; git pull; cd ..
 else
   git clone https://github.com/paaguti/mg3a src
 fi
@@ -38,3 +38,5 @@ DANGLING="$(docker image ls -q -f dangling=true)"
 
 [ -n "$EXITED" ] && docker rm $EXITED
 [ -n "$DANGLING" ] && docker rmi $EXITED
+
+cd src; git clean -dfx

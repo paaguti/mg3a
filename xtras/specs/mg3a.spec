@@ -23,7 +23,7 @@ OpenBSD system. It is compatible with Emacs because there shouldn't be any
 reason to learn more editor types than Emacs or vi.
 
 %prep
-# tar --strip-components=1 -xvf ../../SOURCES/mg3a-%{version}.tar.gz
+(cd ../../SOURCES; tar -cf - *) | tar -xvf -
 ./bootstrap.sh
 
 %build
