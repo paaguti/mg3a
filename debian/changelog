@@ -2,7 +2,7 @@ mg3a (250112-1) UNRELEASED; urgency=medium
 
   * Fix enable mouse, add support for RPMs, compress READMEs
 
- -- Pedro A. Aranda Gutiérrez <paaguti@gmail.com> Sun, 12 Jan 2025 16:01:50 +0100
+ -- Pedro A. Aranda Gutiérrez <paaguti@gmail.com>  Sun, 12 Jan 2025 16:01:50 +0100
 
 mg3a (230110-1) UNRELEASED; urgency=medium
 
