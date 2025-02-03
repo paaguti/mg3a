@@ -1,15 +1,16 @@
 #!/bin/bash
 
-cd $(dirname $0)
+# cd $(dirname $0)
 
+# if [ -d src ]; then
+#   cd src; git clean -dfx; git pull; cd ..
+# else
+#   git clone --depth 1 https://github.com/paaguti/mg3a src
+# fi
 
-if [ -d src ]; then
-  cd src; git clean -dfx; git pull; cd ..
-else
-  git clone https://github.com/paaguti/mg3a src
-fi
+# [ -d src ] || exit 1
 
-SEGPRG=$(printf "/^UPDATE=/s/UPDATE=./UPDATE=%s/g" $UPDATE)
+# SEGPRG=$(printf "/^UPDATE=/s/UPDATE=./UPDATE=%s/g" $UPDATE)
 
 IMAGE=jammy
 PRG=/usr/local/bin/mkmg
@@ -26,17 +27,15 @@ echo "Compiling for ${IMAGE}..."
 
 docker -D run -it \
        --mount "type=bind,source=$(pwd)/bin,target=/usr/local/bin" \
-       --mount "type=bind,source=$(pwd)/src,target=/home/paag/src" \
        --mount "type=bind,source=$(pwd)/debs,target=/home/paag/debs" \
        --entrypoint="" \
        --user=$UID:$GID \
        --workdir=/home/paag \
        --name mg3a-build debmaker:${IMAGE} ${PRG}
+#      --mount "type=bind,source=$(pwd)/src,target=/home/paag/src" \
 
 EXITED="$(docker ps -aq -f status=exited)"
 DANGLING="$(docker image ls -q -f dangling=true)"
 
 [ -n "$EXITED" ] && docker rm $EXITED
 [ -n "$DANGLING" ] && docker rmi $EXITED
-
-cd src; git clean -dfx
