@@ -21,7 +21,7 @@ extern	INT	beginvisualline();	/* Move to begin of visual line	*/
 extern	INT	endvisualline();	/* Move to end of visual line	*/
 extern	INT	gotobob();		/* Move to start of buffer	*/
 extern	INT	gotoeob();		/* Move to end of buffer	*/
-extern	INT	forwline();		/* Move forward by lines	*/
+extern	INT	forwline(INT f, INT n);		/* Move forward by lines	*/
 extern	INT	backline();		/* Move backward by lines	*/
 extern	INT	forwpage();		/* Move forward by pages	*/
 extern	INT	backpage();		/* Move backward by pages	*/
@@ -29,7 +29,7 @@ extern	INT	pagenext();		/* Page forward next window	*/
 extern	INT	pagenext_backward();	/* Page backward next window	*/
 extern	INT	setmark();		/* Set mark			*/
 extern	INT	markwholebuffer();	/* Mark whole buffer		*/
-extern	INT	swapmark();		/* Swap "." and mark		*/
+extern	INT	swapmark(INT f,INT n);		/* Swap "." and mark		*/
 extern	INT	gotoline();		/* Go to a specified line.	*/
 extern	INT	forw1page();		/* move forward by lines	*/
 extern	INT	back1page();		/* move back by lines		*/
@@ -209,9 +209,9 @@ extern	INT	py_lfindent();		/* Python newline and indent	*/
 #ifdef UPDATE_DEBUG
 extern INT	do_update_debug();	/* Turn on debugging of screen updates */
 #endif
-extern INT lduplicate();
-extern INT lmoveup();
-extern INT lmovedown();
+extern INT lduplicate(INT f, INT n);
+extern INT lmoveup(INT f, INT n);
+extern INT lmovedown(INT f, INT n);
 /*
  * defined by "macro.c"
  */
@@ -304,7 +304,7 @@ extern	INT	joinline();		/* Join lines			*/
 extern	INT	joinline_forward();	/* Join lines, default forward	*/ // Mg3a extension
 extern	INT	insert_tab();		/* Insert soft/hard tab		*/
 extern	INT	insert_tab_8();		/* Insert tab of size 8		*/
-extern  INT comment_line();      /* comment line */
+extern  INT comment_line(INT f, INT n);      /* comment line */
 /*
  * Defined by "region.c".
  */
@@ -410,7 +410,7 @@ extern	INT	recenter();		/* Recenter window		*/
 extern	INT	recentertopbottom();	/* Recenter like in Emacs	*/
 extern	INT	movetoline();		/* Move to window line		*/
 extern	INT	movetoline_topbottom();	/* Move to window line top bottom */
-extern	INT	refresh();		/* Refresh the screen		*/
+extern	INT	refresh(INT f, INT n);		/* Refresh the screen		*/
 extern	INT	nextwind();		/* Move to the next window	*/
 extern	INT	prevwind();		/* Move to the previous window	*/
 extern	INT	onlywind();		/* Make current window only one */

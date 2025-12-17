@@ -59,7 +59,7 @@ call_last_kbd_macro(INT f, INT n)
 {
 	INT	i, j;
 	PF	funct;
-	INT	universal_argument();
+	INT	universal_argument(INT f, INT n);
 	INT	flag, num, s;
 
 	if (macrodef || n < 0 ||
