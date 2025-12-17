@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# cd $(dirname $0)
+cd $(dirname $0)
 
 # if [ -d src ]; then
 #   cd src; git clean -dfx; git pull; cd ..

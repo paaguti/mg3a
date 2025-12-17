@@ -1,6 +1,6 @@
-mg3a (250112-1) UNRELEASED; urgency=medium
+mg3a (251217-1) UNRELEASED; urgency=medium
 
-  * Fix enable mouse, add support for RPMs, compress READMEs
+  * Fix FreeBSD and Debian build on Docker
 
  -- Pedro A. Aranda Gutiérrez <paaguti@gmail.com>  Sun, 12 Jan 2025 16:01:50 +0100
 
