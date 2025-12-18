@@ -18,6 +18,7 @@ extern INT makebackup;
 extern INT scrollbyone;
 extern INT recenter_redisplay;
 extern INT modeline_show;
+extern INT reverse_mousewheel;
 extern INT kill_whole_lines;
 extern INT quoted_char_radix;
 extern INT fill_options;
@@ -64,6 +65,7 @@ static const var_entry variables[] = {
 	{"",			0, NULL},
 	{"window-scroll", 	'i', &scrollbyone},
 	{"recenter-redisplay",'i', &recenter_redisplay},
+	{"reverse-mousewheel", 'i', &reverse_mousewheel},
 	{"",			0, NULL},
 	{"modeline-show",	'i', &modeline_show},
 	{"kill-whole-lines",	'i', &kill_whole_lines},
