@@ -15,6 +15,7 @@ INT	backline(INT f, INT n);
 INT	backpage(INT f, INT n);
 INT	nextwind(INT f, INT n);
 INT	endvisualline(INT f, INT n);
+INT	reverse_mousewheel; /* Mg3a: mousewheel reverse direction; default is off */
 
 extern	INT	getkey(INT);		/* 	*/
 extern  INT     refresh(INT,INT);       /* window.c */
@@ -605,6 +606,7 @@ gotoline(INT f, INT n)
 	return TRUE;
 }
 
+
 #ifdef MOUSE
 /*
  * Respond to mouse messages
@@ -627,7 +629,12 @@ mousemsg(INT f, INT n)
 	}
 #endif
 	if ((mreport[0] & 0xfe) == 0x60) {
-		return forwline(0, 1 - 2*(mreport[0] & 0x01));
+		/* Mg3a: toggle for wheel reverse */
+		if (reverse_mousewheel == 0) {
+			return forwline(0, 1 - 2*(mreport[0] & 0x01));
+		} else {
+			return backline(0, 1 - 2*(mreport[0] & 0x01));			
+		}
 	} else if (mreport[0] == 0x20) {
 		INT x=mreport[1]-32, y=mreport[2]-32;
 		for (WINDOW *wp = wheadp; wp; wp = wp->w_wndp) {

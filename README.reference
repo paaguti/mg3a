@@ -127,6 +127,10 @@ Variable names:
 				  "recenter-top-bottom" and "recenter" commands.
 				  Default 0.
 
+"reverse-mousewheel"            - Indicates if the scroll direction of the mouse wheel
+				  should be reversed. Helpful for certain terminals.
+				  Default is 0.
+
 "modeline-show"			- A set of binary flags controlling what is showed in
 				  the modeline. Default is 0. Values to add together:
 
